@@ -84,3 +84,19 @@ export class Null extends Block
         super("Null", null);
     }
 }
+
+export class WrapLine extends Block
+{
+    constructor()
+    {
+        super("WrapLine", "│       ​");
+    }
+}
+
+export class WrapGap extends Block
+{
+    constructor()
+    {
+        super("WrapGap", "        ​");
+    }
+}
