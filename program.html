@@ -76,7 +76,7 @@ You should have received a copy of the GNU Affero General Public License along w
         pointer-events: none;
         position: absolute;
         left: 0;
-        top: -12px;
+        top: -1.5vw;
         width: 100%;
         min-height: 70vh;
         background-color: rgba(67, 72, 91, 1.0);
@@ -86,13 +86,20 @@ You should have received a copy of the GNU Affero General Public License along w
         tab-size:8;
         line-height: 1.2;
         letter-spacing: 0px;
-        font-size: 12px;
+        font-size: 1.5vw;
         white-space: pre-wrap;
         vertical-align: top;
+        border: none;
+        box-sizing: border-box;
+        overflow: hidden;
+        padding: 5px;
+        word-break: break-word;
       }
 
       #source {
         z-index: 2;
+        resize: none;
+        caret-color: whitesmoke;
         position: absolute;
         left: 0;
         top: 0;
@@ -101,18 +108,18 @@ You should have received a copy of the GNU Affero General Public License along w
         background-color: transparent;
         outline: solid 4px black;
         color: transparent;
-        caret-color: whitesmoke;
         font-family: Box, monospace, BoldItalic_Latin;
         tab-size:8;
         line-height: 1.2;
-        resize: none;
         letter-spacing: 0px;
-        font-size: 12px;
-        padding: 0;
+        font-size: 1.5vw;
+        vertical-align: top;
         border: none;
         box-sizing: border-box;
-        vertical-align: top;
         overflow: hidden;
+        padding: 5px;
+        white-space: pre-wrap;
+        word-break: break-word;
       }
 
       #wrap-tester {
@@ -121,16 +128,18 @@ You should have received a copy of the GNU Affero General Public License along w
         pointer-events: none;
         position: absolute;
         left: 0;
-        top: -12px;
+        top: -1.5vw;
         width: 100%;
         outline: solid 4px black;
         font-family: Box, monospace, BoldItalic_Latin;
         tab-size:8;
         line-height: 1.2;
         letter-spacing: 0px;
-        font-size: 12px;
+        font-size: 1.5vw;
         white-space: pre-wrap;
         vertical-align: top;
+        word-break: break-word;
+        padding: 5px;
       }
     </style>
     
@@ -184,6 +193,7 @@ You should have received a copy of the GNU Affero General Public License along w
             document.getElementById("source").style.pointerEvents = "none";
             document.getElementById("source").disabled = true;
             document.getElementById("source").hidden = true;
+            document.getElementById("display").style.pointerEvents = "normal";
             alert("Document is in READ-ONLY mode.\n\nYou are viewing this document on Mobile.\nFor full functionality, please visit this website on a computer.");
         }
       }, 250);
