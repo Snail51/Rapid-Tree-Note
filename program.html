@@ -180,10 +180,9 @@ You should have received a copy of the GNU Affero General Public License along w
 
     <script src="./Code/lib/lzma-min.js"></script>
     <script src="./Code/lib/pako-min.js"></script>
-    <script src="./Code/lib/platform.js"></script>
 
     <script type="module">
-      import Schema from "./Code/exe/main.js";
+      import Schema from "./Code/src/main.js";
       var MainBuffer = new Schema(document.getElementById("source"), document.getElementById("display"), document.getElementById("wrap-tester"));
       window.main = MainBuffer;
 
