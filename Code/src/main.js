@@ -27,22 +27,21 @@ export default class Schema
      * @param inputTextArea The inputTextArea parameter is the text area element where the user can
      * input their text. It is used to capture the user's input and handle events such as keydown,
      * copy, scroll, and paste.
-     * @param outputPre The outputPre parameter is the text area element where the generated
+     * @param outputTextArea The outputTextArea parameter is the text area element where the generated
      * document will be displayed. It is not directly accessible to the user.
      */
-    constructor(inputTextArea, outputPre, wrapTestPre)
+    constructor(inputTextArea, outputTextArea)
     {
         //static config
         this.maxURLLength = 8192;
         this.uri = new URIMannager();
         window.main = this;
-
+        
         var urlData = this.pullURL();
 
         {
             this.raw = new RawBuffer(inputTextArea);
-            this.exe = new ExeBuffer(outputPre);
-            this.wrap = wrapTestPre;
+            this.exe = new ExeBuffer(outputTextArea);
             this.state = "UNLOCKED";
         }
 
@@ -58,7 +57,7 @@ export default class Schema
         }
 
         {
-            this.intervalUpdater = setInterval(() => this.intervalUpdate(), 1000);
+            //this.intervalUpdater = setInterval(() => this.intervalUpdate(), 1000);
             this.focused = true;
             document.addEventListener("visibilitychange", (event) => this.focusToggle(event));
         }
@@ -74,20 +73,9 @@ export default class Schema
         //update the URL Title
         if(urlData != "" && urlData != null)
         {
-            document.title = this.exe.ref.textContent.split("\n")[0].substring(0,32);
+            document.title = this.exe.ref.value.split("\n")[0].substring(0,32);
         }
 
-    }
-
-    debugDump()
-    {
-        console.log("=====STARTING=DEBUG=DUMP=====");
-        console.log("Source Value:");
-        console.log(this.raw.ref.value.replaceAll('\n', '\\n').replaceAll('\t', '\\t'));
-        console.log("-----------------");
-        console.log("Display Value:");
-        console.log(this.exe.ref.innerHTML.replaceAll('\n', '\\n').replaceAll('\t', '\\t'));
-        console.log("=====END=DEBUG=DUMP=====");
     }
 
     /**
@@ -152,7 +140,7 @@ export default class Schema
 
         //console.log("random idle value was " + randomDecimalInRange);
 
-        setTimeout(() => this.urlPostEncodeOnIdle(randomDecimalInRange), 1000);
+        setTimeout(() => this.urlPostEncodeOnIdle(randomDecimalInRange), 10);
      
     }
 
@@ -195,7 +183,7 @@ export default class Schema
         }
         else
         {
-            this.raw.ref.value = "Rapid Tree Notetaker\n\tWhat is this?\n\t\tThe Rapid Tree Notetaker (RTN) is a notetaking tool developed by computer science student Brendan Rood at the University of Minnesota Duluth.\n\t\tIt aims to provide an easy way to take notes formatted similar to a Reddit thread, with indentation following a tree-like structure allowing for grouping.\n\t\tIt also prioritizes ease of sharing, as the URL can be shared to instantly communicate the note's contents.\n\t\tIt is free to use and will never ask you to log in.\n\tSample\n\t\tEdit this text\n\t\tto generate\n\t\t\ta\n\t\t\tdocument\n\t\tformatted\n\t\t\tlike a tree!\n\tMisc. Instructions\n\t\tIndentation\n\t\t\tUse TAB to indent\n\t\t\tSupports block indentation editing\n\t\tLimited Markdown Support\n\t\t\t*You can wrap text with single asterisks to make it italic*\n\t\t\t**You can wrap text with double asterisks to make it bold**\n\t\t\t***You can wrap text in triple asterisks to make it both bold and italic***\n\t\t\t~~You can wrap text with double tildes to strike it though~~";
+            this.raw.ref.value = "Rapid Tree Notetaker\n\tWhat is this?\n\t\tThe Rapid Tree Notetaker (RTN) is a notetaking tool developed by computer science student Brendan Rood at the University of Minnesota Duluth.\n\t\tIt aims to provide an easy way to take notes formatted similar to a Reddit thread, with indentation following a tree-like structure allowing for grouping.\n\t\tIt also prioritizes ease of sharing, as the URL can be shared to instantly communicate the note's contents.\n\t\tIt is free to use and will never ask you to log in.\n\tSample\n\t\tEdit this text\n\t\tto generate\n\t\t\ta\n\t\t\tdocument\n\t\tformatted\n\t\t\tlike a tree!\n\tMisc. Instructions\n\t\tIndentation\n\t\t\tUse TAB to indent\n\t\t\tSupports block indentation editing\n\t\tLimited Markdown Support\n\t\t\t%!You can wrap text with percent exclamation points to make it bold!%\n\t\t\t%*You can wrap text with percent asterisks to make it italic*%\n\t\t\t%~You can wrap text with percent tildes to strike it though~%";
         }
     }
 
@@ -205,23 +193,16 @@ export default class Schema
      */
     pushURL()
     {
-        var payload = this.exe.ref.textContent.replace(/[\s]+$/, "");
-        this.exe.tree.input = payload;
-        this.exe.tree.totalParse();
-        payload = this.exe.tree.output;
-        payload = payload.replace(/├────── ​/gm, "├── ​");
-        payload = payload.replace(/└────── ​/gm, "└── ​");
-        payload = payload.replace(/│       ​/gm, "│   ​");
-        payload = payload.replace(/        ​/gm, "    ​");
-        payload = payload.replace(/<[^>]*>/g, "");
-        console.log(payload);
+        var payload = this.exe.ref.value.replace(/[\s]+$/, '');
         this.uri.push(payload);
 
-        document.title = this.exe.ref.textContent.split("\n")[0].substring(0,32);
+        document.title = this.exe.ref.value.split("\n")[0].substring(0,32);
         
     }
 
     /**
+<<<<<<< Updated upstream
+=======
      * Set up this.raw to be ready for default character insertion
      * 1: find all lines (from this.exe) that contains block sequences of [LINE][DATA] or [GAP][DATA] and replace ALL glyphs on that line with a single space
      * 2: replace all remaining tree glyphs (in this.exe) with \t
@@ -232,71 +213,93 @@ export default class Schema
      */
     preLineWrap()
     {
-        //console.trace ();
-        //console.log("pre line wrap start", this.exe.ref.innerHTML.replaceAll('\n', '\\n'));
-        var lines = this.exe.ref.innerHTML.split("\n");
-        //console.log("LINES", lines);
+        //line of the document
+        var lines = this.exe.ref.textContent.split("\n");
+        //lines prior to the carrat
+        this.raw.readCarrat();
+        var offset = this.raw.ref.value.substring(0,this.raw.start).split("\t").length - 1;
+        var priorString = this.exe.ref.textContent.substring(0,this.raw.start + (offset * 8));
+        console.log(priorString);
+        var priorLines = priorString.split("\n");
+
         var assembly = "";
         for (var line of lines)
         { 
-            if(/│ {3,7}​[^│├─└ ]/g.test(line) || (/ {4,8}​[^│├─└ ]/g.test(line)))
+            if(/│       ​\w/g.test(line) || (/        ​\w]/g.test(line)))
             {
-                console.log("wrapping glyphs found for ", line);
-                assembly += "\n" + line.replace(/(?:│ +​|├─+ ​|└─+ ​| +​)+/g, "\t");
+                var unbrokenLine = line;
+                unbrokenLine = unbrokenLine.replace(/(?:│ + ​|├─+ ​|└─+ ​| +​)/gm, "RTN_LINEWRAP-CONSUME");
+                unbrokenLine += "\n";
+                assembly += unbrokenLine;
             }
             else
             {
-                assembly += "\n" + line;
+                assembly += line + "\n";
             }
         }
+        var priorGlyphs = 0; // # of wrapping glyphs that are replaced with "RTN_LINEWRAP-CONSUME"
+        var priorLineConsume = 0; // # number of preceeding \n that will be consumed by each unique line wrap
+        for (var line of priorLines)
+        { 
+            if(/│       ​\w/g.test(line) || (/        ​\w]/g.test(line)))
+            {
+                var unbrokenLine = line;
+                unbrokenLine = unbrokenLine.replace(/(?:│ + ​|├─+ ​|└─+ ​| +​)/gm, "RTN_LINEWRAP-CONSUME");
+                priorGlyphs += unbrokenLine.split("RTN_LINEWRAP-CONSUME").length-1;
+                priorLineConsume += 1;
+            }
+        }
+        //this.wrapOffset = (-7 * priorGlyphs) - priorLineConsume;
+        //this.raw.moveCarrat(this.wrapOffset);
+        //this.raw.readCarrat();
+        //this.lineCarratHold = [this.raw.start, this.raw.end];
+        console.log("in " + this.exe.ref.textContent.substring(0, this.raw.start) + " there was " + priorGlyphs + " glyphs consumed across " + priorLineConsume + " lines.");
+        assembly = assembly.replace(/\n*(RTN_LINEWRAP-CONSUME)+/g, "");
         assembly = assembly.replace(/│ +​|├─+ ​|└─+ ​| +​/g, "\t");
+        assembly = assembly.substring(0, assembly.length-1)
         this.raw.ref.value = assembly;
     }
 
     postLineWrap()
     {
-        //console.trace ();
-        //console.log(this.raw.ref.value.replaceAll('\n', '\\n'));
-        //console.log(this.exe.ref.innerHTML.replaceAll('\n', '\\n').replace(/&lt;.*?&gt;/g, "").replace(/\<.*?\>/g, ""));
-        var lines = this.exe.ref.innerHTML.replace(/&lt;.*?&gt;/g, "").replace(/\<.*?\>/g, "").split("\n").filter(item => item!== "");
-        console.log("lines", lines);
+        var lines = this.exe.ref.textContent.split("\n").filter(item => item !== "");
         var construction = "";
-        //console.log(lines.length);
         for(var line of lines)
         {
-            //console.log("I ran once!", line);
-            var leading = line.match(/^(?:│ +​|├─+ ​|└─+ ​| +​)+/gm); //|| ""; //find leading tree glyphs for that line
-            if (leading) {
-                leading = leading[0];
-            } else {
-                console.log("No leading glyphs found for line " + line);
-                leading = "";
-            }
-            var wrappingGlyphs = leading;
-            //console.log("wrapping glyphs", wrappingGlyphs);
-
-            wrappingGlyphs = wrappingGlyphs.replace(/├─+ ​$/gm, "│       ​"); //wrapping lines connected by fork should wrap with line
-            wrappingGlyphs = wrappingGlyphs.replace(/└─+ ​$/gm, "        ​"); //wrapping lines connected by bend should wrap with gap
-            wrappingGlyphs + "\n" + wrappingGlyphs;
-            //console.log("WG", wrappingGlyphs);
-
-            //find where line wraps are needed, and insert the computed line wrap glyphs
             var brokenLine = this.findEffectiveBreakpoints(line);
-            //console.log("broken line" , brokenLine);
-            //var result = brokenLine;
-            var result = brokenLine.replaceAll("RTN_LINE-WRAP", wrappingGlyphs);
-
-            //write to elements
-            //console.log("appending line of ", result.replaceAll('\n', '\\n'));
-            construction += result + "\n";
+            if(/RTN_LINE-WRAP/g.test(brokenLine)) //there is at least one linebreak on this line. we need to parse it
+            {
+                var leadingGlyphs = brokenLine.match(/^(?:│ +​|├─+ ​|└─+ ​| +​)*/gm)[0]; //find leading tree glyphs for that line
+                var breakingGlyphs = leadingGlyphs.replace(/├─+ ​$/gm, "│       ​").replace(/└─+ ​$/gm, "        ​"); //wrapping lines fork -> line and bend -> gap
+                var lineContent = brokenLine.replace(/^(?:│ +​|├─+ ​|└─+ ​| +​)*/gm, "");
+                var wrappedLine = leadingGlyphs + lineContent.replace(/RTN_LINE-WRAP/g, "\n" + breakingGlyphs) + "\n";
+                //console.log([leadingGlyphs, breakingGlyphs, lineContent, wrappedLine]);
+                construction += wrappedLine;
+            }
+            else
+            {
+                construction += line + "\n";
+            }
         }
+        construction = construction.substring(0,construction.length-1);
 
         //console.log("CONSTRUCTION", construction);
         this.exe.ref.innerHTML = construction;
         this.raw.ref.value = construction.replace(/│ +​|├─+ ​|└─+ ​| +​/g, "\t").replace(/&lt;.*?&gt;/g, "");
+        //if(this.lineCarratHold)
+        //{
+        //      this.raw.start = this.lineCarratHold[0];
+        //    this.raw.end = this.lineCarratHold[1];
+        //    this.raw.writeCarrat();
+        //}
+        //if(this.wrapOffset)
+        //{
+        //    this.raw.moveCarrat(this.wrapOffset*1);
+        //}
     }
 
     /**
+>>>>>>> Stashed changes
      * The function "keyPreRouter" is a member of the RawBuffer "raw" that handles key events and passes them to
      * another function called "keyPostRouter".
      * @param event - The event parameter is an object that represents the keyboard event that
@@ -305,6 +308,7 @@ export default class Schema
      */
     keyPreRouter(event)
     {
+        this.preLineWrap();
         this.raw.keyHandler(event, (event) => this.keyPostRouter(event));
         this.urlPreEncodeOnIdle();
     }
@@ -315,30 +319,55 @@ export default class Schema
     keyPostRouter()
     {
         this.raw.update();
-        this.exe.ref.innerHTML = this.raw.ref.value;
+        this.exe.ref.value = this.raw.ref.value;
         this.exe.update();
+        this.postLineWrap();
         this.syncScrollbars();
     }
 
-    findEffectiveBreakpoints(string)
+    /**
+     * The function `hardFix()` preforms much the same functions as `keyPostRouter()`,
+     * except gaurentees that the graph will be brought to a consistent state, even if
+     * data loss occurs.
+     */
+    hardFix()
     {
+<<<<<<< Updated upstream
+        this.raw.update();
+        this.exe.ref.value = this.raw.ref.value;
+        this.exe.tree.totalParse();
+        this.exe.update();
+        var hold_start = this.raw.ref.selectionStart;
+        var hold_end = this.raw.ref.selectionEnd;
+        this.raw.ref.value = this.exe.ref.value.substring(0,this.exe.ref.value.length-1);
+        this.raw.update();
+        this.exe.ref.value = this.raw.ref.value;
+        this.exe.tree.totalParse();
+        this.exe.update();
+        this.raw.ref.selectionStart = hold_start;
+        this.raw.ref.selectionEnd = hold_end;
+=======
         //console.trace ();
+        this.wrap.textContent = " ";
+        var preHeight = this.wrap.clientHeight;
         this.wrap.textContent = "";
-        var preHeight = this.wrap.style.clientHeight;
-        var words = string.split(" ");
+        var words = string.replace(/<[^>]*>/g, "").split(" ");
         for(var word of words)
         {
+            //console.log(this.wrap.textContent, this.wrap.clientHeight);
             var save = this.wrap.textContent;
-            this.wrap.textContent += " " + word;
-            if(this.wrap.style.clientHeight != preHeight) // the pre got taller; indicating a line wrap!
+            this.wrap.textContent += word + " ";
+            if(this.wrap.clientHeight != preHeight) // the pre got taller; indicating a line wrap!
             {
                 this.wrap.textContent = save; //revert to before that word was added
                 this.wrap.textContent += "RTN_LINE-WRAP";
-                this.wrap.textContent += " " + word;
-                preHeight = this.wrap.style.clientHeight;
+                this.wrap.textContent += word + " ";
+                preHeight = this.wrap.clientHeight;
             }
         }
-        return this.wrap.textContent;
+        var result = this.wrap.textContent.replace(/\s*$/gm, "");
+        return result;
+>>>>>>> Stashed changes
     }
 
     /**
@@ -389,7 +418,7 @@ export default class Schema
         var selectEnd = this.raw.ref.selectionEnd + (8 * preTabs) + (8 * postTabs);
         var payload = this.exe.ref.textContent.substring(selectStart, selectEnd);
 
-        //console.log(payload);
+        console.log(payload);
 
         //Put that value onto the clipboard
         this.exe.tree.input = payload;
@@ -400,7 +429,7 @@ export default class Schema
         payload = payload.replace(/│       ​/gm, "│   ​");
         payload = payload.replace(/        ​/gm, "    ​");
 
-        //console.log(payload);
+        console.log(payload);
 
         navigator.clipboard.writeText(payload);
 
@@ -816,16 +845,12 @@ class VirtualBuffer
      */
     keyHandler(event, callback)
     {
-        if(event == undefined)
-        {
-            event = { "key": "none" };
-        }
         /* The below code is checking the value of the "state" property. If the value is "LOCKED", it
         sets a timeout of 10 milliseconds and calls this function with the provided
         event and callback parameters, effectively processing the command later if it can't currently be done. */
         if(this.state == "LOCKED")
         {
-            setTimeout(() => {this.keyHandler(event, callback)}, 10);
+            setTimeout(() => {this.keyHandler(event, callback)}, 25);
             return;
         }
 
@@ -843,6 +868,7 @@ class VirtualBuffer
                 {
                     this.ref.value = this.ref.value.substring(0,this.start) + "\t" + this.ref.value.substring(this.end);
                     this.moveCarrat(1);
+                    //setTimeout(() => {window.main.hardFix()}, 25);
                 }
             }
             else //a region is selected
@@ -906,6 +932,7 @@ class VirtualBuffer
                         }
                     }
                 }
+                setTimeout(() => {window.main.hardFix()}, 25);
             }
         }
 
@@ -931,7 +958,7 @@ class VirtualBuffer
         }
 
         this.state = "LOCKED";
-        setTimeout(() => {callback()}, 10);
+        setTimeout(() => {callback()}, 1000);
 
         /**
          * The function `shouldTab` determines whether a tab should be inserted at a given
@@ -1073,7 +1100,7 @@ class ExeBuffer extends VirtualBuffer
      */
     update()
     {
-        this.tree.input = this.ref.textContent;
+        this.tree.input = this.ref.value;
         this.tree.totalParse();
         
         var data = this.tree.output;
@@ -1081,17 +1108,18 @@ class ExeBuffer extends VirtualBuffer
         // escape special characters
         data = data.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 
-        // handle italic
-        data = data.replace(/(?<!\*)(\*{1})([^\n*]+?)(\1)(?!\*)/g, '<span style="color:cyan"><b>$1</b></span><i>$2</i><span style="color:cyan"><b>$3</b></span>');
+        //handle bold
+        data = data.replace(/(\%\!)(.*?)(\!\%|(?=\s*%!)|\n)/g, '$1<b>$2</b>$3');
+        data = data.replace(/\!\%/g, '</b>\!\%');
 
-        // handle bold
-        data = data.replace(/(?<!\*)(\*{2})([^\n*]+?)(\1)(?!\*)/g, '<span style="color:cyan"><b>$1</b></span><b>$2</b><span style="color:cyan"><b>$3</b></span>');
+        //handle italic
+        data = data.replace(/(\%\*)(.*?)(\*\%|(?=\s*%!)|\n)/g, '$1<i>$2</i>$3');
+        data = data.replace(/\*\%/g, '</i>\*\%');
 
-        // handle bold AND italic
-        data = data.replace(/(?<!\*)(\*{3})([^\n*]+?)(\1)(?!\*)/g, '<span style="color:cyan"><b>$1</b></span><i><b>$2</b></i><span style="color:cyan"><b>$3</b></span>');
+        //handle strikethough
+        data = data.replace(/(\%\~)(.*?)(\~\%|(?=\s*%!)|\n)/g, '$1<del>$2</del>$3');
+        data = data.replace(/\~\%/g, '</b>\~\%');
 
-        // handle italic
-        data = data.replace(/(?<!\~)(\~{2})([^\n~]+?)(\1)(?!\~)/g, '<span style="color:cyan"><b>$1</b></span><del>$2</del><span style="color:cyan"><b>$3</b></span>');
 
         data = data.replace(/[└├│─ ]*​/gm, function(match) {
             return `<span style="color: cyan;">${match}</span>`;
