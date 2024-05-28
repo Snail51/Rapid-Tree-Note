@@ -47,7 +47,7 @@ export default class Schema
         }
 
         {
-            this.raw.ref.addEventListener("input", () => this.keyPostRouter());
+            //this.raw.ref.addEventListener("input", () => this.keyPostRouter());
             this.raw.ref.addEventListener("keydown", (event) => this.keyPreRouter(event));
             this.raw.ref.addEventListener("copy", (event) => this.handleCopy(event));
         }
@@ -245,13 +245,12 @@ export default class Schema
             glyphs=[""];
         }
         glyphs.push("");
-        glyphs.push("");
         var rawdata = this.raw.ref.value.split("\t");
         if(!rawdata)
         {
             rawdata=[""];
         }
-        rawdata.push("");
+
 
         //console.log(glyphs, rawdata);
 
@@ -368,7 +367,7 @@ export default class Schema
      */
     keyPreRouter(event)
     {
-        this.raw.keyHandler(event, (event) => this.keyPostRouter(event));
+        this.raw.keyHandler(event, () => this.keyPostRouter());
         this.urlPreEncodeOnIdle();
     }
 
@@ -385,14 +384,18 @@ export default class Schema
 
         this.exe.tree.input = this.preLineWrap();// this.raw.ref.value;
         this.exe.tree.totalParse();
+        console.log(this.exe.tree.output);
+
         this.exe.ref.textContent = this.exe.tree.output;
+        console.trace();
+        this.debugDump();
 
         //this.preLineWrap();
         this.postLineWrap();
 
         
         this.syncScrollbars();
-        this.exe.update();
+        //this.exe.update();
 
         this.raw.start = carratHolder[0];
         this.raw.end = carratHolder[1];
@@ -626,7 +629,6 @@ class ProcessingTree
 
             this.blocks.push(blockLine);
         }
-        //console.log(this.blocks);
     }
 
     /**
@@ -802,6 +804,7 @@ class ProcessingTree
             }
             return mainArr[row][index].type;
         }
+        console.log(this.blocks);
     }
 
     /**
@@ -812,12 +815,11 @@ class ProcessingTree
     {
         //assemble a string
         var result = "";
-        var mainArr = this.blocks;
-        for(var line = 0; line < mainArr.length; line++)
+        for(var line of this.blocks)
         {
-            for(var index = 0; index < mainArr[line].length; index++)
+            for(var block of line)
             {
-                result += mainArr[line][index].data;
+                result += block.data;
             }
             result += "\n";
         }
@@ -834,13 +836,13 @@ class ProcessingTree
         this.nodes = new Array();
         this.blocks = new Array();
         this.output = "";
-
+        
         this.toNodes();
         this.toBlocks();
         this.parseNewBlocks();
         this.toString();
 
-        //console.log(this);
+        console.log(this);
     }
 }
 
@@ -1042,7 +1044,7 @@ class VirtualBuffer
         }
 
         this.state = "LOCKED";
-        setTimeout(() => {callback()}, 10);
+        setTimeout(() => {callback(event)}, 10);
 
         /**
          * The function `shouldTab` determines whether a tab should be inserted at a given
