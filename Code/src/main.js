@@ -232,6 +232,7 @@ export default class Schema
      */
     preLineWrap()
     {
+        console.trace();
         console.log(this.exe.ref.textContent);
         if(this.exe.ref.textContent.replace(/[\s│ ├─└​]/g, "").length == 0)
         {
@@ -239,61 +240,107 @@ export default class Schema
             return this.raw.ref.value;
         }
 
-        var glyphs = this.exe.ref.textContent.match(/(?:│ +​|├─+ ​|└─+ ​| +​)/g);
+        var glyphs = this.exe.ref.textContent.split("\n");
+        for(var i = 0; i < glyphs.length; i++)
+        {
+            var subglyphs = glyphs[i].match(/(?:│ +​|├─+ ​|└─+ ​| +​)*/g);
+            glyphs[i] = "";
+            for(var subglyph of subglyphs)
+            {
+                glyphs[i] += subglyph;
+            }
+        }
+        
         if(!glyphs)
         {
             glyphs=[""];
         }
         glyphs.push("");
-        var rawdata = this.raw.ref.value.split("\t");
+        var rawdata = this.raw.ref.value.split("\n");
         if(!rawdata)
         {
             rawdata=[""];
         }
 
 
-        //console.log(glyphs, rawdata);
+        console.log(glyphs, rawdata);
 
         var updated = "";
         for(var i = 0; i < rawdata.length; i++)
         {
             var dataAdd = rawdata[i];
+            console.log(dataAdd.replaceAll("\t","\\t").replaceAll("\n", "\\n"));
             if(!dataAdd)
             {
                 dataAdd = "";
+            }
+            dataAdd = dataAdd.replace(/\t/g, "");
+            if(dataAdd == "")
+            {
+                console.log("SPLICING!!!");
+                console.log(glyphs[i-1],"\n",glyphs[i],"\n",glyphs[i+1]);
+                let index = i + 1; // The index where you want to insert the element
+                let element = glyphs[i]; // The element you want to insert
+                glyphs.splice(index, 0, element); // Insert the element at the specified index
+                console.log(glyphs);
+                dataAdd = " ";
             }
             var glyphAdd = glyphs[i];
             if(!glyphAdd)
             {
                 glyphAdd = "";
             }
-            updated += dataAdd + glyphAdd;
+            updated += glyphAdd + dataAdd + "\n";
         }
-        //console.log(updated);
+        updated = updated.substring(0, updated.length-1);
+        console.log(updated); //AT THIS POINT, UPDATED CONTAINS THE GLYPHS OF EXE, WITH ALL THE DATA OF RAW
+        console.log(updated.split("\n"));
+        //============================================
+
 
         var lines = updated.split("\n");
 
         var assembly = "";
+        console.log(lines);
         for (var line of lines)
         { 
-            if(/│ {3,7}​[^│├─└ ]/g.test(line) || (/ {4,8}​[^│├─└ ]/g.test(line)))
+            console.log(line);
+            var glyphCheck = line.split("​");
+            if(!glyphCheck)
             {
-                //console.log("wrapping glyphs found for ", line);
-                var lineContent = line.replace(/(?:│ +​|├─+ ​|└─+ ​| +​)/g, "\t");
-                var leadingTabs = lineContent.match(/^\t*/gm)[0];
-                //console.log(leadingTabs.replace(/\t/gm,"\\t"));
-                var trailingGlyph = line.match(/(?:│ +​|├─+ ​|└─+ ​| +​)/g);
-                trailingGlyph = trailingGlyph[trailingGlyph.length-1];
-                if(trailingGlyph == "│       ​")
+                glyphCheck = [];
+            }
+            console.log(glyphCheck);
+
+            var precedingGlyph = glyphCheck[glyphCheck.length-2];
+            var precedingData = glyphCheck[glyphCheck.length-1];
+
+            var LINE_DATA = (/^│/g.test(precedingGlyph) && /^[^│├─└ ]/g.test(precedingData));
+            var GAP_DATA = (/^ /g.test(precedingGlyph) && /^[^│├─└ ]/g.test(precedingData));
+            if(LINE_DATA || GAP_DATA)
+            {
+                console.log("pre-unwrap needed for", line);
+                var lineContent = line.split("​");
+                for(var i = 0; i < lineContent.length-1; i++)
                 {
-                    trailingGlyph = "RTN_WRAP-LINE"
+                    lineContent[i] += "​"; //add zero-width spaces back in (but not to data!)
                 }
-                if(trailingGlyph == "        ​")
+
+                if(lineContent[lineContent.length-2] == "│       ​")
                 {
-                    trailingGlyph = "RTN_WRAP-GAP"
+                    lineContent[lineContent.length-2] = "RTN_WRAP-LINE";
                 }
-                //console.log(trailingGlyph);
-                var newLine = leadingTabs.substring(1) + trailingGlyph + lineContent.replace(/\t/g, "");
+                if(lineContent[lineContent.length-2] == "        ​")
+                {
+                    lineContent[lineContent.length-2] = "RTN_WRAP-GAP";
+                }
+
+                var newLine = "";
+                for(var content of lineContent)
+                {
+                    newLine += content;
+                }
+                console.log("pre-unrwrap line recorded as ", newLine);
                 assembly += "\n" + newLine;
             }
             else
@@ -309,10 +356,11 @@ export default class Schema
         while(taste != assembly)
         {
             taste = assembly;
-            assembly = assembly.replace(/(?:(RTN_WRAP-LINE|RTN_WRAP-GAP)([\S\ ]*)(\n\t*)(RTN_WRAP-LINE|RTN_WRAP-GAP))/g, "$1$2 ");
+            //assembly = assembly.replace(/(?:(RTN_WRAP-LINE|RTN_WRAP-GAP)([\S ]*)(\n\t*)(RTN_WRAP-LINE|RTN_WRAP-GAP))/, "$1$2 ");
             //console.log("ONCE");
         }
         //this.raw.ref.value = assembly;
+        console.log("preLine returns ", assembly.replace(/\t/g, "\\t"));
         return assembly;
     }
 
@@ -382,7 +430,9 @@ export default class Schema
         console.trace();
         this.raw.update();
 
-        this.exe.tree.input = this.preLineWrap();// this.raw.ref.value;
+        var preWrap = this.preLineWrap();
+        console.log(preWrap);
+        this.exe.tree.input = preWrap;// this.raw.ref.value;
         this.exe.tree.totalParse();
         console.log(this.exe.tree.output);
 
@@ -396,6 +446,8 @@ export default class Schema
         
         this.syncScrollbars();
         //this.exe.update();
+
+        
 
         this.raw.start = carratHolder[0];
         this.raw.end = carratHolder[1];
@@ -836,6 +888,8 @@ class ProcessingTree
         this.nodes = new Array();
         this.blocks = new Array();
         this.output = "";
+
+        console.log(this.input);
         
         this.toNodes();
         this.toBlocks();
@@ -954,6 +1008,7 @@ class VirtualBuffer
             {
                 if(shouldTab(this.ref.value, this.start))
                 {
+                    console.log("AAAAAAAAA");
                     this.ref.value = this.ref.value.substring(0,this.start) + "\t" + this.ref.value.substring(this.end);
                     this.moveCarrat(1);
                 }
