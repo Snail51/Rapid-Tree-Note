@@ -12,7 +12,7 @@ RTN is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
 You should have received a copy of the GNU Affero General Public License along with RTN. It is avalible at ./License/COPYING. Otherwise, see <https://www.gnu.org/licenses/>
 */
 
-import { Line, Fork, Bend, Gap, Data, New, End, Null } from "./treeblocks.js";
+import { Line, Fork, Bend, Gap, Data, New, End, Null, WrapLine, WrapGap} from "./treeblocks.js";
 import { URIMannager } from "./URI-mannager.js";
 
 /* The Schema class is a container that handles user input, generates a formatted document, and
@@ -58,7 +58,7 @@ export default class Schema
         }
 
         {
-            this.intervalUpdater = setInterval(() => this.intervalUpdate(), 1000);
+            //this.intervalUpdater = setInterval(() => this.intervalUpdate(), 1000);
             this.focused = true;
             document.addEventListener("visibilitychange", (event) => this.focusToggle(event));
         }
@@ -206,9 +206,9 @@ export default class Schema
     pushURL()
     {
         var payload = this.exe.ref.textContent.replace(/[\s]+$/, "");
-        this.exe.tree.input = payload;
-        this.exe.tree.totalParse();
-        payload = this.exe.tree.output;
+        //this.exe.tree.input = payload;
+        //this.exe.tree.totalParse();
+        //payload = this.exe.tree.output;
         payload = payload.replace(/├────── ​/gm, "├── ​");
         payload = payload.replace(/└────── ​/gm, "└── ​");
         payload = payload.replace(/│       ​/gm, "│   ​");
@@ -232,66 +232,80 @@ export default class Schema
      */
     preLineWrap()
     {
-        //console.trace ();
-        //console.log("pre line wrap start", this.exe.ref.innerHTML.replaceAll('\n', '\\n'));
-        var lines = this.exe.ref.innerHTML.split("\n");
-        //console.log("LINES", lines);
+        if(!this.exe.ref.textContent)
+        {
+            console.log("exiting");
+            return this.raw.ref.value;
+        }
+
+        var lines = this.exe.ref.textContent.split("\n");
+
         var assembly = "";
         for (var line of lines)
         { 
             if(/│ {3,7}​[^│├─└ ]/g.test(line) || (/ {4,8}​[^│├─└ ]/g.test(line)))
             {
                 console.log("wrapping glyphs found for ", line);
-                assembly += "\n" + line.replace(/(?:│ +​|├─+ ​|└─+ ​| +​)+/g, "\t");
+                var lineContent = line.replace(/(?:│ +​|├─+ ​|└─+ ​| +​)/g, "\t");
+                var leadingTabs = lineContent.match(/^\t*/gm)[0];
+                console.log(leadingTabs.replace(/\t/gm,"\\t"));
+                var trailingGlyph = line.match(/(?:│ +​|├─+ ​|└─+ ​| +​)/g);
+                trailingGlyph = trailingGlyph[trailingGlyph.length-1];
+                if(trailingGlyph == "│       ​")
+                {
+                    trailingGlyph = "RTN_WRAP-LINE"
+                }
+                if(trailingGlyph == "        ​")
+                {
+                    trailingGlyph = "RTN_WRAP-GAP"
+                }
+                console.log(trailingGlyph);
+                var newLine = leadingTabs.substring(1) + trailingGlyph + lineContent.replace(/\t/g, "");
+                assembly += "\n" + newLine;
             }
             else
             {
                 assembly += "\n" + line;
             }
         }
+        assembly = assembly.substring(1);
         assembly = assembly.replace(/│ +​|├─+ ​|└─+ ​| +​/g, "\t");
-        this.raw.ref.value = assembly;
+        //this.raw.ref.value = assembly;
+        return assembly;
     }
 
     postLineWrap()
     {
-        //console.trace ();
-        //console.log(this.raw.ref.value.replaceAll('\n', '\\n'));
-        //console.log(this.exe.ref.innerHTML.replaceAll('\n', '\\n').replace(/&lt;.*?&gt;/g, "").replace(/\<.*?\>/g, ""));
         var lines = this.exe.ref.innerHTML.replace(/&lt;.*?&gt;/g, "").replace(/\<.*?\>/g, "").split("\n").filter(item => item!== "");
         console.log("lines", lines);
         var construction = "";
         //console.log(lines.length);
         for(var line of lines)
         {
-            //console.log("I ran once!", line);
-            var leading = line.match(/^(?:│ +​|├─+ ​|└─+ ​| +​)+/gm); //|| ""; //find leading tree glyphs for that line
-            if (leading) {
-                leading = leading[0];
-            } else {
-                console.log("No leading glyphs found for line " + line);
-                leading = "";
-            }
-            var wrappingGlyphs = leading;
-            //console.log("wrapping glyphs", wrappingGlyphs);
-
-            wrappingGlyphs = wrappingGlyphs.replace(/├─+ ​$/gm, "│       ​"); //wrapping lines connected by fork should wrap with line
-            wrappingGlyphs = wrappingGlyphs.replace(/└─+ ​$/gm, "        ​"); //wrapping lines connected by bend should wrap with gap
-            wrappingGlyphs + "\n" + wrappingGlyphs;
-            //console.log("WG", wrappingGlyphs);
-
-            //find where line wraps are needed, and insert the computed line wrap glyphs
             var brokenLine = this.findEffectiveBreakpoints(line);
-            //console.log("broken line" , brokenLine);
-            //var result = brokenLine;
-            var result = brokenLine.replaceAll("RTN_LINE-WRAP", wrappingGlyphs);
-
-            //write to elements
-            //console.log("appending line of ", result.replaceAll('\n', '\\n'));
-            construction += result + "\n";
+            if(/RTN_LINE-WRAP/g.test(brokenLine))
+            {
+                var leading = line.match(/^(?:│ +​|├─+ ​|└─+ ​| +​)+/gm); //|| ""; //find leading tree glyphs for that line
+                if (leading) {
+                    leading = leading[0];
+                } else {
+                    console.log("No leading glyphs found for line " + line);
+                    leading = "";
+                }
+                var wrappingGlyphs = leading;
+                wrappingGlyphs = wrappingGlyphs.replace(/├─+ ​$/gm, "│       ​"); //wrapping lines connected by fork should wrap with line
+                wrappingGlyphs = wrappingGlyphs.replace(/└─+ ​$/gm, "        ​"); //wrapping lines connected by bend should wrap with gap
+                wrappingGlyphs = "\n" + wrappingGlyphs;
+                console.log(leading, brokenLine.replace(/│ +​|├─+ ​|└─+ ​| +​/g, "").replace(/RTN_LINE-WRAP/g, wrappingGlyphs), "\n");
+                construction += leading + brokenLine.replace(/│ +​|├─+ ​|└─+ ​| +​/g, "").replace(/RTN_LINE-WRAP/g, wrappingGlyphs) + "\n"
+            }
+            else
+            {
+                construction += line + "\n";
+            }
+            
         }
-
-        //console.log("CONSTRUCTION", construction);
+        construction = construction.substring(0, construction.length-1);
         this.exe.ref.innerHTML = construction;
         this.raw.ref.value = construction.replace(/│ +​|├─+ ​|└─+ ​| +​/g, "\t").replace(/&lt;.*?&gt;/g, "");
     }
@@ -315,30 +329,49 @@ export default class Schema
     keyPostRouter()
     {
         this.raw.update();
-        this.exe.ref.innerHTML = this.raw.ref.value.replace(/\</g, "&lt;").replace(/\>/g, "&gt;");
-        this.exe.update();
+
+        var carratHolder = [this.raw.start, this.raw.end];
+
+        console.log(this.raw.ref.value.replace(/[^8]/g, ""));
+
+        this.exe.tree.input = this.preLineWrap();// this.raw.ref.value;
+        console.log(this.exe.tree.input.replace(/[^8]/g, ""));
+        this.exe.tree.totalParse();
+        this.exe.ref.textContent = this.exe.tree.output;
+        console.log(this.exe.tree.output.replace(/[^8]/g, ""));
+
+        //this.preLineWrap();
+        this.postLineWrap();
+
+        
         this.syncScrollbars();
+        this.exe.update();
+
+        this.raw.start = carratHolder[0];
+        this.raw.end = carratHolder[1];
     }
 
     findEffectiveBreakpoints(string)
     {
         //console.trace ();
+        this.wrap.textContent = " "; //make sure something is on the line to mimic one-line height
+        var preHeight = this.wrap.clientHeight;
         this.wrap.textContent = "";
-        var preHeight = this.wrap.style.clientHeight;
         var words = string.split(" ");
         for(var word of words)
         {
             var save = this.wrap.textContent;
             this.wrap.textContent += " " + word;
-            if(this.wrap.style.clientHeight != preHeight) // the pre got taller; indicating a line wrap!
+            if(this.wrap.clientHeight != preHeight) // the pre got taller; indicating a line wrap!
             {
                 this.wrap.textContent = save; //revert to before that word was added
                 this.wrap.textContent += "RTN_LINE-WRAP";
-                this.wrap.textContent += " " + word;
-                preHeight = this.wrap.style.clientHeight;
+                this.wrap.textContent += word;
+                preHeight = this.wrap.clientHeight;
             }
         }
-        return this.wrap.textContent;
+        var result = this.wrap.textContent.substring(1);
+        return result;
     }
 
     /**
@@ -474,6 +507,7 @@ class ProcessingTree
      */
     toNodes()
     {
+        console.log(this.input);
         var lines = this.input.split("\n");
 
         for(var line of lines)
@@ -518,16 +552,32 @@ class ProcessingTree
             {
                 blockLine.push(new New());
             }
+            console.log(node.value);
             if(node.value == "")
             {
                 blockLine.push(new End());
             }
-            else
+            if( !node.value.startsWith("RTN_WRAP-LINE") && !node.value.startsWith("RTN_WRAP-GAP") )
             {
+                
                 blockLine.push(new Data(node.value));
             }
+            if(node.value.startsWith("RTN_WRAP-LINE"))
+            {
+                console.log("creating wrap-line node!");
+                blockLine.push(new WrapLine());
+                blockLine.push(new Data(node.value.replace(/RTN_WRAP-LINE/gm, "")));
+            }
+            if(node.value.startsWith("RTN_WRAP-GAP"))
+            {
+                console.log("creating wrap-gap node!");
+                blockLine.push(new WrapGap());
+                blockLine.push(new Data(node.value.replace(/RTN_WRAP-GAP/gm, "")));
+            }
+
             this.blocks.push(blockLine);
         }
+        console.log(this.blocks);
     }
 
     /**
@@ -551,6 +601,18 @@ class ProcessingTree
                     if(access(line,index,mainArr) == "Data")
                     {
                         solution = "Data";
+                    }
+                }
+                //Wraping Nodes
+                if(solution == "")
+                {
+                    if(access(line,index,mainArr) == "WrapLine")
+                    {
+                        solution = "WrapLine";
+                    }
+                    if(access(line,index,mainArr) == "WrapGap")
+                    {
+                        solution = "WrapGap";
                     }
                 }
                 //Bend
@@ -1073,11 +1135,7 @@ class ExeBuffer extends VirtualBuffer
      */
     update()
     {
-        this.tree.input = this.ref.textContent;
-        this.tree.totalParse();
-        
-        var data = this.tree.output;
-
+        var data = this.ref.textContent;
         // escape special characters
         data = data.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 
