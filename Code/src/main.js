@@ -214,7 +214,7 @@ export default class Schema
         payload = payload.replace(/│       ​/gm, "│   ​");
         payload = payload.replace(/        ​/gm, "    ​");
         payload = payload.replace(/<[^>]*>/g, "");
-        console.log(payload);
+        //console.log(payload);
         this.uri.push(payload);
 
         document.title = this.exe.ref.textContent.split("\n")[0].substring(0,32);
@@ -232,23 +232,57 @@ export default class Schema
      */
     preLineWrap()
     {
-        if(!this.exe.ref.textContent)
+        console.log(this.exe.ref.textContent);
+        if(this.exe.ref.textContent.replace(/[\s│ ├─└​]/g, "").length == 0)
         {
             console.log("exiting");
             return this.raw.ref.value;
         }
 
-        var lines = this.exe.ref.textContent.split("\n");
+        var glyphs = this.exe.ref.textContent.match(/(?:│ +​|├─+ ​|└─+ ​| +​)/g);
+        if(!glyphs)
+        {
+            glyphs=[""];
+        }
+        glyphs.push("");
+        glyphs.push("");
+        var rawdata = this.raw.ref.value.split("\t");
+        if(!rawdata)
+        {
+            rawdata=[""];
+        }
+        rawdata.push("");
+
+        //console.log(glyphs, rawdata);
+
+        var updated = "";
+        for(var i = 0; i < rawdata.length; i++)
+        {
+            var dataAdd = rawdata[i];
+            if(!dataAdd)
+            {
+                dataAdd = "";
+            }
+            var glyphAdd = glyphs[i];
+            if(!glyphAdd)
+            {
+                glyphAdd = "";
+            }
+            updated += dataAdd + glyphAdd;
+        }
+        //console.log(updated);
+
+        var lines = updated.split("\n");
 
         var assembly = "";
         for (var line of lines)
         { 
             if(/│ {3,7}​[^│├─└ ]/g.test(line) || (/ {4,8}​[^│├─└ ]/g.test(line)))
             {
-                console.log("wrapping glyphs found for ", line);
+                //console.log("wrapping glyphs found for ", line);
                 var lineContent = line.replace(/(?:│ +​|├─+ ​|└─+ ​| +​)/g, "\t");
                 var leadingTabs = lineContent.match(/^\t*/gm)[0];
-                console.log(leadingTabs.replace(/\t/gm,"\\t"));
+                //console.log(leadingTabs.replace(/\t/gm,"\\t"));
                 var trailingGlyph = line.match(/(?:│ +​|├─+ ​|└─+ ​| +​)/g);
                 trailingGlyph = trailingGlyph[trailingGlyph.length-1];
                 if(trailingGlyph == "│       ​")
@@ -259,7 +293,7 @@ export default class Schema
                 {
                     trailingGlyph = "RTN_WRAP-GAP"
                 }
-                console.log(trailingGlyph);
+                //console.log(trailingGlyph);
                 var newLine = leadingTabs.substring(1) + trailingGlyph + lineContent.replace(/\t/g, "");
                 assembly += "\n" + newLine;
             }
@@ -270,14 +304,29 @@ export default class Schema
         }
         assembly = assembly.substring(1);
         assembly = assembly.replace(/│ +​|├─+ ​|└─+ ​| +​/g, "\t");
+        
+        //execute the following regex until the string does not change
+        var taste = "";
+        while(taste != assembly)
+        {
+            taste = assembly;
+            assembly = assembly.replace(/(?:(RTN_WRAP-LINE|RTN_WRAP-GAP)([\S\ ]*)(\n\t*)(RTN_WRAP-LINE|RTN_WRAP-GAP))/g, "$1$2 ");
+            //console.log("ONCE");
+        }
         //this.raw.ref.value = assembly;
         return assembly;
     }
 
     postLineWrap()
     {
+        if(this.exe.ref.textContent.replace(/[\s│ ├─└​]/g, "").length == 0)
+        {
+            console.log("exiting");
+            //setTimeout(() => this.postLineWrap(), 1000);
+            return;
+        }
         var lines = this.exe.ref.innerHTML.replace(/&lt;.*?&gt;/g, "").replace(/\<.*?\>/g, "").split("\n").filter(item => item!== "");
-        console.log("lines", lines);
+        //console.log("lines", lines);
         var construction = "";
         //console.log(lines.length);
         for(var line of lines)
@@ -328,17 +377,15 @@ export default class Schema
      */
     keyPostRouter()
     {
+        this.raw.readCarrat();
+        var carratHolder = [this.raw.start, this.raw.end];
+        console.log("carrat at", carratHolder[0], carratHolder[1]);
+        console.trace();
         this.raw.update();
 
-        var carratHolder = [this.raw.start, this.raw.end];
-
-        console.log(this.raw.ref.value.replace(/[^8]/g, ""));
-
         this.exe.tree.input = this.preLineWrap();// this.raw.ref.value;
-        console.log(this.exe.tree.input.replace(/[^8]/g, ""));
         this.exe.tree.totalParse();
         this.exe.ref.textContent = this.exe.tree.output;
-        console.log(this.exe.tree.output.replace(/[^8]/g, ""));
 
         //this.preLineWrap();
         this.postLineWrap();
@@ -349,6 +396,8 @@ export default class Schema
 
         this.raw.start = carratHolder[0];
         this.raw.end = carratHolder[1];
+
+        this.raw.writeCarrat();
     }
 
     findEffectiveBreakpoints(string)
@@ -507,7 +556,7 @@ class ProcessingTree
      */
     toNodes()
     {
-        console.log(this.input);
+        //console.log(this.input);
         var lines = this.input.split("\n");
 
         for(var line of lines)
@@ -552,7 +601,7 @@ class ProcessingTree
             {
                 blockLine.push(new New());
             }
-            console.log(node.value);
+            //console.log(node.value);
             if(node.value == "")
             {
                 blockLine.push(new End());
@@ -564,7 +613,7 @@ class ProcessingTree
             }
             if(node.value.startsWith("RTN_WRAP-LINE"))
             {
-                console.log("creating wrap-line node!");
+                //console.log("creating wrap-line node!");
                 blockLine.push(new WrapLine());
                 blockLine.push(new Data(node.value.replace(/RTN_WRAP-LINE/gm, "")));
             }
@@ -577,7 +626,7 @@ class ProcessingTree
 
             this.blocks.push(blockLine);
         }
-        console.log(this.blocks);
+        //console.log(this.blocks);
     }
 
     /**
