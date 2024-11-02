@@ -1,0 +1,24 @@
+/* Spoiler tag logic, taken from https://codepen.io/volv/details/RrjooB */
+a[href="#s"],
+.md p > a[href="#s"] {
+text-decoration: none !important;
+cursor: default;
+background: #000;
+color: #fff !important;
+}
+a[href="#s"]::after,
+.md p > a[href="#s"]::after {
+content: attr(title);
+color: #000;
+visibility: visible;
+}
+a[href="#s"]:hover,
+.md p > a[href="#s"]:hover {
+color: #fff !important;
+}
+a[href="#s"]:hover::after,
+a[href="#s"]:active::after,
+.md p > a[href="#s"]:hover::after,
+.md p > a[href="#s"]:active::after {
+color: #fff;
+}

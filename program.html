@@ -14,254 +14,187 @@ You should have received a copy of the GNU Affero General Public License along w
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset='utf-8'>
-    <title>Rapid Tree Note</title>
-    <link rel="icon" href="./Resources/RTN-Logo.svg" type="image/x-icon">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <head>
+        <meta charset='utf-8'>
+        <title>Rapid Tree Note</title>
+        <link rel="icon" href="./Resources/RTN-Logo.svg" type="image/x-icon">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <title>{{pageTitle}}</title>
-    <meta charset="utf-8">
-    <meta name="description" content="{{description}}">
-    <meta name="keywords" content="Tree,Notetaking,Rapid Tree Notetaker,RTN,UMD,University of Minnesota Duluth,rtn,Brendan Rood,brendan rood,rood,LARS Lab,lars,university of minnesota,computer science,study,learning,education,UMD Duluth">
+        <title>{{pageTitle}}</title>
+        <meta charset="utf-8">
+        <meta name="description" content="{{description}}">
+        <meta name="keywords" content="Tree,Notetaking,Rapid Tree Notetaker,RTN,UMD,University of Minnesota Duluth,rtn,Brendan Rood,brendan rood,rood,LARS Lab,lars,university of minnesota,computer science,study,learning,education,UMD Duluth">
 
-    <meta property="og:title" content="{{pageTitle}}">
-    <meta property="og:description" content="{{description}}">
-    <meta property="og:site_name" content="Rapid Tree Notetaker">
-    <meta property="og:url" content="https://lars.d.umn.edu/RTN">
-    <meta property="og:image" content="https://lars.d.umn.edu/RTN/Resources/RTN-Logo.png">
+        <meta property="og:title" content="{{pageTitle}}">
+        <meta property="og:description" content="{{description}}">
+        <meta property="og:site_name" content="Rapid Tree Notetaker">
+        <meta property="og:url" content="https://lars.d.umn.edu/RTN">
+        <meta property="og:image" content="https://lars.d.umn.edu/RTN/Resources/RTN-Logo.png">
 
-    <meta itemprop="name" content="{{pageTitle}}">
-    <meta itemprop="description" content="{{description}}">
-    <meta itemprop="image" content="https://lars.d.umn.edu/RTN/Resources/RTN-Logo.png">
+        <meta itemprop="name" content="{{pageTitle}}">
+        <meta itemprop="description" content="{{description}}">
+        <meta itemprop="image" content="https://lars.d.umn.edu/RTN/Resources/RTN-Logo.png">
 
-    <meta name="twitter:card" content="{{description}}">
-    <meta name="twitter:url" content="https://lars.d.umn.edu/RTN">
-    <meta name="twitter:title" content="{{pageTitle}}">
-    <meta name="twitter:description" content="{{description}}">
-    <meta name="twitter:image" content="https://lars.d.umn.edu/RTN/Resources/RTN-Logo.png">
-    
-    <style>
-      @font-face 
-      {
-        font-family: 'Box';
-        src: 
-          url('./Resources/consola-box.woff2') format('woff2'),
-          url('./Resources/consola-box.woff') format('woff');
-      }
+        <meta name="twitter:card" content="{{description}}">
+        <meta name="twitter:url" content="https://lars.d.umn.edu/RTN">
+        <meta name="twitter:title" content="{{pageTitle}}">
+        <meta name="twitter:description" content="{{description}}">
+        <meta name="twitter:image" content="https://lars.d.umn.edu/RTN/Resources/RTN-Logo.png">
 
-      a{
-        color: rgb(66, 135, 255);
-      }
-      a:visited{
-        color: plum;
-      }
+        <link rel="stylesheet" href="./Resources/css/header.css">
+        <link rel="stylesheet" href="./Resources/css/rtntext.css">
+        <link rel="stylesheet" href="./Resources/css/links.css">
+        <link rel="stylesheet" href="./Resources/css/spoiler.css">
+      
+        <style>
+            #main {
+                position: relative;
+                justify-content: center;
+                align-items: center;
+                min-width: 90vw; /* Minimum width */
+                top: 5vh;
+                min-height: 75vh;
+                overflow: hidden;
+            }
 
-      #main {
-        position: relative;
-        justify-content: center;
-        align-items: center;
-        min-width: 90vw; /* Minimum width */
-        top: 5vh;
-        min-height: 75vh;
-        overflow: hidden;
-      }
+            #display {
+                pointer-events: none;
+                position: absolute;
+                left: 0;
+                width: max-content;
+                min-width: 90vw; /* Ensure it can grow */
+                min-height: 70vh;
+                background-color: rgba(67, 72, 91, 1.0);
+                border: solid 0.25vw black;
+                outline: transparent;
+                color: whitesmoke;
+                font-family: Box, monospace;
+                tab-size:8;
+                line-height: 1.2;
+                letter-spacing: 0vw;
+                white-space: pre-wrap;
+                vertical-align: top;
+                box-sizing: border-box;
+                overflow: visible;
+                padding: 0.5vw;
+                word-break: normal; /* Prevent word breaking */
+            }
 
-      #display {
-        pointer-events: none;
-        position: absolute;
-        left: 0;
-        width: max-content;
-        min-width: 90vw; /* Ensure it can grow */
-        min-height: 70vh;
-        background-color: rgba(67, 72, 91, 1.0);
-        border: solid 0.25vw black;
-        outline: transparent;
-        color: whitesmoke;
-        font-family: Box, monospace;
-        tab-size:8;
-        line-height: 1.2;
-        letter-spacing: 0vw;
-        white-space: pre-wrap;
-        vertical-align: top;
-        box-sizing: border-box;
-        overflow: visible;
-        padding: 0.5vw;
-        word-break: normal; /* Prevent word breaking */
-      }
+            #source {
+                z-index: 2;
+                resize: none;
+                caret-color: whitesmoke;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: max-content;
+                min-width: 90vw; /* Ensure it can grow */
+                min-height: 70vh;
+                background-color: transparent;
+                border: solid 0.25vw transparent;
+                outline: transparent;
+                color: transparent;
+                font-family: Box, monospace;
+                tab-size:8;
+                line-height: 1.2;
+                letter-spacing: 0vw;
+                vertical-align: top;
+                box-sizing: border-box;
+                overflow: hidden;
+                padding: 0.5vw;
+                word-break: normal; /* Prevent word breaking */
+                white-space: pre-wrap;
+            }
+        </style>
 
-      #source {
-        z-index: 2;
-        resize: none;
-        caret-color: whitesmoke;
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: max-content;
-        min-width: 90vw; /* Ensure it can grow */
-        min-height: 70vh;
-        background-color: transparent;
-        border: solid 0.25vw transparent;
-        outline: transparent;
-        color: transparent;
-        font-family: Box, monospace;
-        tab-size:8;
-        line-height: 1.2;
-        letter-spacing: 0vw;
-        vertical-align: top;
-        box-sizing: border-box;
-        overflow: hidden;
-        padding: 0.5vw;
-        word-break: normal; /* Prevent word breaking */
-        white-space: pre-wrap;
-      }
+    </head>
+    <body style="background-color: rgb(44, 46, 54); font-family: monospace; overflow-x: auto;">
 
-      #header {
-        position: fixed;
-        z-index: 10;
-        width: 96%;
-        background-color: rgba(67, 72, 91, 1.0);
-        border: solid 0.25vw black;
-        outline: solid 4vw transparent;
-        padding: 1%;
-      }
+        <div id="includeAnchor_header"></div>
 
-      /* Spoiler tag logic, taken from https://codepen.io/volv/details/RrjooB */
-      a[href="#s"],
-      .md p > a[href="#s"] {
-        text-decoration: none !important;
-        cursor: default;
-        background: #000;
-        color: #fff !important;
-      }
-      a[href="#s"]::after,
-      .md p > a[href="#s"]::after {
-        content: attr(title);
-        color: #000;
-        visibility: visible;
-      }
-      a[href="#s"]:hover,
-      .md p > a[href="#s"]:hover {
-        color: #fff !important;
-      }
-      a[href="#s"]:hover::after,
-      a[href="#s"]:active::after,
-      .md p > a[href="#s"]:hover::after,
-      .md p > a[href="#s"]:active::after {
-        color: #fff;
-      }
-    </style>
-
-  <script>
-    /* PRIMARY MIRROR REDIRECT - IF THE PRIMARY MIRROR IS ONLINE, REDIRECT THERE INSTEAD */
-    var primaryMirror = "https://snailien.ddns.net/RTN/";
-    var alreadyOnPrimary = (-1 != window.location.href.indexOf(primaryMirror.replace(/^(?:https?)?(?::\/\/)?(?:www\.)?/gm, "")));
-    if (!alreadyOnPrimary) { //if we are already on the primary mirror, we don't need to move
-      async function checkAndRedirect(url) {
-        try {
-          const response = await fetch(url);
-          if (response.ok) {
-            console.debug(`Primary Mirror ${url} appears to be ONLINE (returned status ${response.status}).`);
-            redirectToPrimary(url);
-          } else {
-            console.debug(`Primary Mirror ${url} appears to be OFFLINE (returned status ${response.status}).`);
-          }
-        } catch (error) {
-          console.debug(`An error occurred accessing Primary Mirror ${url}.`, error);
-        }
-      }
-    
-      function redirectToPrimary(url) {
-        alert(`You are not using the primary copy of this site. You will now be redirected to the same document on the official site.\n\nThe primary copy of the RTN is hosted at ${url}.\n\nIn the event of the primary copy going offline, this redirect will not occur.`);
-        var payload = window.location.href.split("?")[1];
-        var redir = url + "program.html";
-        if(payload) // add url data only if there is some, otherwise leave blank for landing page
-        {
-          redir += "?" + payload;
-        }
-        window.location.replace(redir);
-      }
-      checkAndRedirect(primaryMirror);
-    }
-  </script>
-  
-    
-  </head>
-  <body style="background-color: rgb(44, 46, 54); font-family: monospace; overflow-x: auto;">
-    <div id="header">
-      <div style="display: flex; align-items: center; justify-content: center; height: 10vh; width: 100%;">
-        <div style="width: 50%; display: flex; align-items: center; justify-content: left;">
-          <a style="color: whitesmoke; font-size: 4vw;" id="file_save">Rapid Tree Notetaker</a>
+        <div id="main">
+            <pre id="display" style="font-size: 1.0vw; top: -1.0vw;"></pre>
+            <textarea id="source" style="font-size: 1.0vw;"></textarea>
         </div>
-        <div style="width: 10%; height: 100%; display: flex; align-items: center; justify-content: center;">
-          <button onclick="navigateProgram()" style="width: 95%; height: 75%; background-color: rgba(67, 72, 91, 1.0); outline: solid 0.25vw black; box-shadow: none; color: whitesmoke; font-size: 1.5vw;">Program</button>
-        </div>
-        <div style="width: 15%; height: 100%; display: flex; align-items: center; justify-content: center;">
-          <button onclick="navigateImplementation()" style="width: 95%; height: 75%; background-color: rgba(67, 72, 91, 1.0); outline: solid 0.25vw black; box-shadow: none; color: whitesmoke; font-size: 1.5vw;">Implementation</button>
-        </div>
-        <div style="width: 10%; height: 100%; display: flex; align-items: center; justify-content: center;">
-          <button onclick="navigateInspiration()" style="width: 95%; height: 75%; background-color: rgba(67, 72, 91, 1.0); outline: solid 0.25vw black; box-shadow: none; color: whitesmoke; font-size: 1.5vw;">Inspiration</button>
-        </div>
-        <div style="width: 10%; height: 100%; display: flex; align-items: center; justify-content: center;">
-          <button onclick="navigateCredits()" style="width: 95%; height: 75%; background-color: rgba(67, 72, 91, 1.0); outline: solid 0.25vw black; box-shadow: none; color: whitesmoke; font-size: 1.5vw;">Credits</button>
-        </div> 
-        <div style="width: 10%; display: flex; align-items: center; justify-content: center;">
-          <img src="./Resources/RTN-Logo.svg" alt="RTN Website Logo" style="width: 5vw;"></img>
-        </div>
-      </div>
-    </div>
-    
-    <div id="main">
-      <pre id="display" style="font-size: 1.0vw; top: -1.0vw;"></pre>
-      <textarea id="source" style="font-size: 1.0vw;"></textarea>
-    </div>
-     
-    <!-- Add a new div to create space after the main div -->
-    
-    <script src="./Code/lib/lzma-min.js"></script>
-    <script src="./Code/lib/pako-min.js"></script>
+      
+        <!-- there will be a new div generated here at runtime to create space after the main div -->
+        
 
-    <script type="module">
-      import Schema from "./Code/exe/main.js";
-      var MainBuffer = new Schema(document.getElementById("source"), document.getElementById("display"), document.getElementById("wrap-tester"));
-      window.main = MainBuffer;
 
-      window.lockout = function()
-      {
-        window.main.safeShutdown();
-        document.getElementById("source").style.pointerEvents = "none";
-        document.getElementById("source").disabled = true;
-        document.getElementById("source").hidden = true;
-        document.getElementById("display").style.pointerEvents = "all";
-        alert("Document is in READ-ONLY mode.\n\nYou are viewing this document on Mobile.\nFor full functionality, please visit this website on a computer.");
-      }
+        <!-- Ensure compression libraries are available at global scope -->
+        <script src="./Code/lib/lzma-min.js"></script>
+        <script src="./Code/lib/pako-min.js"></script>
 
-      //enter read-only mode if on mobile
-      setTimeout(function() {
-        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
-        {
-          window.lockout();
-        }
-      }, 250);
-    </script>
+        <!-- Load the main js files of the RTN -->
+        <script type="module">
+            import Schema from "./Code/exe/main.js";
+            var MainBuffer = new Schema(document.getElementById("source"), document.getElementById("display"), document.getElementById("wrap-tester"));
+            window.main = MainBuffer;
+        </script>
 
-  <script> // subpage navigation
-    function navigateProgram()
-    {
-      location.href="./program.html";
-    }
-    function navigateInspiration()
-    {
-      location.href="./inspiration.html";
-    }
-    function navigateCredits()
-    {
-      location.href="./credits.html";
-    }
-    function navigateImplementation()
-    {
-      location.href="./implementation.html";
-    }
-  </script>
-  </body>
+        <!-- Script to prevent action if user is on mobile (because the website really doesn't work on mobile) -->
+        <script>
+            const doMobileLockout = true; // MODIFY THIS FOR DEBUG
+            if(doMobileLockout)
+            {
+                window.lockout = function()
+                {
+                    window.main.safeShutdown();
+                    document.getElementById("source").style.pointerEvents = "none";
+                    document.getElementById("source").disabled = true;
+                    document.getElementById("source").hidden = true;
+                    document.getElementById("display").style.pointerEvents = "all";
+                    alert("Document is in READ-ONLY mode.\n\nYou are viewing this document on Mobile.\nFor full functionality, please visit this website on a computer.");
+                }
+
+                //enter read-only mode if on mobile
+                setTimeout(function() {
+                    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+                    {
+                        window.lockout();
+                    }
+                }, 250);
+            }
+        </script>
+
+        <!-- Script to redirect to the primary mirror of the RTN if it is available -->
+        <script>
+            /* PRIMARY MIRROR REDIRECT - IF THE PRIMARY MIRROR IS ONLINE, REDIRECT THERE INSTEAD */
+            const doMirrorRedirect = false; // MODIFY THIS FOR DEBUG
+            if(doMirrorRedirect)
+            {
+                var primaryMirror = "https://snailien.ddns.net/RTN/";
+                var alreadyOnPrimary = (-1 != window.location.href.indexOf(primaryMirror.replace(/^(?:https?)?(?::\/\/)?(?:www\.)?/gm, "")));
+                if (!alreadyOnPrimary) { //if we are already on the primary mirror, we don't need to move
+                    async function checkAndRedirect(url) {
+                        try {
+                            const response = await fetch(url);
+                            if (response.ok) {
+                                console.debug(`Primary Mirror ${url} appears to be ONLINE (returned status ${response.status}).`);
+                                redirectToPrimary(url);
+                            } else {
+                                console.debug(`Primary Mirror ${url} appears to be OFFLINE (returned status ${response.status}).`);
+                            }
+                        } catch (error) {
+                            console.debug(`An error occurred accessing Primary Mirror ${url}.`, error);
+                        }
+                    }
+                
+                    function redirectToPrimary(url) {
+                        alert(`You are not using the primary copy of this site. You will now be redirected to the same document on the official site.\n\nThe primary copy of the RTN is hosted at ${url}.\n\nIn the event of the primary copy going offline, this redirect will not occur.`);
+                        var payload = window.location.href.split("?")[1];
+                        var redir = url + "program.html";
+                        if(payload) // add url data only if there is some, otherwise leave blank for landing page
+                        {
+                            redir += "?" + payload;
+                        }
+                        window.location.replace(redir);
+                    }
+
+                    checkAndRedirect(primaryMirror); //actually run the functions
+                }
+            }
+        </script>
+
+    </body>
 </html>
