@@ -50,6 +50,13 @@ You should have received a copy of the GNU Affero General Public License along w
           url('./Resources/consola-box.woff') format('woff');
       }
 
+      :root {
+          --RTN-SETTING_siteColor: #2c2e36; /* Default color */
+          --RTN-SETTING_backgroundColor: #43485b; /* Default color */
+          --RTN-SETTING_textColor: #f5f5f5; /* Default color */
+          --RTN-SETTING_glyphColor: #00ffff; /* Default color */
+      }
+
       a{
         color: rgb(66, 135, 255);
       }
@@ -74,10 +81,10 @@ You should have received a copy of the GNU Affero General Public License along w
         width: max-content;
         min-width: 90vw; /* Ensure it can grow */
         min-height: 70vh;
-        background-color: rgba(67, 72, 91, 1.0);
+        background-color: var(--RTN-SETTING_backgroundColor);
         border: solid 0.25vw black;
         outline: transparent;
-        color: whitesmoke;
+        color: var(--RTN-SETTING_textColor);
         font-family: Box, monospace;
         tab-size:8;
         line-height: 1.2;
@@ -93,7 +100,7 @@ You should have received a copy of the GNU Affero General Public License along w
       #source {
         z-index: 2;
         resize: none;
-        caret-color: whitesmoke;
+        caret-color: var(--RTN-SETTING_textColor);
         position: absolute;
         left: 0;
         top: 0;
@@ -120,7 +127,7 @@ You should have received a copy of the GNU Affero General Public License along w
         position: fixed;
         z-index: 10;
         width: 96%;
-        background-color: rgba(67, 72, 91, 1.0);
+        background-color: var(--RTN-SETTING_backgroundColor);
         border: solid 0.25vw black;
         outline: solid 4vw transparent;
         padding: 1%;
@@ -187,23 +194,23 @@ You should have received a copy of the GNU Affero General Public License along w
   
     
   </head>
-  <body style="background-color: rgb(44, 46, 54); font-family: monospace; overflow-x: auto;">
+  <body style="background-color: var(--RTN-SETTING_siteColor); font-family: monospace; overflow-x: auto;">
     <div id="header">
       <div style="display: flex; align-items: center; justify-content: center; height: 10vh; width: 100%;">
         <div style="width: 50%; display: flex; align-items: center; justify-content: left;">
-          <a style="color: whitesmoke; font-size: 4vw;" id="file_save">Rapid Tree Notetaker</a>
+          <a style="color: var(--RTN-SETTING_textColor); font-size: 4vw;" id="file_save">Rapid Tree Notetaker</a>
         </div>
         <div style="width: 10%; height: 100%; display: flex; align-items: center; justify-content: center;">
-          <button onclick="navigateProgram()" style="width: 95%; height: 75%; background-color: rgba(67, 72, 91, 1.0); outline: solid 0.25vw black; box-shadow: none; color: whitesmoke; font-size: 1.5vw;">Program</button>
+          <button onclick="navigateProgram()" style="width: 95%; height: 75%; background-color: var(--RTN-SETTING_backgroundColor); outline: solid 0.25vw black; box-shadow: none; color: var(--RTN-SETTING_textColor); font-size: 1.5vw;">Program</button>
         </div>
         <div style="width: 15%; height: 100%; display: flex; align-items: center; justify-content: center;">
-          <button onclick="navigateImplementation()" style="width: 95%; height: 75%; background-color: rgba(67, 72, 91, 1.0); outline: solid 0.25vw black; box-shadow: none; color: whitesmoke; font-size: 1.5vw;">Implementation</button>
+          <button onclick="navigateImplementation()" style="width: 95%; height: 75%; background-color: var(--RTN-SETTING_backgroundColor); outline: solid 0.25vw black; box-shadow: none; color: var(--RTN-SETTING_textColor); font-size: 1.5vw;">Implementation</button>
         </div>
         <div style="width: 10%; height: 100%; display: flex; align-items: center; justify-content: center;">
-          <button onclick="navigateInspiration()" style="width: 95%; height: 75%; background-color: rgba(67, 72, 91, 1.0); outline: solid 0.25vw black; box-shadow: none; color: whitesmoke; font-size: 1.5vw;">Inspiration</button>
+          <button onclick="navigateInspiration()" style="width: 95%; height: 75%; background-color: var(--RTN-SETTING_backgroundColor); outline: solid 0.25vw black; box-shadow: none; color: var(--RTN-SETTING_textColor); font-size: 1.5vw;">Inspiration</button>
         </div>
         <div style="width: 10%; height: 100%; display: flex; align-items: center; justify-content: center;">
-          <button onclick="navigateCredits()" style="width: 95%; height: 75%; background-color: rgba(67, 72, 91, 1.0); outline: solid 0.25vw black; box-shadow: none; color: whitesmoke; font-size: 1.5vw;">Credits</button>
+          <button onclick="navigateCredits()" style="width: 95%; height: 75%; background-color: var(--RTN-SETTING_backgroundColor); outline: solid 0.25vw black; box-shadow: none; color: var(--RTN-SETTING_textColor); font-size: 1.5vw;">Credits</button>
         </div> 
         <div style="width: 10%; display: flex; align-items: center; justify-content: center;">
           <img src="./Resources/RTN-Logo.svg" alt="RTN Website Logo" style="width: 5vw;"></img>
@@ -244,6 +251,12 @@ You should have received a copy of the GNU Affero General Public License along w
         }
       }, 250);
     </script>
+
+  <script type="module">
+    import SettingsMannager from "./Code/src/settings.js";
+    window.rtnsettings = new SettingsMannager();
+    window.rtnsettings.applyCSS();
+  </script>
 
   <script> // subpage navigation
     function navigateProgram()

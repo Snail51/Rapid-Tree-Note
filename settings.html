@@ -117,30 +117,42 @@ List of Configurable Settings
     </div>
 
     <br><br>
-    <button onclick="window.rtnsettingsapply()">Apply Selected Settings</button>
-    <button onclick="window.rtnsettingsreset()">Reset to default Settings</button>
+    <button onclick="window.rtnSettings_apply()">Apply Selected Settings</button>
+    <button onclick="window.rtnSettings_reset()">Reset to default Settings</button>
     
 
 
     <script type="module">
         import SettingsMannager from "./Code/src/settings.js";
-        window.rtnsettings = new SettingsMannager();
-        window.rtnsettings.applyCSS();
+        window.rtnSettingsMannager = new SettingsMannager();
+        window.rtnSettingsMannager.applyCSS();
 
-        window.rtnsettingsapply = function()
+        window.rtnSettings_syncColorSelectors = function()
+        {
+            document.getElementById("input_siteColor").value = localStorage.getItem("RTN-SETTING_siteColor");
+            document.getElementById("input_backgroundColor").value = localStorage.getItem("RTN-SETTING_backgroundColor");
+            document.getElementById("input_textColor").value = localStorage.getItem("RTN-SETTING_textColor");
+            document.getElementById("input_glyphColor").value = localStorage.getItem("RTN-SETTING_glyphColor");
+        }
+
+        window.rtnSettings_apply = function()
         {
             localStorage.setItem("RTN-SETTING_siteColor", document.getElementById("input_siteColor").value);
             localStorage.setItem("RTN-SETTING_backgroundColor", document.getElementById("input_backgroundColor").value);
             localStorage.setItem("RTN-SETTING_textColor", document.getElementById("input_textColor").value);
             localStorage.setItem("RTN-SETTING_glyphColor", document.getElementById("input_glyphColor").value);
 
-            window.rtnsettings.applyCSS();
+            window.rtnSettingsMannager.applyCSS();
+            window.rtnSettings_syncColorSelectors();
         }
 
-        window.rtnsettingsreset = function()
+        window.rtnSettings_reset = function()
         {
-            window.rtnsettings.restoreDefaults();
+            window.rtnSettingsMannager.restoreDefaults();
+            window.rtnSettings_syncColorSelectors();
         }
+
+        window.rtnSettings_syncColorSelectors();
     </script>
 
   <script> // subpage navigation
