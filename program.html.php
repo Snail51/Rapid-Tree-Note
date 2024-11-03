@@ -12,12 +12,16 @@ RTN is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
 You should have received a copy of the GNU Affero General Public License along with RTN. It is available at ./License/COPYING. Otherwise, see <https://www.gnu.org/licenses/>
 -->
 
+
 <!DOCTYPE html>
 <html>
     <head>
+        <?php include('./Resources/partials/header_head.html'); ?>
+
+
         <meta charset='utf-8'>
         <title>Rapid Tree Note</title>
-        <link rel="icon" href="./Resources/RTN-Logo.svg" type="image/x-icon">
+        <link rel="icon" href="./Resources/image/RTN-Logo.svg" type="image/x-icon">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
         <title>{{pageTitle}}</title>
@@ -109,8 +113,8 @@ You should have received a copy of the GNU Affero General Public License along w
 
     </head>
     <body style="background-color: rgb(44, 46, 54); font-family: monospace; overflow-x: auto;">
-
-        <div id="includeAnchor_header"></div>
+        
+        <?php include('./Resources/partials/header_body.html'); ?>
 
         <div id="main">
             <pre id="display" style="font-size: 1.0vw; top: -1.0vw;"></pre>
@@ -127,7 +131,7 @@ You should have received a copy of the GNU Affero General Public License along w
 
         <!-- Load the main js files of the RTN -->
         <script type="module">
-            import Schema from "./Code/exe/main.js";
+            import Schema from "./Code/src/main.js";
             var MainBuffer = new Schema(document.getElementById("source"), document.getElementById("display"), document.getElementById("wrap-tester"));
             window.main = MainBuffer;
         </script>

@@ -35,7 +35,7 @@ export class URIMannager
     {
         var URI = this.getURL(URL);
         var data = URI.data;
-        if(window.location.href.endsWith("program.html"))
+        if(window.location.href.endsWith("program.html.php") || window.location.href.endsWith("program.html"))
         {
             return "";
         }
