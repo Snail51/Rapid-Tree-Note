@@ -33,9 +33,10 @@ error_reporting(E_ALL);
 
 // Get filename of original file
 $filename = $_SERVER['REQUEST_URI'];
+$safepath = realpath($document_root . $filename);
 
 // Get contents of original file
-$file_contents = file_get_contents($document_root . $filename);
+$file_contents = file_get_contents($safepath);
 
 // Get link from file contents
 $pattern = '/"link":\s*"([^"]*)"/';
