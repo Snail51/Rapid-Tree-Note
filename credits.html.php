@@ -17,31 +17,16 @@ You should have received a copy of the GNU Affero General Public License along w
     <head>
         <?php include('./Resources/partials/header_head.html'); ?>
 
-        <meta charset='utf-8'/>
-        <title>Rapid Tree Note</title>
-        <link rel="icon" href="./Resources/RTN-Logo.svg" type="image/x-icon">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
-        <title>RTN Credits</title>
-        <meta charset="utf-8">
-        <meta name="description" content="Credits of the people and groups who have contributed to make the RTN possible">
-        <meta name="keywords" content="Tree,Notetaking,Rapid Tree Notetaker,RTN,UMD,University of Minnesota Duluth,rtn,Brendan Rood,brendan rood,rood,LARS Lab,lars,university of minnesota,computer science,study,learning,education,UMD Duluth">
-
-        <meta property="og:title" content="RTN Credits">
-        <meta property="og:description" content="Credits of the people and groups who have contributed to make the RTN possible">
-        <meta property="og:site_name" content="Rapid Tree Notetaker">
-        <meta property="og:url" content="https://snailien.ddns.net/RTN">
-        <meta property="og:image" content="https://snailien.ddns.net/RTN/Resources/RTN-Logo.png">
-
-        <meta itemprop="name" content="RTN Credits">
-        <meta itemprop="description" content="Credits of the people and groups who have contributed to make the RTN possible">
-        <meta itemprop="image" content="https://snailien.ddns.net/RTN/Resources/RTN-Logo.png">
-
-        <meta name="twitter:card" content="Credits of the people and groups who have contributed to make the RTN possible">
-        <meta name="twitter:url" content="https://snailien.ddns.net/RTN">
-        <meta name="twitter:title" content="RTN Credits">
-        <meta name="twitter:description" content="Credits of the people and groups who have contributed to make the RTN possible">
-        <meta name="twitter:image" content="https://snailien.ddns.net/RTN/Resources/RTN-Logo.png">
+        <?php 
+            $metadata = file_get_contents("./Resources/partials/metatags.html");
+            $metadata = str_replace("{{pageTitle}}", "RTN Credits", $metadata);
+            $metadata = str_replace("{{description}}", "Credits of the people and groups who have contributed to make the RTN possible", $metadata);
+            $metadata = str_replace("{{siteName}}", "Rapid Tree Notetaker", $metadata);
+            $metadata = str_replace("{{siteURL}}", $_SERVER['SERVER_NAME'], $metadata);
+            $metadata = str_replace("{{tags}}", "Tree,Notetaking,Rapid Tree Notetaker,RTN,UMD,University of Minnesota Duluth,rtn,Brendan Rood,brendan rood,rood,LARS Lab,lars,university of minnesota,computer science,study,learning,education,UMD Duluth", $metadata);
+            $metadata = str_replace("{{icon}}", "./Resources/RTN-Logo.svg", $metadata);
+            echo $metadata;
+        ?>
         
         <link rel="stylesheet" href="./Resources/css/rtntext.css">
         <link rel="stylesheet" href="./Resources/css/links.css">

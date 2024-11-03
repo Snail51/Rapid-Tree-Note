@@ -18,32 +18,18 @@ You should have received a copy of the GNU Affero General Public License along w
     <head>
         <?php include('./Resources/partials/header_head.html'); ?>
 
-
-        <meta charset='utf-8'>
-        <title>Rapid Tree Note</title>
-        <link rel="icon" href="./Resources/image/RTN-Logo.svg" type="image/x-icon">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
-        <title>{{pageTitle}}</title>
-        <meta charset="utf-8">
-        <meta name="description" content="{{description}}">
-        <meta name="keywords" content="Tree,Notetaking,Rapid Tree Notetaker,RTN,UMD,University of Minnesota Duluth,rtn,Brendan Rood,brendan rood,rood,LARS Lab,lars,university of minnesota,computer science,study,learning,education,UMD Duluth">
-
-        <meta property="og:title" content="{{pageTitle}}">
-        <meta property="og:description" content="{{description}}">
-        <meta property="og:site_name" content="Rapid Tree Notetaker">
-        <meta property="og:url" content="https://snailien.ddns.net/RTN">
-        <meta property="og:image" content="https://snailien.ddns.net/RTN/Resources/RTN-Logo.png">
-
-        <meta itemprop="name" content="{{pageTitle}}">
-        <meta itemprop="description" content="{{description}}">
-        <meta itemprop="image" content="https://snailien.ddns.net/RTN/Resources/RTN-Logo.png">
-
-        <meta name="twitter:card" content="{{description}}">
-        <meta name="twitter:url" content="https://snailien.ddns.net/RTN">
-        <meta name="twitter:title" content="{{pageTitle}}">
-        <meta name="twitter:description" content="{{description}}">
-        <meta name="twitter:image" content="https://snailien.ddns.net/RTN/Resources/RTN-Logo.png">
+        <!-- <METADATA REPLACE MARKER> -->
+        <?php 
+            $metadata = file_get_contents("./Resources/partials/metatags.html");
+            $metadata = str_replace("{{pageTitle}}", "Rapid Tree Notetaker", $metadata);
+            $metadata = str_replace("{{description}}", "A tree-based notetaking program developed at the University of Minnesota Duluth", $metadata);
+            $metadata = str_replace("{{siteName}}", "Rapid Tree Notetaker", $metadata);
+            $metadata = str_replace("{{siteURL}}", $_SERVER["SERVER_NAME"], $metadata);
+            $metadata = str_replace("{{tags}}", "Tree,Notetaking,Rapid Tree Notetaker,RTN,UMD,University of Minnesota Duluth,rtn,Brendan Rood,brendan rood,rood,LARS Lab,lars,university of minnesota,computer science,study,learning,education,UMD Duluth", $metadata);
+            $metadata = str_replace("{{icon}}", "./Resources/RTN-Logo.svg", $metadata);
+            echo $metadata;
+        ?>
+        <!-- </METADATA REPLACE MARKER> -->
 
         <link rel="stylesheet" href="./Resources/css/rtntext.css">
         <link rel="stylesheet" href="./Resources/css/links.css">
@@ -114,7 +100,7 @@ You should have received a copy of the GNU Affero General Public License along w
         <script src="./Code/lib/lzma-min.js"></script>
         <script src="./Code/lib/pako-min.js"></script>
     </head>
-    <body style="background-color: rgb(44, 46, 54); font-family: monospace; overflow-x: auto;">
+    <body class="rtnText" style="background-color: rgb(44, 46, 54); overflow-x: auto;">
         
         <?php include('./Resources/partials/header_body.html'); ?>
 

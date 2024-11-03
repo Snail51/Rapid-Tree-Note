@@ -33,6 +33,13 @@ $content = str_replace("<?php include('./Resources/partials/header_head.html'); 
 $header_body = file_get_contents('./Resources/partials/header_body.html');
 $content = str_replace("<?php include('./Resources/partials/header_body.html'); ?>", "$header_body", $content);
 
+$metadata_unfilled = file_get_contents('./Resources/partials/metatags.html');
+$content = preg_replace('/<!-- <METADATA REPLACE MARKER> -->.*<!-- <\/METADATA REPLACE MARKER> -->/s', $metadata_unfilled, $content);
+$content = str_replace("{{tags}}", "Tree,Notetaking,Rapid Tree Notetaker,RTN,UMD,University of Minnesota Duluth,rtn,Brendan Rood,brendan rood,rood,LARS Lab,lars,university of minnesota,computer science,study,learning,education,UMD Duluth", $content);
+$content = str_replace("{{siteName}}", "Rapid Tree Notetaker", $content);
+$content = str_replace("{{siteURL}}", $_SERVER["SERVER_NAME"], $content);
+$content = str_replace("{{icon}}", "./Resources/RTN-Logo.svg", $content);
+
 //record WHEN, WHO, and WHAT users access (protect with hashing!)
 if(!isset($_GET['debug'])) // if the URL contains a `debug` parameter, dont do anything as to avoid polluting the log
 {

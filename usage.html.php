@@ -18,31 +18,16 @@ You should have received a copy of the GNU Affero General Public License along w
     <head>
         <?php include('./Resources/partials/header_head.html'); ?>
 
-        <meta charset='utf-8'/>
-        <title>Rapid Tree Note</title>
-        <link rel="icon" href="./Resources/RTN-Logo.svg" type="image/x-icon">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
-        <title>RTN Usage</title>
-        <meta charset="utf-8">
-        <meta name="description" content="Statistics of RTN Usage">
-        <meta name="keywords" content="Tree,Notetaking,Rapid Tree Notetaker,RTN,UMD,University of Minnesota Duluth,rtn,Brendan Rood,brendan rood,rood,LARS Lab,lars,university of minnesota,computer science,study,learning,education,UMD Duluth">
-
-        <meta property="og:title" content="RTN Usage">
-        <meta property="og:description" content="Statistics of RTN Usage">
-        <meta property="og:site_name" content="Rapid Tree Notetaker">
-        <meta property="og:url" content="https://lars.d.umn.edu/RTN">
-        <meta property="og:image" content="https://lars.d.umn.edu/RTN/Resources/RTN-Logo.png">
-
-        <meta itemprop="name" content="RTN Usage">
-        <meta itemprop="description" content="Statistics of RTN Usage">
-        <meta itemprop="image" content="https://lars.d.umn.edu/RTN/Resources/RTN-Logo.png">
-
-        <meta name="twitter:card" content="Statistics of RTN Usage">
-        <meta name="twitter:url" content="https://lars.d.umn.edu/RTN">
-        <meta name="twitter:title" content="RTN Usage">
-        <meta name="twitter:description" content="Statistics of RTN Usage">
-        <meta name="twitter:image" content="https://lars.d.umn.edu/RTN/Resources/RTN-Logo.png">
+        <?php 
+            $metadata = file_get_contents("./Resources/partials/metatags.html");
+            $metadata = str_replace("{{pageTitle}}", "RTN Usage", $metadata);
+            $metadata = str_replace("{{description}}", "Statistics of RTN Usage", $metadata);
+            $metadata = str_replace("{{siteName}}", "Rapid Tree Notetaker", $metadata);
+            $metadata = str_replace("{{siteURL}}", $_SERVER["SERVER_NAME"], $metadata);
+            $metadata = str_replace("{{tags}}", "Tree,Notetaking,Rapid Tree Notetaker,RTN,UMD,University of Minnesota Duluth,rtn,Brendan Rood,brendan rood,rood,LARS Lab,lars,university of minnesota,computer science,study,learning,education,UMD Duluth", $metadata);
+            $metadata = str_replace("{{icon}}", "./Resources/RTN-Logo.svg", $metadata);
+            echo $metadata;
+        ?>
         
         <style type="text/css">
         #main {
