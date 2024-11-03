@@ -32,20 +32,19 @@ You should have received a copy of the GNU Affero General Public License along w
         <meta property="og:title" content="{{pageTitle}}">
         <meta property="og:description" content="{{description}}">
         <meta property="og:site_name" content="Rapid Tree Notetaker">
-        <meta property="og:url" content="https://lars.d.umn.edu/RTN">
-        <meta property="og:image" content="https://lars.d.umn.edu/RTN/Resources/RTN-Logo.png">
+        <meta property="og:url" content="https://snailien.ddns.net/RTN">
+        <meta property="og:image" content="https://snailien.ddns.net/RTN/Resources/RTN-Logo.png">
 
         <meta itemprop="name" content="{{pageTitle}}">
         <meta itemprop="description" content="{{description}}">
-        <meta itemprop="image" content="https://lars.d.umn.edu/RTN/Resources/RTN-Logo.png">
+        <meta itemprop="image" content="https://snailien.ddns.net/RTN/Resources/RTN-Logo.png">
 
         <meta name="twitter:card" content="{{description}}">
-        <meta name="twitter:url" content="https://lars.d.umn.edu/RTN">
+        <meta name="twitter:url" content="https://snailien.ddns.net/RTN">
         <meta name="twitter:title" content="{{pageTitle}}">
         <meta name="twitter:description" content="{{description}}">
-        <meta name="twitter:image" content="https://lars.d.umn.edu/RTN/Resources/RTN-Logo.png">
+        <meta name="twitter:image" content="https://snailien.ddns.net/RTN/Resources/RTN-Logo.png">
 
-        <link rel="stylesheet" href="./Resources/css/header.css">
         <link rel="stylesheet" href="./Resources/css/rtntext.css">
         <link rel="stylesheet" href="./Resources/css/links.css">
         <link rel="stylesheet" href="./Resources/css/spoiler.css">
@@ -111,23 +110,22 @@ You should have received a copy of the GNU Affero General Public License along w
             }
         </style>
 
+        <!-- Ensure compression libraries are available at global scope -->
+        <script src="./Code/lib/lzma-min.js"></script>
+        <script src="./Code/lib/pako-min.js"></script>
     </head>
     <body style="background-color: rgb(44, 46, 54); font-family: monospace; overflow-x: auto;">
         
         <?php include('./Resources/partials/header_body.html'); ?>
 
         <div id="main">
-            <pre id="display" style="font-size: 1.0vw; top: -1.0vw;"></pre>
-            <textarea id="source" style="font-size: 1.0vw;"></textarea>
+            <pre id="display" class="rtnText" style="font-size: 1.0vw; top: -1.0vw;"></pre>
+            <textarea id="source" class="rtnText" style="font-size: 1.0vw;"></textarea>
         </div>
       
         <!-- there will be a new div generated here at runtime to create space after the main div -->
-        
 
 
-        <!-- Ensure compression libraries are available at global scope -->
-        <script src="./Code/lib/lzma-min.js"></script>
-        <script src="./Code/lib/pako-min.js"></script>
 
         <!-- Load the main js files of the RTN -->
         <script type="module">

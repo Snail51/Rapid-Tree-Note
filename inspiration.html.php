@@ -15,6 +15,8 @@ You should have received a copy of the GNU Affero General Public License along w
 <!DOCTYPE html>
 <html>
   <head>
+    <?php include('./Resources/partials/header_head.html'); ?>
+
     <meta charset='utf-8'/>
     <title>Rapid Tree Note</title>
     <link rel="icon" href="./Resources/RTN-Logo.svg" type="image/x-icon">
@@ -28,53 +30,29 @@ You should have received a copy of the GNU Affero General Public License along w
     <meta property="og:title" content="RTN Inspirations">
     <meta property="og:description" content="Factors that inspired the creation of the Rapid Tree Notetaker">
     <meta property="og:site_name" content="Rapid Tree Notetaker">
-    <meta property="og:url" content="https://lars.d.umn.edu/RTN">
-    <meta property="og:image" content="https://lars.d.umn.edu/RTN/Resources/RTN-Logo.png">
+    <meta property="og:url" content="https://snailien.ddns.net/RTN">
+    <meta property="og:image" content="https://snailien.ddns.net/RTN/Resources/RTN-Logo.png">
 
     <meta itemprop="name" content="RTN Inspirations">
     <meta itemprop="description" content="Factors that inspired the creation of the Rapid Tree Notetaker">
-    <meta itemprop="image" content="https://lars.d.umn.edu/RTN/Resources/RTN-Logo.png">
+    <meta itemprop="image" content="https://snailien.ddns.net/RTN/Resources/RTN-Logo.png">
 
     <meta name="twitter:card" content="Factors that inspired the creation of the Rapid Tree Notetaker">
-    <meta name="twitter:url" content="https://lars.d.umn.edu/RTN">
+    <meta name="twitter:url" content="https://snailien.ddns.net/RTN">
     <meta name="twitter:title" content="RTN Inspirations">
     <meta name="twitter:description" content="Factors that inspired the creation of the Rapid Tree Notetaker">
-    <meta name="twitter:image" content="https://lars.d.umn.edu/RTN/Resources/RTN-Logo.png">
+    <meta name="twitter:image" content="https://snailien.ddns.net/RTN/Resources/RTN-Logo.png">
     
-
-    <style type="text/css">
-      a{
-          color: cyan;
-      }
-      a:visited{
-        color: plum;
-      }
-    </style>
+    <link rel="stylesheet" href="./Resources/css/rtntext.css">
+    <link rel="stylesheet" href="./Resources/css/links.css">
     
   </head>
   <body style="background-color: rgb(44, 46, 54); font-family: monospace;" >
-    <div style="display: flex; align-items: center; justify-content: center; height: 10vh; width: 100%;">
-      <div style="width: 50%; display: flex; align-items: center; justify-content: left;">
-        <h1 style="color: whitesmoke; font-size: 4vw;">Rapid Tree Notetaker</h1>
-      </div>
-      <div style="width: 10%; height: 100%; display: flex; align-items: center;; justify-content: center;">
-        <button onclick="navigateProgram()" style="width: 95%; height: 75%; background-color: rgba(67, 72, 91, 1.0); outline: solid 2px black; box-shadow: none; color: whitesmoke; font-size: 1.5vw;">Program</button>
-      </div>
-      <div style="width: 15%; height: 100%; display: flex; align-items: center; justify-content: center;">
-        <button onclick="navigateImplementation()" style="width: 95%; height: 75%; background-color: rgba(67, 72, 91, 1.0); outline: solid 2px black; box-shadow: none; color: whitesmoke; font-size: 1.5vw;">Implementation</button>
-      </div>
-      <div style="width: 10%; height: 100%; display: flex; align-items: center; justify-content: center;">
-        <button onclick="navigateInspiration()" style="width: 95%; height: 75%; background-color: rgba(67, 72, 91, 1.0); outline: solid 2px black; box-shadow: none; color: whitesmoke; font-size: 1.5vw;">Inspiration</button>
-      </div>
-      <div style="width: 10%; height: 100%; display: flex; align-items: center; justify-content: center;">
-        <button onclick="navigateCredits()" style="width: 95%; height: 75%; background-color: rgba(67, 72, 91, 1.0); outline: solid 2px black; box-shadow: none; color: whitesmoke; font-size: 1.5vw;">Credits</button>
-      </div> 
-      <div style="width: 10%; display: flex; align-items: center; justify-content: center;">
-        <img src="./Resources/RTN-Logo.svg" alt="RTN Website Logo" style="width: 5vw;"></img>
-      </div>
-    </div>
     
-    <div style="display: flex; justify-content: center; align-items: flex-start; height: 80vh;">
+    <?php include('./Resources/partials/header_body.html'); ?>
+    <div style="height: 15vh"></div>
+    
+    <div style="display: flex; justify-content: center; align-items: flex-start; height: 80vh; offset-height: 12vh">
       <pre style="color: whitesmoke; font-size: 0.9vw;">
 Inspiration
 ├── ​<a href="https://tree.nathanfriend.io">https://tree.nathanfriend.io</a>
