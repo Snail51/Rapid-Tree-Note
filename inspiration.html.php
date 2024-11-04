@@ -15,6 +15,7 @@ You should have received a copy of the GNU Affero General Public License along w
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="./Resources/css/userSettings.css">
         <?php include('./Resources/partials/header_head.html'); ?>
 
         <?php 
@@ -30,7 +31,8 @@ You should have received a copy of the GNU Affero General Public License along w
         
         <link rel="stylesheet" href="./Resources/css/rtntext.css">
         <link rel="stylesheet" href="./Resources/css/links.css">
-      
+
+        <?php include('./Resources/partials/userCSSLoader.html'); ?>
     </head>
     <body style="background-color: rgb(44, 46, 54); font-family: monospace;" >
       
@@ -38,7 +40,7 @@ You should have received a copy of the GNU Affero General Public License along w
         <div style="height: 15vh"></div>
         
         <div style="display: flex; justify-content: center; align-items: flex-start; height: 80vh; offset-height: 12vh">
-            <pre style="color: whitesmoke; font-size: 0.9vw;">
+            <pre style="color: var(--RTN-SETTING_textColor); font-size: 0.9vw;">
 Inspiration
 ├── ​<a href="https://tree.nathanfriend.io">https://tree.nathanfriend.io</a>
 │   ​├── ​This website is based on the work of Nathan Friend on their website.

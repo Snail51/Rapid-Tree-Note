@@ -13,3 +13,4 @@ RewriteRule .*implementation.html$ implementation.html.php
 RewriteRule .*credits.html$ credits.html.php
 RewriteRule .*inspiration.html$ inspiration.html.php
 RewriteRule .*usage.html$ usage.html.php
+RewriteRule .*settings.html$ settings.html.php

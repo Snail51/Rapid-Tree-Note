@@ -7,6 +7,6 @@
 }
 
 .rtnText {
-    color: whitesmoke;
+    color: var(--RTN-SETTING_textColor);
     font-family: Box, monospace;
 }

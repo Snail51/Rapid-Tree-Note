@@ -32,6 +32,8 @@ $header_head = file_get_contents('./Resources/partials/header_head.html');
 $content = str_replace("<?php include('./Resources/partials/header_head.html'); ?>", "$header_head", $content);
 $header_body = file_get_contents('./Resources/partials/header_body.html');
 $content = str_replace("<?php include('./Resources/partials/header_body.html'); ?>", "$header_body", $content);
+$userCSSLoader = file_get_contents('./Resources/partials/userCSSLoader.html');
+$content = str_replace("<?php include('./Resources/partials/userCSSLoader.html'); ?>", "$userCSSLoader", $content);
 
 $metadata_unfilled = file_get_contents('./Resources/partials/metatags.html');
 $content = preg_replace('/<!-- <METADATA REPLACE MARKER> -->.*<!-- <\/METADATA REPLACE MARKER> -->/s', $metadata_unfilled, $content);

@@ -16,6 +16,7 @@ You should have received a copy of the GNU Affero General Public License along w
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="./Resources/css/userSettings.css">
         <?php include('./Resources/partials/header_head.html'); ?>
 
         <?php 
@@ -39,14 +40,15 @@ You should have received a copy of the GNU Affero General Public License along w
             top: 5vh;
             background-color: rgba(67, 72, 91, 1.0);
             outline: solid 4px black;
-            color: whitesmoke;
+            color: var(--RTN-SETTING_textColor);
             padding: 1vw;
         }
         </style>
 
         <link rel="stylesheet" href="./Resources/css/rtntext.css">
         <link rel="stylesheet" href="./Resources/css/links.css">
-      
+
+        <?php include('./Resources/partials/userCSSLoader.html'); ?>
     </head>
     <body style="background-color: rgb(44, 46, 54); font-family: monospace;">
         <?php include('./Resources/partials/header_body.html'); ?>
