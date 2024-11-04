@@ -13,7 +13,7 @@ You should have received a copy of the GNU Affero General Public License along w
 */
 
 import { Line, Fork, Bend, Gap, Data, New, End, Null } from "./treeblocks.js";
-import { URIMannager } from "./URI-mannager.js";
+import { URIManager } from "./URI-manager.js";
 import { Provider } from "./provider.js";
 
 /* The Schema class is a container that handles user input, generates a formatted document, and synchronizes scrollbars. */
@@ -28,7 +28,7 @@ export default class Schema
     {
         //static config
         this.maxURLLength = 8192;
-        this.uri = new URIMannager();
+        this.uri = new URIManager();
         window.main = this;
 
         // attatch provider to header
@@ -254,8 +254,8 @@ export default class Schema
     }
 
     /**
-     * @description Tells the URI mannager to process a decoding task, turning the URL into a string. 
-     * @note The URI mannager does a lot of different stuff based on the desired parameters, all technical details of how that works are controlled by the URI mannager. Treat this as a black box that hands you a the document's contents as a string.
+     * @description Tells the URI manager to process a decoding task, turning the URL into a string. 
+     * @note The URI manager does a lot of different stuff based on the desired parameters, all technical details of how that works are controlled by the URI manager. Treat this as a black box that hands you a the document's contents as a string.
      * @returns the decoded and decompressed URL as a string.
      */
     pullURL()
@@ -280,8 +280,8 @@ export default class Schema
     }
 
     /**
-     * @description Preprocess the document's contents and then hand it to the URI-Mannager for encoding. Results in the page's URL changing to match the document's contents after compression and encoding
-     * @note The URI mannager does a lot of different stuff based on the desired parameters, all technical details of how that works are controlled by the URI mannager. Treat this as a black box that you hand the document's contents to and it magically changes the URL to encode that.
+     * @description Preprocess the document's contents and then hand it to the URI-Manager for encoding. Results in the page's URL changing to match the document's contents after compression and encoding
+     * @note The URI manager does a lot of different stuff based on the desired parameters, all technical details of how that works are controlled by the URI manager. Treat this as a black box that you hand the document's contents to and it magically changes the URL to encode that.
      */
     pushURL()
     {
@@ -300,7 +300,7 @@ export default class Schema
         payload = payload.replace(/<[^>]*>/g, "");
         payload = payload.replace(/(\s*)(•)(.*)/gm, "$1-$3");
 
-        // command the URI-Mannager to operate with the preprocessed string
+        // command the URI-Manager to operate with the preprocessed string
         //console.debug(payload);
         this.uri.push(payload);
     }

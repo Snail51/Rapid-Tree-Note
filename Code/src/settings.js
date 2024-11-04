@@ -13,7 +13,7 @@ You should have received a copy of the GNU Affero General Public License along w
 */
 
 /* Wrapper for managing user settings via localStorage*/ 
-export default class SettingsMannager
+export default class SettingsManager
 {
     constructor()
     {

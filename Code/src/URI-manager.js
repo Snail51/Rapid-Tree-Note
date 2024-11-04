@@ -12,7 +12,7 @@ RTN is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
 You should have received a copy of the GNU Affero General Public License along with RTN. It is available at ./License/COPYING. Otherwise, see <https://www.gnu.org/licenses/>
 */
 
-export class URIMannager
+export class URIManager
 {
     constructor()
     {

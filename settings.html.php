@@ -93,9 +93,9 @@ List of Configurable Settings
 
 
         <script type="module">
-            import SettingsMannager from "./Code/exe/settings.js";
-            window.rtnSettingsMannager = new SettingsMannager();
-            window.rtnSettingsMannager.applyCSS();
+            import SettingsManager from "./Code/exe/settings.js";
+            window.rtnSettingsManager = new SettingsManager();
+            window.rtnSettingsManager.applyCSS();
 
             window.rtnSettings_syncSelectors = function()
             {
@@ -114,13 +114,13 @@ List of Configurable Settings
                 localStorage.setItem("RTN-SETTING_glyphColor", document.getElementById("input_glyphColor").value);
                 localStorage.setItem("RTN-SETTING_copyGlyphSize", document.getElementById("input_copyGlyphSize").value);
 
-                window.rtnSettingsMannager.applyCSS();
+                window.rtnSettingsManager.applyCSS();
                 window.rtnSettings_syncSelectors();
             }
 
             window.rtnSettings_reset = function()
             {
-                window.rtnSettingsMannager.restoreDefaults();
+                window.rtnSettingsManager.restoreDefaults();
                 window.rtnSettings_syncSelectors();
             }
 
