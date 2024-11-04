@@ -15,19 +15,33 @@ You should have received a copy of the GNU Affero General Public License along w
 -----NOTE TO MAINTAINERS-----
 In the event that you want to restore this system, but don't care about
 setting up the metatags, you can just ignore this system. Do not allow
-Apache to direct program.html to this handler, or otherwise simply
-return $content immediately without modification
+Apache to direct program.html or program.html.php to this handler.
 -----------------------------
 */
 
+// enable error reporting
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$content = file_get_contents('./program.html');
+// collect the base version of program.html.php for modification
+$content = file_get_contents('./program.html.php');
+
+// manually preform includes because we cant trust the user-generated variable input for blind php exection
+$header_head = file_get_contents('./Resources/partials/header_head.html');
+$content = str_replace("<?php include('./Resources/partials/header_head.html'); ?>", "$header_head", $content);
+$header_body = file_get_contents('./Resources/partials/header_body.html');
+$content = str_replace("<?php include('./Resources/partials/header_body.html'); ?>", "$header_body", $content);
+
+$metadata_unfilled = file_get_contents('./Resources/partials/metatags.html');
+$content = preg_replace('/<!-- <METADATA REPLACE MARKER> -->.*<!-- <\/METADATA REPLACE MARKER> -->/s', $metadata_unfilled, $content);
+$content = str_replace("{{tags}}", "Tree,Notetaking,Rapid Tree Notetaker,RTN,UMD,University of Minnesota Duluth,rtn,Brendan Rood,brendan rood,rood,LARS Lab,lars,university of minnesota,computer science,study,learning,education,UMD Duluth", $content);
+$content = str_replace("{{siteName}}", "Rapid Tree Notetaker", $content);
+$content = str_replace("{{siteURL}}", $_SERVER["SERVER_NAME"], $content);
+$content = str_replace("{{icon}}", "./Resources/RTN-Logo.svg", $content);
 
 //record WHEN, WHO, and WHAT users access (protect with hashing!)
-if(!isset($_GET['debug']))
+if(!isset($_GET['debug'])) // if the URL contains a `debug` parameter, dont do anything as to avoid polluting the log
 {
     $timestamp = time();
     $ipAddress = base64_encode(hex2bin(hash('sha256',$_SERVER['REMOTE_ADDR'])));
@@ -110,7 +124,7 @@ if($data == "null")
 }
 else
 {
-    $url = "https://lars.d.umn.edu/RTN/program.html?enc=$encoding&cmpr=$compression&data=$data";
+    $url = "https://NONDESCRIPTDOMAIN/program.html?enc=$encoding&cmpr=$compression&data=$data";
     $cmd = "node ./decompressor.js \"$url\"";
     $output = shell_exec($cmd);
 }
@@ -153,7 +167,9 @@ if(!isset($_GET['debug']))
     file_put_contents("./Usage/accesses.csv", ",$record\n", FILE_APPEND); //append the title to access log
 }
 
+// return the content (pass the html to the browser for rendering)
 echo $content;
+
 exit; 
 
 ?>

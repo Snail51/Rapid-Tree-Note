@@ -6,4 +6,10 @@ Header set Access-Control-Allow-Methods "GET"
 
 # Forward program.html payloads to otag-handler.php to update the header with doc contents
 RewriteEngine On
-RewriteRule .*program\.html$ otag-handler.php [L]
+RewriteRule .*program\.html\.php$ otag-handler.php
+RewriteRule .*program\.html$ otag-handler.php
+# Legacy redirects
+RewriteRule .*implementation.html$ implementation.html.php
+RewriteRule .*credits.html$ credits.html.php
+RewriteRule .*inspiration.html$ inspiration.html.php
+RewriteRule .*usage.html$ usage.html.php

@@ -14,67 +14,30 @@ You should have received a copy of the GNU Affero General Public License along w
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset='utf-8'/>
-    <title>Rapid Tree Note</title>
-    <link rel="icon" href="./Resources/RTN-Logo.svg" type="image/x-icon">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <head>
+        <?php include('./Resources/partials/header_head.html'); ?>
 
-    <title>RTN Implementation</title>
-    <meta charset="utf-8">
-    <meta name="description" content="Exhaustive description of how the Rapid Tree Notetaker works">
-    <meta name="keywords" content="Tree,Notetaking,Rapid Tree Notetaker,RTN,UMD,University of Minnesota Duluth,rtn,Brendan Rood,brendan rood,rood,LARS Lab,lars,university of minnesota,computer science,study,learning,education,UMD Duluth">
-
-    <meta property="og:title" content="RTN Implementation">
-    <meta property="og:description" content="Exhaustive description of how the Rapid Tree Notetaker works">
-    <meta property="og:site_name" content="Rapid Tree Notetaker">
-    <meta property="og:url" content="https://lars.d.umn.edu/RTN">
-    <meta property="og:image" content="https://lars.d.umn.edu/RTN/Resources/RTN-Logo.png">
-
-    <meta itemprop="name" content="RTN Implementation">
-    <meta itemprop="description" content="Exhaustive description of how the Rapid Tree Notetaker works">
-    <meta itemprop="image" content="https://lars.d.umn.edu/RTN/Resources/RTN-Logo.png">
-
-    <meta name="twitter:card" content="Exhaustive description of how the Rapid Tree Notetaker works">
-    <meta name="twitter:url" content="https://lars.d.umn.edu/RTN">
-    <meta name="twitter:title" content="RTN Implementation">
-    <meta name="twitter:description" content="Exhaustive description of how the Rapid Tree Notetaker works">
-    <meta name="twitter:image" content="https://lars.d.umn.edu/RTN/Resources/RTN-Logo.png">
-    
-    <style type="text/css">
-      a{
-          color: cyan;
-      }
-      a:visited{
-        color: plum;
-      }
-    </style>
-    
-  </head>
-  <body style="background-color: rgb(44, 46, 54); font-family: monospace;">
-    <div style="display: flex; align-items: center; justify-content: center; height: 10vh; width: 100%;">
-        <div style="width: 50%; display: flex; align-items: center; justify-content: left;">
-          <h1 style="color: whitesmoke; font-size: 4vw;">Rapid Tree Notetaker</h1>
-        </div>
-        <div style="width: 10%; height: 100%; display: flex; align-items: center;; justify-content: center;">
-          <button onclick="navigateProgram()" style="width: 95%; height: 75%; background-color: rgba(67, 72, 91, 1.0); outline: solid 2px black; box-shadow: none; color: whitesmoke; font-size: 1.5vw;">Program</button>
-        </div>
-        <div style="width: 15%; height: 100%; display: flex; align-items: center; justify-content: center;">
-          <button onclick="navigateImplementation()" style="width: 95%; height: 75%; background-color: rgba(67, 72, 91, 1.0); outline: solid 2px black; box-shadow: none; color: whitesmoke; font-size: 1.5vw;">Implementation</button>
-        </div>
-        <div style="width: 10%; height: 100%; display: flex; align-items: center; justify-content: center;">
-          <button onclick="navigateInspiration()" style="width: 95%; height: 75%; background-color: rgba(67, 72, 91, 1.0); outline: solid 2px black; box-shadow: none; color: whitesmoke; font-size: 1.5vw;">Inspiration</button>
-        </div>
-        <div style="width: 10%; height: 100%; display: flex; align-items: center; justify-content: center;">
-          <button onclick="navigateCredits()" style="width: 95%; height: 75%; background-color: rgba(67, 72, 91, 1.0); outline: solid 2px black; box-shadow: none; color: whitesmoke; font-size: 1.5vw;">Credits</button>
-        </div> 
-        <div style="width: 10%; display: flex; align-items: center; justify-content: center;">
-          <img src="./Resources/RTN-Logo.svg" alt="RTN Website Logo" style="width: 5vw;"></img>
-        </div>
-    </div>
-    
-    <div style="display: flex; justify-content: center; align-items: flex-start; height: 80vh;">
-      <pre style="color: whitesmoke; font-size: 0.8vw;">
+        <?php 
+            $metadata = file_get_contents("./Resources/partials/metatags.html");
+            $metadata = str_replace("{{pageTitle}}", "RTN Implementation", $metadata);
+            $metadata = str_replace("{{description}}", "Exhaustive description of how the Rapid Tree Notetaker works", $metadata);
+            $metadata = str_replace("{{siteName}}", "Rapid Tree Notetaker", $metadata);
+            $metadata = str_replace("{{siteURL}}", $_SERVER["SERVER_NAME"], $metadata);
+            $metadata = str_replace("{{tags}}", "Tree,Notetaking,Rapid Tree Notetaker,RTN,UMD,University of Minnesota Duluth,rtn,Brendan Rood,brendan rood,rood,LARS Lab,lars,university of minnesota,computer science,study,learning,education,UMD Duluth", $metadata);
+            $metadata = str_replace("{{icon}}", "./Resources/RTN-Logo.svg", $metadata);
+            echo $metadata;
+        ?>
+        
+        <link rel="stylesheet" href="./Resources/css/rtntext.css">
+        <link rel="stylesheet" href="./Resources/css/links.css">
+      
+    </head>
+    <body style="background-color: rgb(44, 46, 54); font-family: monospace;">
+        <?php include('./Resources/partials/header_body.html'); ?>
+        <div style="height: 15vh"></div>
+        
+        <div style="display: flex; justify-content: center; align-items: flex-start; height: 80vh;">
+            <pre style="color: whitesmoke; font-size: 0.8vw;">
 Implementation
 ├── Discovery
 │   ├── In the summer of 2023, I (Brendan Rood), discovered <a href="https://tree.nathanfriend.io">https://tree.nathanfriend.io</a> and immediately fell in love with it.
@@ -259,26 +222,26 @@ Implementation
 └── Acknowledgements
     ├── This project would not have been possible without contributions from the <a href="https://cahss.d.umn.edu/centers-facilities/viz-lab-mmad-lab">MMADLab</a>, <a href="https://lars.d.umn.edu">LARSLab</a>, <a href="https://www.d.umn.edu/~pahp">Peter Peterson Ph.D.</a>, and Ethan Schurman.
     └── For more information please visit the <a href="./credits.html">credits page</a>.
-      </pre>     
-    </div>
+            </pre>     
+        </div>
 
-  <script> // subpage navigation
-    function navigateProgram()
-    {
-      location.href="./program.html";
-    }
-    function navigateInspiration()
-    {
-      location.href="./inspiration.html";
-    }
-    function navigateCredits()
-    {
-      location.href="./credits.html";
-    }
-    function navigateImplementation()
-    {
-      location.href="./implementation.html";
-    }
-  </script>
-  </body>
+        <script> // subpage navigation
+            function navigateProgram()
+            {
+                location.href="./program.html";
+            }
+            function navigateInspiration()
+            {
+                location.href="./inspiration.html";
+            }
+            function navigateCredits()
+            {
+                location.href="./credits.html";
+            }
+            function navigateImplementation()
+            {
+                ocation.href="./implementation.html";
+            }
+        </script>
+    </body>
 </html>

@@ -1,0 +1,12 @@
+@font-face 
+{
+    font-family: 'Box';
+    src: 
+        url('./../font/consola-box.woff2') format('woff2'),
+        url('./../font/consola-box.woff') format('woff');
+}
+
+.rtnText {
+    color: whitesmoke;
+    font-family: Box, monospace;
+}
