@@ -370,11 +370,16 @@ export default class Schema
         this.exe.tree.totalParse();
         payload = this.exe.tree.output;
 
-        // shrink the glyphs from size 8 to size 4
-        payload = payload.replace(/├────── ​/gm, "├── ​");
-        payload = payload.replace(/└────── ​/gm, "└── ​");
-        payload = payload.replace(/│       ​/gm, "│   ​");
-        payload = payload.replace(/        ​/gm, "    ​");
+        // resize the glyphs in the payload (default 4)
+        const glyphSize = localStorage.getItem("RTN-SETTING_copyGlyphSize");
+        const replaceFork = "├" + "─".repeat(glyphSize-2) + " ​";
+        const replaceBend = "└" + "─".repeat(glyphSize-2) + " ​";
+        const replaceLine = "│" + " ".repeat(glyphSize-2) + " ​";
+        const replaceGap = " " + " ".repeat(glyphSize-2) + " ​";
+        payload = payload.replace(/├────── ​/gm, replaceFork);
+        payload = payload.replace(/└────── ​/gm, replaceBend);
+        payload = payload.replace(/│       ​/gm, replaceLine);
+        payload = payload.replace(/        ​/gm, replaceGap);
 
         //convert bullet points back into dashes
         payload = payload.replace(/(\s*)(•)(.*)/gm, "$1-$3");

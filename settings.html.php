@@ -52,7 +52,16 @@ List of Configurable Settings
     ​└── ​Font Size
         </pre>
 
-        <div style="display: block;">
+        <div style="display: block; background-color: black; padding: 2.5%">
+            <h2>Presets</h2>
+            <div style="display: inline">
+                <span style="color: whitesmoke">Width of glyphs saved to clipboard when copying</span>
+                <input type="number" id="input_copyGlyphSize" min="4" max="32" step="1" placeholder="Number; 4-32">
+            </div>
+
+            <hr>
+
+            <h2>Colors</h2>
             <div style="display: inline">
                 <span style="color: whitesmoke">Site Color</span>
                 <input type="color" id="input_siteColor">
@@ -72,11 +81,14 @@ List of Configurable Settings
                 <span style="color: whitesmoke">Glyph Color</span>
                 <input type="color" id="input_glyphColor">
             </div>
+
+            <hr>
+
+            <button onclick="window.rtnSettings_apply()">Apply Selected Settings</button>
+            <button onclick="window.rtnSettings_reset()">Reset to default Settings</button>
         </div>
 
-        <br><br>
-        <button onclick="window.rtnSettings_apply()">Apply Selected Settings</button>
-        <button onclick="window.rtnSettings_reset()">Reset to default Settings</button>
+        
     
 
 
@@ -85,12 +97,13 @@ List of Configurable Settings
             window.rtnSettingsMannager = new SettingsMannager();
             window.rtnSettingsMannager.applyCSS();
 
-            window.rtnSettings_syncColorSelectors = function()
+            window.rtnSettings_syncSelectors = function()
             {
                 document.getElementById("input_siteColor").value = localStorage.getItem("RTN-SETTING_siteColor");
                 document.getElementById("input_backgroundColor").value = localStorage.getItem("RTN-SETTING_backgroundColor");
                 document.getElementById("input_textColor").value = localStorage.getItem("RTN-SETTING_textColor");
                 document.getElementById("input_glyphColor").value = localStorage.getItem("RTN-SETTING_glyphColor");
+                document.getElementById("input_copyGlyphSize").value = localStorage.getItem("RTN-SETTING_copyGlyphSize");
             }
 
             window.rtnSettings_apply = function()
@@ -99,18 +112,19 @@ List of Configurable Settings
                 localStorage.setItem("RTN-SETTING_backgroundColor", document.getElementById("input_backgroundColor").value);
                 localStorage.setItem("RTN-SETTING_textColor", document.getElementById("input_textColor").value);
                 localStorage.setItem("RTN-SETTING_glyphColor", document.getElementById("input_glyphColor").value);
+                localStorage.setItem("RTN-SETTING_copyGlyphSize", document.getElementById("input_copyGlyphSize").value);
 
                 window.rtnSettingsMannager.applyCSS();
-                window.rtnSettings_syncColorSelectors();
+                window.rtnSettings_syncSelectors();
             }
 
             window.rtnSettings_reset = function()
             {
                 window.rtnSettingsMannager.restoreDefaults();
-                window.rtnSettings_syncColorSelectors();
+                window.rtnSettings_syncSelectors();
             }
 
-            window.rtnSettings_syncColorSelectors();
+            window.rtnSettings_syncSelectors();
         </script>
     </body>
 </html>
