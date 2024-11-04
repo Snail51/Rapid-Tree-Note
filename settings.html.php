@@ -34,6 +34,8 @@ You should have received a copy of the GNU Affero General Public License along w
     </head>
     <body style="background-color: var(--RTN-SETTING_siteColor); font-family: monospace;">
         <?php include('./Resources/partials/header_body.html'); ?>
+
+        <div class="headerSpacer"></div>
       
         <pre style="color: var(--RTN-SETTING_textColor); font-size: 1.2vw;">
 List of Configurable Settings
@@ -79,7 +81,7 @@ List of Configurable Settings
 
 
         <script type="module">
-            import SettingsMannager from "./Code/src/settings.js";
+            import SettingsMannager from "./Code/exe/settings.js";
             window.rtnSettingsMannager = new SettingsMannager();
             window.rtnSettingsMannager.applyCSS();
 

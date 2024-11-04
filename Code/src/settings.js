@@ -12,7 +12,7 @@ RTN is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
 You should have received a copy of the GNU Affero General Public License along with RTN. It is available at ./License/COPYING. Otherwise, see <https://www.gnu.org/licenses/>
 */
 
-/* The Schema class is a container that handles user input, generates a formatted document, and synchronizes scrollbars. */
+/* Wrapper for managing user settings via localStorage*/ 
 export default class SettingsMannager
 {
     constructor()
@@ -85,7 +85,4 @@ export default class SettingsMannager
         this.fetchFromStorage();
         this.applyCSS();
     }
-
-
-
 }

@@ -52,7 +52,7 @@ You should have received a copy of the GNU Affero General Public License along w
     </head>
     <body style="background-color: rgb(44, 46, 54); font-family: monospace;">
         <?php include('./Resources/partials/header_body.html'); ?>
-        <div style="height: 15vh"></div>
+        <div class="headerSpacer"></div>
         <hr>
 
         <div id="main">

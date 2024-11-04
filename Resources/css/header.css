@@ -55,3 +55,7 @@
 .headerElement button { /* Only add a border if it is a button, DO NOT add it for the image */
     border: solid 0.5vmin black;
 }
+
+.headerSpacer {
+    height: 15vh;
+}
