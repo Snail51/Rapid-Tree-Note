@@ -8,7 +8,8 @@ Header set Access-Control-Allow-Methods "GET"
 RewriteEngine On
 RewriteRule .*program\.html\.php$ otag-handler.php
 RewriteRule .*program\.html$ otag-handler.php
-# Legacy redirects
+# Legacy (non-php) redirects
+RewriteRule .*index.html$ index.html.php
 RewriteRule .*implementation.html$ implementation.html.php
 RewriteRule .*credits.html$ credits.html.php
 RewriteRule .*inspiration.html$ inspiration.html.php

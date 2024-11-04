@@ -114,7 +114,7 @@ You should have received a copy of the GNU Affero General Public License along w
 
         <?php include('./Resources/partials/userCSSLoader.html'); ?>
     </head>
-    <body class="rtnText" style="background-color: rgb(44, 46, 54); overflow-x: auto;">
+    <body class="rtnSiteColor rtnTextColor rtnText" style="overflow-x: auto;">
         
         <?php include('./Resources/partials/header_body.html'); ?>
 

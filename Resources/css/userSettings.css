@@ -4,3 +4,16 @@
     --RTN-SETTING_textColor: #f5f5f5; /* Default color */
     --RTN-SETTING_glyphColor: #00ffff; /* Default color */
 }
+
+.rtnSiteColor {
+    background-color: var(--RTN-SETTING_siteColor); 
+}
+.rtnBackgroundColor {
+    background-color: var(--RTN-SETTING_backgroundColor); 
+}
+.rtnTextColor {
+    color: var(--RTN-SETTING_textColor); 
+}
+.rtnGlyphColor {
+    color: var(--RTN-SETTING_glyphColor); 
+}

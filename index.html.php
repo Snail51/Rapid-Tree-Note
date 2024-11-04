@@ -15,13 +15,23 @@ You should have received a copy of the GNU Affero General Public License along w
 <!DOCTYPE html>
 <html>
     <head>
-        <!--
-        NOTE TO MAINTAINERS:
-        This page  is only there as an emergency fallback incase apache (or similar) is not intercepting rewrites to `./index.html.php`.
-        It contains no metadata, as it cannot import the metadata partials via php. 
-        -->
+        <link rel="stylesheet" href="./Resources/css/userSettings.css">
+
+        <?php 
+            $metadata = file_get_contents("./Resources/partials/metatags.html");
+            $metadata = str_replace("{{pageTitle}}", "Rapid Tree Notetaker", $metadata);
+            $metadata = str_replace("{{description}}", "Notetaking program developed at the University of Minnesota Duluth", $metadata);
+            $metadata = str_replace("{{siteName}}", "Rapid Tree Notetaker", $metadata);
+            $metadata = str_replace("{{siteURL}}", $_SERVER['SERVER_NAME'], $metadata);
+            $metadata = str_replace("{{tags}}", "Tree,Notetaking,Rapid Tree Notetaker,RTN,UMD,University of Minnesota Duluth,rtn,Brendan Rood,brendan rood,rood,LARS Lab,lars,university of minnesota,computer science,study,learning,education,UMD Duluth", $metadata);
+            $metadata = str_replace("{{icon}}", "./Resources/RTN-Logo.svg", $metadata);
+            echo $metadata;
+        ?>
+
+        <link rel="stylesheet" href="./Resources/css/rtntext.css">
+        <link rel="stylesheet" href="./Resources/css/links.css">
     </head>
-    <body>
+    <body class="rtnSiteColor rtnTextColor rtnText">
         <h1>You are being redirected.</h1>
         <p>
           If you can see this for more than a few seconds something has gone wrong; your browser probably has <u>javascript disabled</u>.

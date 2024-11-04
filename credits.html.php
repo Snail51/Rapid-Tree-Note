@@ -34,12 +34,12 @@ You should have received a copy of the GNU Affero General Public License along w
       
         <?php include('./Resources/partials/userCSSLoader.html'); ?>
     </head>
-    <body style="background-color: rgb(44, 46, 54); font-family: monospace;">
+    <body class="rtnText rtnTextColor rtnSiteColor">
         <?php include('./Resources/partials/header_body.html'); ?>
         <div class="headerSpacer"></div>
       
         <div style="display: flex; justify-content: center; align-items: flex-start; height: 80vh;">
-            <pre style="color: var(--RTN-SETTING_textColor); font-size: 1.2vw;">
+            <pre class="rtnText rtnTextColor" style="font-size: 1.2vw;">
 Credits
 ├── ​Nathan Friend
 │   ​├── ​Original coder of <a href="https://tree.nathanfriend.io">https://tree.nathanfriend.io</a>

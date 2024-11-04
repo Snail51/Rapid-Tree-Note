@@ -50,7 +50,7 @@ You should have received a copy of the GNU Affero General Public License along w
 
         <?php include('./Resources/partials/userCSSLoader.html'); ?>
     </head>
-    <body style="background-color: rgb(44, 46, 54); font-family: monospace;">
+    <body class="rtnSiteColor rtnTextColor rtnText">
         <?php include('./Resources/partials/header_body.html'); ?>
         <div class="headerSpacer"></div>
         <hr>
