@@ -226,24 +226,5 @@ Implementation
     └── For more information please visit the <a href="./credits.html">credits page</a>.
             </pre>     
         </div>
-
-        <script> // subpage navigation
-            function navigateProgram()
-            {
-                location.href="./program.html";
-            }
-            function navigateInspiration()
-            {
-                location.href="./inspiration.html";
-            }
-            function navigateCredits()
-            {
-                location.href="./credits.html";
-            }
-            function navigateImplementation()
-            {
-                ocation.href="./implementation.html";
-            }
-        </script>
     </body>
 </html>

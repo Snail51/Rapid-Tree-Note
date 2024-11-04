@@ -80,24 +80,5 @@ You should have received a copy of the GNU Affero General Public License along w
           <iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR2rI5uUjhbEDsxjE_XPvceG4EeEV8zf24EHVTPYYUhdsg7l0lmVS-8OTM0aMRC2TyooDc4oi5zTUEm/pubchart?oid=281344134&amp;format=interactive"></iframe>
           <iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR2rI5uUjhbEDsxjE_XPvceG4EeEV8zf24EHVTPYYUhdsg7l0lmVS-8OTM0aMRC2TyooDc4oi5zTUEm/pubchart?oid=463137927&amp;format=interactive"></iframe>
         </div>
-
-        <script> // subpage navigation
-            function navigateProgram()
-            {
-                location.href="./program.html";
-            }
-            function navigateInspiration()
-            {
-                location.href="./inspiration.html";
-            }
-            function navigateCredits()
-            {
-                location.href="./credits.html";
-            }
-            function navigateImplementation()
-            {
-                location.href="./implementation.html";
-            }
-        </script>
     </body>
 </html>

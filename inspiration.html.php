@@ -65,24 +65,5 @@ Inspiration
     ​└── ​You are free to use and modify the code in any way you wish compatible with the GNU AGPL License, just please credit this original website and myself, "Brendan Rood".        
             </pre>     
         </div>
-
-        <script> // subpage navigation
-            function navigateProgram()
-            {
-                location.href="./program.html";
-            }
-            function navigateInspiration()
-            {
-                location.href="./inspiration.html";
-            }
-            function navigateCredits()
-            {
-                location.href="./credits.html";
-            }
-            function navigateImplementation()
-            {
-                location.href="./implementation.html";
-            }
-        </script>
     </body>
 </html>

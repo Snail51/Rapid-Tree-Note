@@ -79,24 +79,5 @@ Credits
     ​└── ​These contributions are visible on the public <a href="https://github.com/Snail51/Rapid-Tree-Note">Github repo</a>.
             </pre>     
         </div>
-
-        <script> // subpage navigation
-            function navigateProgram()
-            {
-                location.href="./program.html";
-            }
-            function navigateInspiration()
-            {
-                location.href="./inspiration.html";
-            }
-            function navigateCredits()
-            {
-                location.href="./credits.html";
-            }
-            function navigateImplementation()
-            {
-                location.href="./implementation.html";
-            }
-        </script>
     </body>
 </html>
