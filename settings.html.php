@@ -135,6 +135,21 @@ List of Configurable Settings
                     <input type="color" id="input_regexBackgroundColor">
                     <span style="color: whitesmoke">Regular Expression Background Color</span>
                 </div>
+                <br>
+                <div style="display: inline">
+                    <input type="color" id="input_checklistYesColor">
+                    <span style="color: whitesmoke">Checklist &quot;Affirmative&quot; Color</span>
+                </div>
+                <br>
+                <div style="display: inline">
+                    <input type="color" id="input_checklistNoColor">
+                    <span style="color: whitesmoke">Checklist &quot;Negative&quot; Color</span>
+                </div>
+                <br>
+                <div style="display: inline">
+                    <input type="color" id="input_checklistMaybeColor">
+                    <span style="color: whitesmoke">Checklist &quot;Partial&quot; Color</span>
+                </div>
 
                 <hr>
 
@@ -167,6 +182,9 @@ List of Configurable Settings
                 loadStorageToInputValue("input_regexPatternColor", "RTN-SETTING_css-regexPatternColor");
                 loadStorageToInputValue("input_regexFlagColor", "RTN-SETTING_css-regexFlagColor");
                 loadStorageToInputValue("input_regexBackgroundColor", "RTN-SETTING_css-regexBackgroundColor");
+                loadStorageToInputValue("input_checklistYesColor", "RTN-SETTING_css-checklistYesColor");
+                loadStorageToInputValue("input_checklistNoColor", "RTN-SETTING_css-checklistNoColor");
+                loadStorageToInputValue("input_checklistMaybeColor", "RTN-SETTING_css-checklistMaybeColor");
                 loadStorageToInputValue("input_copyGlyphSize", "RTN-SETTING_param-copyGlyphSize");
             }
 
@@ -188,6 +206,9 @@ List of Configurable Settings
                 pushInputValueToStorage("input_regexPatternColor", "RTN-SETTING_css-regexPatternColor");
                 pushInputValueToStorage("input_regexFlagColor", "RTN-SETTING_css-regexFlagColor");
                 pushInputValueToStorage("input_regexBackgroundColor", "RTN-SETTING_css-regexBackgroundColor");
+                pushInputValueToStorage("input_checklistYesColor", "RTN-SETTING_css-checklistYesColor");
+                pushInputValueToStorage("input_checklistNoColor", "RTN-SETTING_css-checklistNoColor");
+                pushInputValueToStorage("input_checklistMaybeColor", "RTN-SETTING_css-checklistMaybeColor");
                 pushInputValueToStorage("input_copyGlyphSize", "RTN-SETTING_param-copyGlyphSize");
 
                 window.rtnSettingsManager.applyCSS();

@@ -43,6 +43,10 @@ export default class SettingsManager
         setIfUnset("RTN-SETTING_css-regexPatternColor", "#c05a51");
         setIfUnset("RTN-SETTING_css-regexFlagColor", "#179ff1");
         setIfUnset("RTN-SETTING_css-regexBackgroundColor", "#2c2e36");
+        // checklist colors
+        setIfUnset("RTN-SETTING_css-checklistYesColor", "#00ff00");
+        setIfUnset("RTN-SETTING_css-checklistNoColor", "#ff0000");
+        setIfUnset("RTN-SETTING_css-checklistMaybeColor", "#ffff00");
         // parameters
         setIfUnset("RTN-SETTING_param-copyGlyphSize", 4);
 
@@ -72,6 +76,10 @@ export default class SettingsManager
         applyParam("RTN-SETTING_css-regexPatternColor");
         applyParam("RTN-SETTING_css-regexFlagColor");
         applyParam("RTN-SETTING_css-regexBackgroundColor");
+        // checklist colors
+        applyParam("RTN-SETTING_css-checklistYesColor");
+        applyParam("RTN-SETTING_css-checklistNoColor");
+        applyParam("RTN-SETTING_css-checklistMaybeColor");
 
     }
 
@@ -99,6 +107,10 @@ export default class SettingsManager
         restoreParam("RTN-SETTING_css-regexPatternColor", "#c05a51");
         restoreParam("RTN-SETTING_css-regexFlagColor", "#179ff1");
         restoreParam("RTN-SETTING_css-regexBackgroundColor", "#2c2e36");
+        // checklist colors
+        restoreParam("RTN-SETTING_css-checklistYesColor", "#00ff00");
+        restoreParam("RTN-SETTING_css-checklistNoColor", "#ff0000");
+        restoreParam("RTN-SETTING_css-checklistMaybeColor", "#ffff00");
         // parameters
         restoreParam("RTN-SETTING_param-copyGlyphSize", 4);
     }

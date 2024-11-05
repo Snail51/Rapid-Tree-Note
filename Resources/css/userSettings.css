@@ -11,6 +11,9 @@
     --RTN-SETTING_css-regexPatternColor: #c05a51; /* Default color */
     --RTN-SETTING_css-regexFlagColor: #179ff1; /* Default color */
     --RTN-SETTING_css-regexBackgroundColor: #2c2e36; /* Default color */
+    --RTN-SETTING_css-checklistYesColor: #00ff00; /* Default color */
+    --RTN-SETTING_css-checklistNoColor: #ff0000; /* Default color */
+    --RTN-SETTING_css-checklistMaybeColor: #ffff00; /* Default color */
 }
 
 .rtnSiteColor {
