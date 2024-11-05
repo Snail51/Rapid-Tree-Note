@@ -31,6 +31,7 @@ You should have received a copy of the GNU Affero General Public License along w
         
         <link rel="stylesheet" href="./Resources/css/rtntext.css">
         <link rel="stylesheet" href="./Resources/css/links.css">
+        <link rel="stylesheet" href="./Resources/css/mainPanel.css">
 
         <?php include('./Resources/partials/userCSSLoader.html'); ?>
     </head>
@@ -40,7 +41,7 @@ You should have received a copy of the GNU Affero General Public License along w
         
         <div class="headerSpacer"></div>
         
-        <div style="display: flex; justify-content: center; align-items: flex-start; height: 80vh; offset-height: 12vh">
+        <div class="mainPanel" style="justify-content: center; align-items: flex-start; offset-height: 12vh">
             <pre class="rtnTextColor" style="font-size: 0.9vw;">
 Inspiration
 ├── ​<a href="https://tree.nathanfriend.io">https://tree.nathanfriend.io</a>

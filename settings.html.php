@@ -30,14 +30,17 @@ You should have received a copy of the GNU Affero General Public License along w
         ?>
 
         <?php include('./Resources/partials/userCSSLoader.html'); ?>
+        <link rel="stylesheet" href="./Resources/css/mainPanel.css">
 
     </head>
     <body class="rtnSiteColor rtnTextColor rtnText">
         <?php include('./Resources/partials/header_body.html'); ?>
 
         <div class="headerSpacer"></div>
+
+        <div class="mainPanel">
       
-        <pre class="rtnTextColor rtnText" style="font-size: 1.2vw;">
+            <pre class="rtnTextColor rtnText" style="font-size: 1.2vw; display: block;">
 List of Configurable Settings
 ├── ​Export Settings
 │   ​├── ​Export compression method (default LZMA2, offer legacy compression with ZLIB)
@@ -50,47 +53,45 @@ List of Configurable Settings
 │   ​└── ​Font Shadow size
 └── ​Font
     ​└── ​Font Size
-        </pre>
+            </pre>
 
-        <div style="display: block; background-color: black; padding: 2.5%">
-            <h2>Presets</h2>
-            <div style="display: inline">
-                <span style="color: whitesmoke">Width of glyphs saved to clipboard when copying</span>
-                <input type="number" id="input_copyGlyphSize" min="4" max="32" step="1" placeholder="Number; 4-32">
-            </div>
+            <div style="display: block; background-color: black; padding: 2.5%">
+                <h2>Presets</h2>
+                <div style="display: inline">
+                    <span style="color: whitesmoke">Width of glyphs saved to clipboard when copying</span>
+                    <input type="number" id="input_copyGlyphSize" min="4" max="32" step="1" placeholder="Number; 4-32">
+                </div>
 
-            <hr>
+                <hr>
 
-            <h2>Colors</h2>
-            <div style="display: inline">
-                <span style="color: whitesmoke">Site Color</span>
-                <input type="color" id="input_siteColor">
-            </div>
-            <br>
-            <div style="display: inline">
-                <span style="color: whitesmoke">Background Color</span>
-                <input type="color" id="input_backgroundColor">
-            </div>
-            <br>
-            <div style="display: inline">
-                <span style="color: whitesmoke">Text Color</span>
-                <input type="color" id="input_textColor">
-            </div>
-            <br>
-            <div style="display: inline">
-                <span style="color: whitesmoke">Glyph Color</span>
-                <input type="color" id="input_glyphColor">
-            </div>
+                <h2>Colors</h2>
+                <div style="display: inline">
+                    <span style="color: whitesmoke">Site Color</span>
+                    <input type="color" id="input_siteColor">
+                </div>
+                <br>
+                <div style="display: inline">
+                    <span style="color: whitesmoke">Background Color</span>
+                    <input type="color" id="input_backgroundColor">
+                </div>
+                <br>
+                <div style="display: inline">
+                    <span style="color: whitesmoke">Text Color</span>
+                    <input type="color" id="input_textColor">
+                </div>
+                <br>
+                <div style="display: inline">
+                    <span style="color: whitesmoke">Glyph Color</span>
+                    <input type="color" id="input_glyphColor">
+                </div>
 
-            <hr>
+                <hr>
 
-            <button onclick="window.rtnSettings_apply()">Apply Selected Settings</button>
-            <button onclick="window.rtnSettings_reset()">Reset to default Settings</button>
+                <button onclick="window.rtnSettings_apply()">Apply Selected Settings</button>
+                <button onclick="window.rtnSettings_reset()">Reset to default Settings</button>
+            </div>
+            
         </div>
-
-        
-    
-
 
         <script type="module">
             import SettingsManager from "./Code/exe/settings.js";

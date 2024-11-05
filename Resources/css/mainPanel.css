@@ -1,0 +1,12 @@
+.mainPanel {
+    display: flex;
+    flex-direction: column;
+    width: 96%;
+    min-height: 10vh;
+    background-color: var(--RTN-SETTING_backgroundColor);
+    border: solid 0.5vmin black;
+    outline: solid 4vw transparent;
+    padding: 1%;
+    align-items: center;
+    justify-content: center;
+}

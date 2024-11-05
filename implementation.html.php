@@ -31,6 +31,7 @@ You should have received a copy of the GNU Affero General Public License along w
         
         <link rel="stylesheet" href="./Resources/css/rtntext.css">
         <link rel="stylesheet" href="./Resources/css/links.css">
+        <link rel="stylesheet" href="./Resources/css/mainPanel.css">
 
         <?php include('./Resources/partials/userCSSLoader.html'); ?>
     </head>
@@ -38,7 +39,7 @@ You should have received a copy of the GNU Affero General Public License along w
         <?php include('./Resources/partials/header_body.html'); ?>
         <div class="headerSpacer"></div>
         
-        <div style="display: flex; justify-content: center; align-items: flex-start; height: 80vh;">
+        <div class="mainPanel" style="justify-content: center; align-items: flex-start;">
             <pre class="rtnTextColor rtnText" style="font-size: 0.8vw;">
 Implementation
 ├── Discovery

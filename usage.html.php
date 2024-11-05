@@ -47,6 +47,7 @@ You should have received a copy of the GNU Affero General Public License along w
 
         <link rel="stylesheet" href="./Resources/css/rtntext.css">
         <link rel="stylesheet" href="./Resources/css/links.css">
+        
 
         <?php include('./Resources/partials/userCSSLoader.html'); ?>
     </head>
