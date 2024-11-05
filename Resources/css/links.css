@@ -1,7 +1,7 @@
 a{
-    color: rgb(66, 135, 255);
+    color: var(--RTN-SETTING_css-linkUnvisitedColor);
 }
 
 a:visited{
-    color: plum;
+    color: var(--RTN-SETTING_css-linkVisitedColor);
 }

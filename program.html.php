@@ -55,10 +55,10 @@ You should have received a copy of the GNU Affero General Public License along w
             width: max-content;
             min-width: 90vw; /* Ensure it can grow */
             min-height: 70vh;
-            background-color: var(--RTN-SETTING_backgroundColor);
+            background-color: var(--RTN-SETTING_css-backgroundColor);
             border: solid 0.25vw black;
             outline: transparent;
-            color: var(--RTN-SETTING_textColor);
+            color: var(--RTN-SETTING_css-textColor);
             font-family: Box, monospace;
             tab-size:8;
             line-height: 1.2;
@@ -74,7 +74,7 @@ You should have received a copy of the GNU Affero General Public License along w
         #source {
             z-index: 2;
             resize: none;
-            caret-color: var(--RTN-SETTING_textColor);
+            caret-color: var(--RTN-SETTING_css-textColor);
             position: absolute;
             left: 0;
             top: 0;
@@ -101,7 +101,7 @@ You should have received a copy of the GNU Affero General Public License along w
             position: fixed;
             z-index: 10;
             width: 96%;
-            background-color: var(--RTN-SETTING_backgroundColor);
+            background-color: var(--RTN-SETTING_css-backgroundColor);
             border: solid 0.25vw black;
             outline: solid 4vw transparent;
             padding: 1%;

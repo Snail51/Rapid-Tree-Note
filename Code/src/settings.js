@@ -17,72 +17,89 @@ export default class SettingsManager
 {
     constructor()
     {
-        // set defaults if unset
-        if(!("RTN-SETTING_compressionMethod" in localStorage))
+        function setIfUnset(key, value)
         {
-            localStorage.setItem("RTN-SETTING_compressionMethod", "LZMA2");
-        }
-        if(!("RTN-SETTING_copyGlyphSize" in localStorage))
-        {
-            localStorage.setItem("RTN-SETTING_copyGlyphSize", 4);
-        }
-        if(!("RTN-SETTING_siteColor" in localStorage))
-        {
-            localStorage.setItem("RTN-SETTING_siteColor", "#2c2e36");
-        }
-        if(!("RTN-SETTING_backgroundColor" in localStorage))
-        {
-            localStorage.setItem("RTN-SETTING_backgroundColor", "#43485b");
-        }
-        if(!("RTN-SETTING_textColor" in localStorage))
-        {
-            localStorage.setItem("RTN-SETTING_textColor", "#f5f5f5");
-        }
-        if(!("RTN-SETTING_glyphColor" in localStorage))
-        {
-            localStorage.setItem("RTN-SETTING_glyphColor", "#00ffff");
+            if(!(key in localStorage))
+            {
+                localStorage.setItem(key, value);
+            }
         }
 
-        // load stored values
-        this.compressionMethod = localStorage.getItem("RTN-SETTING_compressionMethod");
-        this.copyGlyphSize = localStorage.getItem("RTN-SETTING_copyGlyphSize");
-        this.siteColor = localStorage.getItem("RTN-SETTING_siteColor");
-        this.backgroundColor = localStorage.getItem("RTN-SETTING_backgroundColor");
-        this.textColor = localStorage.getItem("RTN-SETTING_textColor");
-        this.glyphColor = localStorage.getItem("RTN-SETTING_glyphColor");
-    }
+        //// set defaults if unset
+        // main colors
+        setIfUnset("RTN-SETTING_css-siteColor", "#2c2e36")
+        setIfUnset("RTN-SETTING_css-backgroundColor", "#43485b");
+        setIfUnset("RTN-SETTING_css-textColor", "#f5f5f5");
+        setIfUnset("RTN-SETTING_css-glyphColor", "#00ffff");
+        // link colors
+        setIfUnset("RTN-SETTING_css-linkUnvisitedColor", "#4287ff");
+        setIfUnset("RTN-SETTING_css-linkVisitedColor", "#dda0dd");
+        // code colors
+        setIfUnset("RTN-SETTING_css-codeTextColor", "#e8912d");
+        setIfUnset("RTN-SETTING_css-codeBackgroundColor", "#2c2e36");
+        // list colors
+        setIfUnset("RTN-SETTING_css-listElementColor", "#ffd700");
+        // regex colors
+        setIfUnset("RTN-SETTING_css-regexPatternColor", "#c05a51");
+        setIfUnset("RTN-SETTING_css-regexFlagColor", "#179ff1");
+        setIfUnset("RTN-SETTING_css-regexBackgroundColor", "#2c2e36");
+        // parameters
+        setIfUnset("RTN-SETTING_param-copyGlyphSize", 4);
 
-    fetchFromStorage()
-    {
-        // load stored values
-        this.compressionMethod = localStorage.getItem("RTN-SETTING_compressionMethod");
-        this.copyGlyphSize = localStorage.getItem("RTN-SETTING_copyGlyphSize");
-        this.siteColor = localStorage.getItem("RTN-SETTING_siteColor");
-        this.backgroundColor = localStorage.getItem("RTN-SETTING_backgroundColor");
-        this.textColor = localStorage.getItem("RTN-SETTING_textColor");
-        this.glyphColor = localStorage.getItem("RTN-SETTING_glyphColor");
     }
 
     applyCSS()
     {
-        this.fetchFromStorage();
+        function applyParam(key)
+        {
+            document.documentElement.style.setProperty("--" + key, localStorage.getItem(key));
+        }
 
-        document.documentElement.style.setProperty('--RTN-SETTING_siteColor', this.siteColor);
-        document.documentElement.style.setProperty('--RTN-SETTING_backgroundColor', this.backgroundColor);
-        document.documentElement.style.setProperty('--RTN-SETTING_textColor', this.textColor);
-        document.documentElement.style.setProperty('--RTN-SETTING_glyphColor', this.glyphColor);
+        // main colors
+        applyParam("RTN-SETTINGS_css-siteColor");
+        applyParam("RTN-SETTINGS_css-backgroundColor");
+        applyParam("RTN-SETTINGS_css-textColor");
+        applyParam("RTN-SETTINGS_css-glyphColor");
+        // link colors
+        applyParam("RTN-SETTING_css-linkUnvisitedColor");
+        applyParam("RTN-SETTING_css-linkVisitedColor");
+        // code colors
+        applyParam("RTN-SETTING_css-codeTextColor");
+        applyParam("RTN-SETTING_css-codeBackgroundColor");
+        // list colors
+        applyParam("RTN-SETTING_css-listElementColor");
+        // regex colors
+        applyParam("RTN-SETTING_css-regexPatternColor");
+        applyParam("RTN-SETTING_css-regexFlagColor");
+        applyParam("RTN-SETTING_css-regexBackgroundColor");
+
     }
 
     restoreDefaults()
     {
-        localStorage.setItem("RTN-SETTING_compressionMethod", "LZMA2");
-        localStorage.setItem("RTN-SETTING_copyGlyphSize", 4);
-        localStorage.setItem("RTN-SETTING_siteColor", "#2c2e36");
-        localStorage.setItem("RTN-SETTING_backgroundColor", "#43485b");
-        localStorage.setItem("RTN-SETTING_textColor", "#f5f5f5");
-        localStorage.setItem("RTN-SETTING_glyphColor", "#00ffff");
+        function restoreParam(key, value)
+        {
+            localStorage.setItem(key, value);
+        }
 
-        this.fetchFromStorage();
-        this.applyCSS();
+        // main colors
+        restoreParam("RTN-SETTING_css-siteColor", "#2c2e36")
+        restoreParam("RTN-SETTING_css-backgroundColor", "#43485b");
+        restoreParam("RTN-SETTING_css-textColor", "#f5f5f5");
+        restoreParam("RTN-SETTING_css-glyphColor", "#00ffff");
+        // link colors
+        restoreParam("RTN-SETTING_css-linkUnvisitedColor", "#4287ff");
+        restoreParam("RTN-SETTING_css-linkVisitedColor", "#dda0dd");
+        // code colors
+        restoreParam("RTN-SETTING_css-codeTextColor", "#e8912d");
+        restoreParam("RTN-SETTING_css-codeBackgroundColor", "#2c2e36");
+        // list colors
+        restoreParam("RTN-SETTING_css-listElementColor", "#ffd700");
+        // regex colors
+        restoreParam("RTN-SETTING_css-regexPatternColor", "#c05a51");
+        restoreParam("RTN-SETTING_css-regexFlagColor", "#179ff1");
+        restoreParam("RTN-SETTING_css-regexBackgroundColor", "#2c2e36");
+        // parameters
+        restoreParam("RTN-SETTING_param-copyGlyphSize", 4);
     }
 }

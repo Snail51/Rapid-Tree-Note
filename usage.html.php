@@ -40,7 +40,7 @@ You should have received a copy of the GNU Affero General Public License along w
             top: 5vh;
             background-color: rgba(67, 72, 91, 1.0);
             outline: solid 4px black;
-            color: var(--RTN-SETTING_textColor);
+            color: var(--RTN-SETTING_css-textColor);
             padding: 1vw;
         }
         </style>

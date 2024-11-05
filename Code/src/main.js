@@ -371,7 +371,7 @@ export default class Schema
         payload = this.exe.tree.output;
 
         // resize the glyphs in the payload (default 4)
-        const glyphSize = localStorage.getItem("RTN-SETTING_copyGlyphSize");
+        const glyphSize = localStorage.getItem("RTN-SETTING_param-copyGlyphSize");
         const replaceFork = "├" + "─".repeat(glyphSize-2) + " ​";
         const replaceBend = "└" + "─".repeat(glyphSize-2) + " ​";
         const replaceLine = "│" + " ".repeat(glyphSize-2) + " ​";
@@ -1421,29 +1421,29 @@ class ExeBuffer extends VirtualBuffer
             });
 
             // handle italic
-            data = data.replace(/(?<!\*|\\)(\*{1})([^\n*]+?)(\1)(?!\*|\\)/g, '<span style="color: var(--RTN-SETTING_glyphColor)"><b>$1</b></span><i>$2</i><span style="color: var(--RTN-SETTING_glyphColor)"><b>$3</b></span>');
+            data = data.replace(/(?<!\*|\\)(\*{1})([^\n*]+?)(\1)(?!\*|\\)/g, '<span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$1</b></span><i>$2</i><span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$3</b></span>');
 
             // handle bullet points
-            data = data.replace(/^((?:[└├│─ ]*​)*)(-)( )/gm, "$1<span style=\"color: rgb(255,215,0)\">•</span>$3"); // dash case
-            data = data.replace(/^((?:[└├│─ ]*​)*)(\*)( )(?!.*\*)/gm, "$1<span style=\"color: rgb(255,215,0)\">•</span>$3"); // asterisk case (prevent overriding italic)
+            data = data.replace(/^((?:[└├│─ ]*​)*)(-)( )/gm, "$1<span style=\"color: var(--RTN-SETTING_css-listElementColor)\">•</span>$3"); // dash case
+            data = data.replace(/^((?:[└├│─ ]*​)*)(\*)( )(?!.*\*)/gm, "$1<span style=\"color: var(--RTN-SETTING_listElementColor)\">•</span>$3"); // asterisk case (prevent overriding italic)
 
             // handle ordered lists
-            data = data.replace(/^((?:[└├│─ ]*​)*)([0-9]+\.)( )/gm, "$1<span style=\"color: rgb(255,215,0)\"><b>$2</b></span>$3");
+            data = data.replace(/^((?:[└├│─ ]*​)*)([0-9]+\.)( )/gm, "$1<span style=\"color: var(--RTN-SETTING_css-listElementColor)\"><b>$2</b></span>$3");
 
             //handle underline
-            data = data.replace(/(?<!\_|\\)(\_{2})([^\n_]+?)(\1)(?!\_|\\)/g, '<span style="color: var(--RTN-SETTING_glyphColor)"><b>$1</b></span><u>$2</u><span style="color: var(--RTN-SETTING_glyphColor)"><b>$3</b></span>');
+            data = data.replace(/(?<!\_|\\)(\_{2})([^\n_]+?)(\1)(?!\_|\\)/g, '<span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$1</b></span><u>$2</u><span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$3</b></span>');
             
             //handle spoiler - made possible by https://codepen.io/volv/details/RrjooB
-            data = data.replace(/(?<!\||\\)(\|{2})([^\n\|]+?)(\1)(?!\||\\)/g, '<span style="color: var(--RTN-SETTING_glyphColor)"><b>$1</b></span><a style=\"z-index: 4; pointer-events: all; position: relative;\" href=\"#s\" title=\"$2\"><span style=\"font-size: 0vw;\">$2</span></a><span style="color: var(--RTN-SETTING_glyphColor)"><b>$3</b></span>');
+            data = data.replace(/(?<!\||\\)(\|{2})([^\n\|]+?)(\1)(?!\||\\)/g, '<span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$1</b></span><a style=\"z-index: 4; pointer-events: all; position: relative;\" href=\"#s\" title=\"$2\"><span style=\"font-size: 0vw;\">$2</span></a><span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$3</b></span>');
 
             // handle bold
-            data = data.replace(/(?<!\*|\\)(\*{2})([^\n*]+?)(\1)(?!\*|\\)/g, '<span style="color: var(--RTN-SETTING_glyphColor)"><b>$1</b></span><b>$2</b><span style="color: var(--RTN-SETTING_glyphColor)"><b>$3</b></span>');
+            data = data.replace(/(?<!\*|\\)(\*{2})([^\n*]+?)(\1)(?!\*|\\)/g, '<span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$1</b></span><b>$2</b><span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$3</b></span>');
 
             // handle bold AND italic
-            data = data.replace(/(?<!\*|\\)(\*{3})([^\n*]+?)(\1)(?!\*|\\)/g, '<span style="color: var(--RTN-SETTING_glyphColor)"><b>$1</b></span><i><b>$2</b></i><span style="color: var(--RTN-SETTING_glyphColor)"><b>$3</b></span>');
+            data = data.replace(/(?<!\*|\\)(\*{3})([^\n*]+?)(\1)(?!\*|\\)/g, '<span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$1</b></span><i><b>$2</b></i><span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$3</b></span>');
 
             // handle italic
-            data = data.replace(/(?<!\~|\\)(\~{2})([^\n~]+?)(\1)(?!\~|\\)/g, '<span style="color: var(--RTN-SETTING_glyphColor)"><b>$1</b></span><del>$2</del><span style="color: var(--RTN-SETTING_glyphColor)"><b>$3</b></span>');
+            data = data.replace(/(?<!\~|\\)(\~{2})([^\n~]+?)(\1)(?!\~|\\)/g, '<span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$1</b></span><del>$2</del><span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$3</b></span>');
 
             // handle superscript
             data = data.replace(/(?<!\\|\!)(\^)(.*?)(\^)(?<!\\|\!)/g, "<b>$1</b><span style=\"display: inline-block; top: -0.2vw; position: relative; line-height: 0.000001em; margin-block: 0;\">$2</span><b>$3</b>");
@@ -1452,10 +1452,10 @@ class ExeBuffer extends VirtualBuffer
             data = data.replace(/(?<!\\)(\!\^)(.*?)(\!\^)(?<!\\)/g, "<b>$1</b><span style=\"display: inline-block; top: 0.2vw; position: relative; line-height: 0.000001em; margin-block: 0;\">$2</span><b>$3</b>");
 
             //handle code blocks
-            data = data.replace(/(?<!\`)(\`{1})([^\n`]+?)(\1)(?!\`)/g, '<span style="color: rgb(232,145,45); background-color: rgb(44, 46, 54);"><b>$1</b>$2<b>$3</b></span>');
+            data = data.replace(/(?<!\`)(\`{1})([^\n`]+?)(\1)(?!\`)/g, '<span style="color: var(--RTN-SETTING_css-codeTextColor); background-color: var(--RTN-SETTING_css-codeBackgroundColor);"><b>$1</b>$2<b>$3</b></span>');
 
             //handle regex blocks
-            data = data.replace(/(RE)(\/)((?:[^\r\n\t\f\v ]|\\ )+)(\/)([gmixsuUAJD]*)/g, '<span style="background-color: rgb(44, 46, 54)"><span style="color: rgb(23,159,241)"><b>$1$2</b></span><span style="color: rgb(192,90,81)">$3</span><span style="color: rgb(23,159,241)"><b>$4$5</b></span></span>');
+            data = data.replace(/(RE)(\/)((?:[^\r\n\t\f\v ]|\\ )+)(\/)([gmixsuUAJD]*)/g, '<span style="background-color: var(--RTN-SETTING_css-regexBackgroundColor)"><span style="color: var(--RTN-SETTING_css-regexFlagColor)"><b>$1$2</b></span><span style="color: var(--RTN-SETTING_css-regexPatternColor)">$3</span><span style="color: var(--RTN-SETTING_css-regexFlagColor)"><b>$4$5</b></span></span>');
             
             // handle manual highlight definition
             data = data.replace(/(\[hc)([0-9abcdef])([0-9abcdef])([0-9abcdef])(\])(.*?)(\1)(\2)(\3)(\4)(\5)/g, function(match, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11) {
@@ -1480,7 +1480,7 @@ class ExeBuffer extends VirtualBuffer
 
             // change the color of the glyphs to the user's selected `glyphColor`
             data = data.replace(/[└├│─ ]*​/gm, function(match) {
-                return `<span style="color: var(--RTN-SETTING_glyphColor);">${match}</span>`;
+                return `<span style="color: var(--RTN-SETTING_color-glyph);">${match}</span>`;
             });
 
         }

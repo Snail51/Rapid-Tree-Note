@@ -50,7 +50,18 @@ List of Configurable Settings
 │   ​├── ​Background Color
 │   ​├── ​Text Default Color
 │   ​├── ​Glyph Default Color
-│   ​└── ​Font Shadow size
+│   ​├── ​Font Shadow size
+│   ​├── ​Links
+│   ​│   ​├── ​Link (unvisited)
+│   ​│   ​└── ​Link (visited)
+│   ​├── ​Code
+│   ​│   ​├── ​Computer Code (text)
+│   ​│   ​└── ​Computer Code (background)
+│   ​├── ​Lists
+│   ​└── ​Regular Expressions
+│   ​    ​├── ​Regexp pattern
+│   ​    ​├── ​Regexp flags
+│   ​    ​└── ​Regexp background
 └── ​Font
     ​└── ​Font Size
             </pre>
@@ -58,31 +69,71 @@ List of Configurable Settings
             <div style="display: block; background-color: black; padding: 2.5%">
                 <h2>Presets</h2>
                 <div style="display: inline">
-                    <span style="color: whitesmoke">Width of glyphs saved to clipboard when copying</span>
                     <input type="number" id="input_copyGlyphSize" min="4" max="32" step="1" placeholder="Number; 4-32">
+                    <span style="color: whitesmoke">Width of glyphs saved to clipboard when copying</span>
                 </div>
 
                 <hr>
 
                 <h2>Colors</h2>
                 <div style="display: inline">
-                    <span style="color: whitesmoke">Site Color</span>
                     <input type="color" id="input_siteColor">
+                    <span style="color: whitesmoke">Site Color</span>
                 </div>
                 <br>
                 <div style="display: inline">
-                    <span style="color: whitesmoke">Background Color</span>
                     <input type="color" id="input_backgroundColor">
+                    <span style="color: whitesmoke">Background Color</span>
                 </div>
                 <br>
                 <div style="display: inline">
-                    <span style="color: whitesmoke">Text Color</span>
                     <input type="color" id="input_textColor">
+                    <span style="color: whitesmoke">Text Color</span>
                 </div>
                 <br>
                 <div style="display: inline">
-                    <span style="color: whitesmoke">Glyph Color</span>
                     <input type="color" id="input_glyphColor">
+                    <span style="color: whitesmoke">Glyph Color</span>
+                </div>
+                <br>
+                <div style="display: inline">
+                    <input type="color" id="input_linkUnvisitedColor">
+                    <span style="color: whitesmoke">Link Color (Unvisited)</span>
+                </div>
+                <br>
+                <div style="display: inline">
+                    <input type="color" id="input_linkVisitedColor">
+                    <span style="color: whitesmoke">Link Color (Visited)</span>
+                </div>
+                <br>
+                <div style="display: inline">
+                    <input type="color" id="input_codeTextColor">
+                    <span style="color: whitesmoke">Code Text Color</span>
+                </div>
+                <br>
+                <div style="display: inline">
+                    <input type="color" id="input_codeBackgroundColor">
+                    <span style="color: whitesmoke">Code Background Color</span>
+                </div>
+                <br>
+                <div style="display: inline">
+                    <input type="color" id="input_listElementColor">
+                    <span style="color: whitesmoke">List Header Color</span>
+                </div>
+                <br>
+                <div style="display: inline">
+                    <input type="color" id="input_regexPatternColor">
+                    <span style="color: whitesmoke">Regular Expression Pattern Color</span>
+                </div>
+                <br>
+                <div style="display: inline">
+                    <input type="color" id="input_regexFlagColor">
+                    <span style="color: whitesmoke">Regular Expression Flag Color</span>
+                </div>
+                <br>
+                <div style="display: inline">
+                    <input type="color" id="input_regexBackgroundColor">
+                    <span style="color: whitesmoke">Regular Expression Background Color</span>
                 </div>
 
                 <hr>
@@ -100,20 +151,44 @@ List of Configurable Settings
 
             window.rtnSettings_syncSelectors = function()
             {
-                document.getElementById("input_siteColor").value = localStorage.getItem("RTN-SETTING_siteColor");
-                document.getElementById("input_backgroundColor").value = localStorage.getItem("RTN-SETTING_backgroundColor");
-                document.getElementById("input_textColor").value = localStorage.getItem("RTN-SETTING_textColor");
-                document.getElementById("input_glyphColor").value = localStorage.getItem("RTN-SETTING_glyphColor");
-                document.getElementById("input_copyGlyphSize").value = localStorage.getItem("RTN-SETTING_copyGlyphSize");
+                function loadStorageToInputValue(elementId, key)
+                {
+                    document.getElementById(elementId).value = localStorage.getItem(key);
+                }
+                loadStorageToInputValue("input_siteColor", "RTN-SETTING_css-siteColor");
+                loadStorageToInputValue("input_backgroundColor", "RTN-SETTING_css-backgroundColor");
+                loadStorageToInputValue("input_textColor", "RTN-SETTING_css-textColor");
+                loadStorageToInputValue("input_glyphColor", "RTN-SETTING_css-glyphColor");
+                loadStorageToInputValue("input_linkUnvisitedColor", "RTN-SETTING_css-linkUnvisitedColor");
+                loadStorageToInputValue("input_linkVisitedColor", "RTN-SETTING_css-linkVisitedColor");
+                loadStorageToInputValue("input_codeTextColor", "RTN-SETTING_css-codeTextColor");
+                loadStorageToInputValue("input_codeBackgroundColor", "RTN-SETTING_css-codeBackgroundColor");
+                loadStorageToInputValue("input_listElementColor", "RTN-SETTING_css-listElementColor");
+                loadStorageToInputValue("input_regexPatternColor", "RTN-SETTING_css-regexPatternColor");
+                loadStorageToInputValue("input_regexFlagColor", "RTN-SETTING_css-regexFlagColor");
+                loadStorageToInputValue("input_regexBackgroundColor", "RTN-SETTING_css-regexBackgroundColor");
+                loadStorageToInputValue("input_copyGlyphSize", "RTN-SETTING_param-copyGlyphSize");
             }
 
             window.rtnSettings_apply = function()
             {
-                localStorage.setItem("RTN-SETTING_siteColor", document.getElementById("input_siteColor").value);
-                localStorage.setItem("RTN-SETTING_backgroundColor", document.getElementById("input_backgroundColor").value);
-                localStorage.setItem("RTN-SETTING_textColor", document.getElementById("input_textColor").value);
-                localStorage.setItem("RTN-SETTING_glyphColor", document.getElementById("input_glyphColor").value);
-                localStorage.setItem("RTN-SETTING_copyGlyphSize", document.getElementById("input_copyGlyphSize").value);
+                function pushInputValueToStorage(elementId, key)
+                {
+                    localStorage.setItem(key, document.getElementById(elementId).value);
+                }
+                pushInputValueToStorage("input_siteColor", "RTN-SETTING_css-siteColor");
+                pushInputValueToStorage("input_backgroundColor", "RTN-SETTING_css-backgroundColor");
+                pushInputValueToStorage("input_textColor", "RTN-SETTING_css-textColor");
+                pushInputValueToStorage("input_glyphColor", "RTN-SETTING_css-glyphColor");
+                pushInputValueToStorage("input_linkUnvisitedColor", "RTN-SETTING_css-linkUnvisitedColor");
+                pushInputValueToStorage("input_linkVisitedColor", "RTN-SETTING_css-linkVisitedColor");
+                pushInputValueToStorage("input_codeTextColor", "RTN-SETTING_css-codeTextColor");
+                pushInputValueToStorage("input_codeBackgroundColor", "RTN-SETTING_css-codeBackgroundColor");
+                pushInputValueToStorage("input_listElementColor", "RTN-SETTING_css-listElementColor");
+                pushInputValueToStorage("input_regexPatternColor", "RTN-SETTING_css-regexPatternColor");
+                pushInputValueToStorage("input_regexFlagColor", "RTN-SETTING_css-regexFlagColor");
+                pushInputValueToStorage("input_regexBackgroundColor", "RTN-SETTING_css-regexBackgroundColor");
+                pushInputValueToStorage("input_copyGlyphSize", "RTN-SETTING_param-copyGlyphSize");
 
                 window.rtnSettingsManager.applyCSS();
                 window.rtnSettings_syncSelectors();
@@ -122,6 +197,7 @@ List of Configurable Settings
             window.rtnSettings_reset = function()
             {
                 window.rtnSettingsManager.restoreDefaults();
+                window.rtnSettingsManager.applyCSS();
                 window.rtnSettings_syncSelectors();
             }
 

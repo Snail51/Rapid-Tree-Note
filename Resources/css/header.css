@@ -5,7 +5,7 @@
     z-index: 10;
     width: 96%;
     height: 10vh;
-    background-color: var(--RTN-SETTING_backgroundColor);
+    background-color: var(--RTN-SETTING_css-backgroundColor);
     border: solid 0.5vmin black;
     outline: solid 4vw transparent;
     padding: 1%;
@@ -20,7 +20,7 @@
     align-items: center;
     justify-content: left;
     vertical-align: middle;
-    color: var(--RTN-SETTING_textColor);
+    color: var(--RTN-SETTING_css-textColor);
     font-size: 4vw;
 }
 
@@ -32,9 +32,9 @@
     vertical-align: middle;
     justify-content: center;
     border: none;
-    background-color: var(--RTN-SETTING_backgroundColor);
+    background-color: var(--RTN-SETTING_css-backgroundColor);
     box-shadow: none;
-    color: var(--RTN-SETTING_textColor);
+    color: var(--RTN-SETTING_css-textColor);
     padding: 0.25vmin;
 }
 
@@ -45,10 +45,10 @@
     align-items: center;
     vertical-align: middle;
     justify-content: center;
-    background-color: var(--RTN-SETTING_backgroundColor);
+    background-color: var(--RTN-SETTING_css-backgroundColor);
     font-size: 2.5vmin;
     white-space: nowrap;
-    color: var(--RTN-SETTING_textColor);
+    color: var(--RTN-SETTING_css-textColor);
     
 }
 
