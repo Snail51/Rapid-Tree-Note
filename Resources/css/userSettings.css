@@ -1,19 +1,22 @@
 :root {
-    --RTN-SETTING_css-siteColor: #2c2e36; /* Default color */
-    --RTN-SETTING_css-backgroundColor: #43485b; /* Default color */
-    --RTN-SETTING_css-textColor: #f5f5f5; /* Default color */
-    --RTN-SETTING_css-glyphColor: #00ffff; /* Default color */
-    --RTN-SETTING_css-linkUnvisitedColor: #4287ff; /* Default color */
-    --RTN-SETTING_css-linkVisitedColor: #dda0dd; /* Default color */
-    --RTN-SETTING_css-codeTextColor: #e8912d; /* Default color */
-    --RTN-SETTING_css-codeBackgroundColor: #2c2e36; /* Default color */
-    --RTN-SETTING_css-listElementColor: #ffd700; /* Default color */
-    --RTN-SETTING_css-regexPatternColor: #c05a51; /* Default color */
-    --RTN-SETTING_css-regexFlagColor: #179ff1; /* Default color */
-    --RTN-SETTING_css-regexBackgroundColor: #2c2e36; /* Default color */
-    --RTN-SETTING_css-checklistYesColor: #00ff00; /* Default color */
-    --RTN-SETTING_css-checklistNoColor: #ff0000; /* Default color */
-    --RTN-SETTING_css-checklistMaybeColor: #ffff00; /* Default color */
+    /* The given value is just a default. It will be ovwerwritten as the DOM loads. */
+    --RTN-SETTING_css-siteColor: #2c2e36;
+    --RTN-SETTING_css-backgroundColor: #43485b;
+    --RTN-SETTING_css-textColor: #f5f5f5;
+    --RTN-SETTING_css-glyphColor: #00ffff;
+    --RTN-SETTING_css-linkUnvisitedColor: #4287ff;
+    --RTN-SETTING_css-linkVisitedColor: #dda0dd;
+    --RTN-SETTING_css-codeTextColor: #e8912d;
+    --RTN-SETTING_css-codeBackgroundColor: #2c2e36;
+    --RTN-SETTING_css-listElementColor: #ffd700;
+    --RTN-SETTING_css-regexPatternColor: #c05a51;
+    --RTN-SETTING_css-regexFlagColor: #179ff1;
+    --RTN-SETTING_css-regexBackgroundColor: #2c2e36;
+    --RTN-SETTING_css-checklistYesColor: #00ff00;
+    --RTN-SETTING_css-checklistNoColor: #ff0000;
+    --RTN-SETTING_css-checklistMaybeColor: #ffff00;
+    --RTN-SETTING_css-dnlValidColor: #52eb00;
+    --RTN-SETTING_css-dnlInvalidColor: #ff5555;
 }
 
 .rtnSiteColor {

@@ -1400,7 +1400,7 @@ class ExeBuffer extends VirtualBuffer
                     window.dirnavIndex = i;
                     lines[i] = lines[i].replace(/(DNL|RTN|DL)([\.\~]{0,1})((?:\/\.\.|\/\[[^\]]+\])+)(\/?)/g, function(match, $0, $1, $2, $3) {
                         var valid = window.main.dirnav(null, $0+$1+$2+$3, window.dirnavIndex, true);
-                        var color = valid? "#52eb00" : "#ff5555"; //green if valid, red if invalid
+                        var color = valid? "var(--RTN-SETTING_css-dnlValidColor)" : "var(--RTN-SETTING_css-dnlInvalidColor)"; //color used is dependent on validity
                         const result = `<a style="z-index: 4; pointer-events: all; position: relative; color: ${color};" href="#" onclick="window.main.dirnav(event, '${$0+$1+$2+$3}', ${window.dirnavIndex});"><b>${$0+$1+$2+$3}</b></a>`;
                         return result;
                     });

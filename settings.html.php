@@ -150,6 +150,16 @@ List of Configurable Settings
                     <input type="color" id="input_checklistMaybeColor">
                     <span style="color: whitesmoke">Checklist &quot;Partial&quot; Color</span>
                 </div>
+                <br>
+                <div style="display: inline">
+                    <input type="color" id="input_dnlValidColor">
+                    <span style="color: whitesmoke">DNL Link Color (Valid)</span>
+                </div>
+                <br>
+                <div style="display: inline">
+                    <input type="color" id="input_dnlInvalidColor">
+                    <span style="color: whitesmoke">DNL Link Color (Invalid)</span>
+                </div>
 
                 <hr>
 
@@ -185,6 +195,8 @@ List of Configurable Settings
                 loadStorageToInputValue("input_checklistYesColor", "RTN-SETTING_css-checklistYesColor");
                 loadStorageToInputValue("input_checklistNoColor", "RTN-SETTING_css-checklistNoColor");
                 loadStorageToInputValue("input_checklistMaybeColor", "RTN-SETTING_css-checklistMaybeColor");
+                loadStorageToInputValue("input_dnlValidColor", "RTN-SETTING_css-dnlValidColor");
+                loadStorageToInputValue("input_dnlInvalidColor", "RTN-SETTING_css-dnlInvalidColor");
                 loadStorageToInputValue("input_copyGlyphSize", "RTN-SETTING_param-copyGlyphSize");
             }
 
@@ -209,6 +221,8 @@ List of Configurable Settings
                 pushInputValueToStorage("input_checklistYesColor", "RTN-SETTING_css-checklistYesColor");
                 pushInputValueToStorage("input_checklistNoColor", "RTN-SETTING_css-checklistNoColor");
                 pushInputValueToStorage("input_checklistMaybeColor", "RTN-SETTING_css-checklistMaybeColor");
+                pushInputValueToStorage("input_dnlValidColor", "RTN-SETTING_css-dnlValidColor");
+                pushInputValueToStorage("input_dnlInvalidColor", "RTN-SETTING_css-dnlInvalidColor");
                 pushInputValueToStorage("input_copyGlyphSize", "RTN-SETTING_param-copyGlyphSize");
 
                 window.rtnSettingsManager.applyCSS();

@@ -47,6 +47,9 @@ export default class SettingsManager
         setIfUnset("RTN-SETTING_css-checklistYesColor", "#00ff00");
         setIfUnset("RTN-SETTING_css-checklistNoColor", "#ff0000");
         setIfUnset("RTN-SETTING_css-checklistMaybeColor", "#ffff00");
+        // DNL link colors
+        setIfUnset("RTN-SETTING_css-dnlValidColor", "#52eb00");
+        setIfUnset("RTN-SETTING_css-dnlInvalidColor", "#ff5555");
         // parameters
         setIfUnset("RTN-SETTING_param-copyGlyphSize", 4);
 
@@ -80,7 +83,9 @@ export default class SettingsManager
         applyParam("RTN-SETTING_css-checklistYesColor");
         applyParam("RTN-SETTING_css-checklistNoColor");
         applyParam("RTN-SETTING_css-checklistMaybeColor");
-
+        // DNL link colors
+        applyParam("RTN-SETTING_css-dnlValidColor");
+        applyParam("RTN-SETTING_css-dnlInvalidColor");
     }
 
     restoreDefaults()
@@ -111,6 +116,9 @@ export default class SettingsManager
         restoreParam("RTN-SETTING_css-checklistYesColor", "#00ff00");
         restoreParam("RTN-SETTING_css-checklistNoColor", "#ff0000");
         restoreParam("RTN-SETTING_css-checklistMaybeColor", "#ffff00");
+        // DNL link colors
+        restoreParam("RTN-SETTING_css-dnlValidColor", "#52eb00");
+        restoreParam("RTN-SETTING_css-dnlInvalidColor", "#ff5555");
         // parameters
         restoreParam("RTN-SETTING_param-copyGlyphSize", 4);
     }
