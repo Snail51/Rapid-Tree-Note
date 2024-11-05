@@ -296,9 +296,15 @@ export default class Schema
         payload = payload.replace(/└────── ​/gm, "└── ​");
         payload = payload.replace(/│       ​/gm, "│   ​");
         payload = payload.replace(/        ​/gm, "    ​");
-        // trim whitespace and revert bullet points in the text that gets encoded
+        // trim whitespace in the text that gets encoded
         payload = payload.replace(/<[^>]*>/g, "");
+
+        //revert special character inserts
         payload = payload.replace(/(\s*)(•)(.*)/gm, "$1-$3");
+        payload = payload.replace(/\[✓ \]/gm, "[Y]");
+        payload = payload.replace(/\[✗ \]/gm, "[N]");
+        payload = payload.replace(/\[~ \]/gm, "[~]");
+
 
         // command the URI-Manager to operate with the preprocessed string
         //console.debug(payload);
@@ -383,6 +389,9 @@ export default class Schema
 
         //convert bullet points back into dashes
         payload = payload.replace(/(\s*)(•)(.*)/gm, "$1-$3");
+        payload = payload.replace(/\[✓ \]/gm, "[Y]");
+        payload = payload.replace(/\[✗ \]/gm, "[N]");
+        payload = payload.replace(/\[~ \]/gm, "[~]");
 
         //trim trailing whitespace
         payload = payload.replace(/\s$/, "");
@@ -1430,6 +1439,11 @@ class ExeBuffer extends VirtualBuffer
             // handle ordered lists
             data = data.replace(/^((?:[└├│─ ]*​)*)([0-9]+\.)( )/gm, "$1<span style=\"color: var(--RTN-SETTING_css-listElementColor)\"><b>$2</b></span>$3");
 
+            // handle checklists
+            data = data.replace(/\[[\Y\/]\]/gm, `<span style="color: #00ff00; text-shadow: -1px -1px 5px black, -1px 0px 5px black, -1px 1px 5px black, 0px -1px 5px black, 0px 1px 5px black, 1px -1px 5px black, 1px 0px 5px black, 1px 1px 5px black;">[<span style="position: relative;"><span style="width: 1em; display: inline-block; position: absolute;">✓</span></span> ]</span>`);
+            data = data.replace(/\[[\N\X]\]/gm, `<span style="color: #ff0000; text-shadow: -1px -1px 5px black, -1px 0px 5px black, -1px 1px 5px black, 0px -1px 5px black, 0px 1px 5px black, 1px -1px 5px black, 1px 0px 5px black, 1px 1px 5px black;">[<span style="max-width: 1em; overflow: hidden;"><span style="width: 1em; display: inline-block; position: absolute;">✗</span></span> ]</span>`);
+            data = data.replace(/\[[\~\-]\]/gm, `<span style="color: #ffff00; text-shadow: -1px -1px 5px black, -1px 0px 5px black, -1px 1px 5px black, 0px -1px 5px black, 0px 1px 5px black, 1px -1px 5px black, 1px 0px 5px black, 1px 1px 5px black;">[<span style="max-width: 1em; overflow: hidden;"><span style="width: 1em; display: inline-block; position: absolute;">~</span></span> ]</span>`);
+
             //handle underline
             data = data.replace(/(?<!\_|\\)(\_{2})([^\n_]+?)(\1)(?!\_|\\)/g, '<span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$1</b></span><u>$2</u><span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$3</b></span>');
             
@@ -1480,7 +1494,7 @@ class ExeBuffer extends VirtualBuffer
 
             // change the color of the glyphs to the user's selected `glyphColor`
             data = data.replace(/[└├│─ ]*​/gm, function(match) {
-                return `<span style="color: var(--RTN-SETTING_color-glyph);">${match}</span>`;
+                return `<span style="color: var(--RTN-SETTING_css-glyphColor);">${match}</span>`;
             });
 
         }

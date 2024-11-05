@@ -15,3 +15,8 @@ RewriteRule .*credits.html$ credits.html.php
 RewriteRule .*inspiration.html$ inspiration.html.php
 RewriteRule .*usage.html$ usage.html.php
 RewriteRule .*settings.html$ settings.html.php
+
+RewriteRule .*color.html$ Redir/color.html.php
+RewriteRule .*dirnavlink.html$ Redir/dirnavlink.html.php
+RewriteRule .*indentation.html$ Redir/indentation.html.php
+RewriteRule .*textformat.html$ Redir/textformat.html.php
