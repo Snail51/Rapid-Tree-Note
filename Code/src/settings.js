@@ -63,10 +63,10 @@ export default class SettingsManager
         }
 
         // main colors
-        applyParam("RTN-SETTINGS_css-siteColor");
-        applyParam("RTN-SETTINGS_css-backgroundColor");
-        applyParam("RTN-SETTINGS_css-textColor");
-        applyParam("RTN-SETTINGS_css-glyphColor");
+        applyParam("RTN-SETTING_css-siteColor");
+        applyParam("RTN-SETTING_css-backgroundColor");
+        applyParam("RTN-SETTING_css-textColor");
+        applyParam("RTN-SETTING_css-glyphColor");
         // link colors
         applyParam("RTN-SETTING_css-linkUnvisitedColor");
         applyParam("RTN-SETTING_css-linkVisitedColor");
