@@ -31,6 +31,8 @@ You should have received a copy of the GNU Affero General Public License along w
 
         <?php include('./Resources/partials/userCSSLoader.html'); ?>
         <link rel="stylesheet" href="./Resources/css/mainPanel.css">
+        <link rel="stylesheet" href="./Resources/css/links.css">
+        <link rel="stylesheet" href="./Resources/css/spoiler.css">
 
     </head>
     <body class="rtnSiteColor rtnTextColor rtnText">
@@ -38,134 +40,119 @@ You should have received a copy of the GNU Affero General Public License along w
 
         <div class="headerSpacer"></div>
 
-        <div class="mainPanel">
-      
-            <pre class="rtnTextColor rtnText" style="font-size: 1.2vw; display: block;">
-List of Configurable Settings
-├── ​Export Settings
-│   ​├── ​Export compression method (default LZMA2, offer legacy compression with ZLIB)
-│   ​└── ​Copy glyph size (reduction 8->N)
-├── ​Colors
-│   ​├── ​Site Color (body)
-│   ​├── ​Background Color
-│   ​├── ​Text Default Color
-│   ​├── ​Glyph Default Color
-│   ​├── ​Font Shadow size
-│   ​├── ​Links
-│   ​│   ​├── ​Link (unvisited)
-│   ​│   ​└── ​Link (visited)
-│   ​├── ​Code
-│   ​│   ​├── ​Computer Code (text)
-│   ​│   ​└── ​Computer Code (background)
-│   ​├── ​Lists
-│   ​└── ​Regular Expressions
-│   ​    ​├── ​Regexp pattern
-│   ​    ​├── ​Regexp flags
-│   ​    ​└── ​Regexp background
-└── ​Font
-    ​└── ​Font Size
-            </pre>
-
-            <div style="display: block; background-color: black; padding: 2.5%">
-                <h2>Presets</h2>
-                <div style="display: inline">
-                    <input type="number" id="input_copyGlyphSize" min="4" max="32" step="1" placeholder="Number; 4-32">
-                    <span style="color: whitesmoke">Width of glyphs saved to clipboard when copying</span>
+        <div style="display: flex; flex-direction: row;">
+            <div class="mainPanel">
+                <div class="rtnTextColor rtnText" style="font-size: 1.2vw; display: block; max-width: 45vw; align-items: left; overflow: hidden;">
+                    <?php include('./Resources/partials/sampleDocument.html'); ?>
                 </div>
-
-                <hr>
-
-                <h2>Colors</h2>
-                <div style="display: inline">
-                    <input type="color" id="input_siteColor">
-                    <span style="color: whitesmoke">Site Color</span>
-                </div>
-                <br>
-                <div style="display: inline">
-                    <input type="color" id="input_backgroundColor">
-                    <span style="color: whitesmoke">Background Color</span>
-                </div>
-                <br>
-                <div style="display: inline">
-                    <input type="color" id="input_textColor">
-                    <span style="color: whitesmoke">Text Color</span>
-                </div>
-                <br>
-                <div style="display: inline">
-                    <input type="color" id="input_glyphColor">
-                    <span style="color: whitesmoke">Glyph Color</span>
-                </div>
-                <br>
-                <div style="display: inline">
-                    <input type="color" id="input_linkUnvisitedColor">
-                    <span style="color: whitesmoke">Link Color (Unvisited)</span>
-                </div>
-                <br>
-                <div style="display: inline">
-                    <input type="color" id="input_linkVisitedColor">
-                    <span style="color: whitesmoke">Link Color (Visited)</span>
-                </div>
-                <br>
-                <div style="display: inline">
-                    <input type="color" id="input_codeTextColor">
-                    <span style="color: whitesmoke">Code Text Color</span>
-                </div>
-                <br>
-                <div style="display: inline">
-                    <input type="color" id="input_codeBackgroundColor">
-                    <span style="color: whitesmoke">Code Background Color</span>
-                </div>
-                <br>
-                <div style="display: inline">
-                    <input type="color" id="input_listElementColor">
-                    <span style="color: whitesmoke">List Header Color</span>
-                </div>
-                <br>
-                <div style="display: inline">
-                    <input type="color" id="input_regexPatternColor">
-                    <span style="color: whitesmoke">Regular Expression Pattern Color</span>
-                </div>
-                <br>
-                <div style="display: inline">
-                    <input type="color" id="input_regexFlagColor">
-                    <span style="color: whitesmoke">Regular Expression Flag Color</span>
-                </div>
-                <br>
-                <div style="display: inline">
-                    <input type="color" id="input_regexBackgroundColor">
-                    <span style="color: whitesmoke">Regular Expression Background Color</span>
-                </div>
-                <br>
-                <div style="display: inline">
-                    <input type="color" id="input_checklistYesColor">
-                    <span style="color: whitesmoke">Checklist &quot;Affirmative&quot; Color</span>
-                </div>
-                <br>
-                <div style="display: inline">
-                    <input type="color" id="input_checklistNoColor">
-                    <span style="color: whitesmoke">Checklist &quot;Negative&quot; Color</span>
-                </div>
-                <br>
-                <div style="display: inline">
-                    <input type="color" id="input_checklistMaybeColor">
-                    <span style="color: whitesmoke">Checklist &quot;Partial&quot; Color</span>
-                </div>
-                <br>
-                <div style="display: inline">
-                    <input type="color" id="input_dnlValidColor">
-                    <span style="color: whitesmoke">DNL Link Color (Valid)</span>
-                </div>
-                <br>
-                <div style="display: inline">
-                    <input type="color" id="input_dnlInvalidColor">
-                    <span style="color: whitesmoke">DNL Link Color (Invalid)</span>
-                </div>
-
-                <hr>
-
-                <button onclick="window.rtnSettings_apply()">Apply Selected Settings</button>
-                <button onclick="window.rtnSettings_reset()">Reset to default Settings</button>
             </div>
+            <div class="mainPanel">
+                <div style="display: block; background-color: black; padding: 2.5%; max-width: 45vw; z-index: 3">
+                    <h2>Presets</h2>
+                    <div style="display: inline">
+                        <input type="number" id="input_copyGlyphSize" min="4" max="32" step="1" placeholder="Number; 4-32">
+                        <span style="color: whitesmoke">Width of glyphs saved to clipboard when copying</span>
+                    </div>
+
+                    <hr>
+
+                    <h2>Colors</h2>
+                    <div style="display: inline">
+                        <input type="color" id="input_siteColor">
+                        <span style="color: whitesmoke">Site Color</span>
+                    </div>
+                    <br>
+                    <div style="display: inline">
+                        <input type="color" id="input_backgroundColor">
+                        <span style="color: whitesmoke">Background Color</span>
+                    </div>
+                    <br>
+                    <div style="display: inline">
+                        <input type="color" id="input_textColor">
+                        <span style="color: whitesmoke">Text Color</span>
+                    </div>
+                    <br>
+                    <div style="display: inline">
+                        <input type="color" id="input_glyphColor">
+                        <span style="color: whitesmoke">Glyph Color</span>
+                    </div>
+                    <br>
+                    <div style="display: inline">
+                        <input type="color" id="input_linkUnvisitedColor">
+                        <span style="color: whitesmoke">Link Color (Unvisited)</span>
+                    </div>
+                    <br>
+                    <div style="display: inline">
+                        <input type="color" id="input_linkVisitedColor">
+                        <span style="color: whitesmoke">Link Color (Visited)</span>
+                    </div>
+                    <br>
+                    <div style="display: inline">
+                        <input type="color" id="input_codeTextColor">
+                        <span style="color: whitesmoke">Code Text Color</span>
+                    </div>
+                    <br>
+                    <div style="display: inline">
+                        <input type="color" id="input_codeBackgroundColor">
+                        <span style="color: whitesmoke">Code Background Color</span>
+                    </div>
+                    <br>
+                    <div style="display: inline">
+                        <input type="color" id="input_listElementColor">
+                        <span style="color: whitesmoke">List Header Color</span>
+                    </div>
+                    <br>
+                    <div style="display: inline">
+                        <input type="color" id="input_regexPatternColor">
+                        <span style="color: whitesmoke">Regular Expression Pattern Color</span>
+                    </div>
+                    <br>
+                    <div style="display: inline">
+                        <input type="color" id="input_regexFlagColor">
+                        <span style="color: whitesmoke">Regular Expression Flag Color</span>
+                    </div>
+                    <br>
+                    <div style="display: inline">
+                        <input type="color" id="input_regexBackgroundColor">
+                        <span style="color: whitesmoke">Regular Expression Background Color</span>
+                    </div>
+                    <br>
+                    <div style="display: inline">
+                        <input type="color" id="input_checklistYesColor">
+                        <span style="color: whitesmoke">Checklist &quot;Affirmative&quot; Color</span>
+                    </div>
+                    <br>
+                    <div style="display: inline">
+                        <input type="color" id="input_checklistNoColor">
+                        <span style="color: whitesmoke">Checklist &quot;Negative&quot; Color</span>
+                    </div>
+                    <br>
+                    <div style="display: inline">
+                        <input type="color" id="input_checklistMaybeColor">
+                        <span style="color: whitesmoke">Checklist &quot;Partial&quot; Color</span>
+                    </div>
+                    <br>
+                    <div style="display: inline">
+                        <input type="color" id="input_dnlValidColor">
+                        <span style="color: whitesmoke">DNL Link Color (Valid)</span>
+                    </div>
+                    <br>
+                    <div style="display: inline">
+                        <input type="color" id="input_dnlInvalidColor">
+                        <span style="color: whitesmoke">DNL Link Color (Invalid)</span>
+                    </div>
+
+                    <hr>
+
+                    <button onclick="window.rtnSettings_apply()">Apply Selected Settings</button>
+                    <button onclick="window.rtnSettings_reset()">Reset to default Settings</button>
+                </div>
+            </div>
+        </div>
+
+        
+
+            
             
         </div>
 

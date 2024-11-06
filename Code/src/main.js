@@ -1460,10 +1460,10 @@ class ExeBuffer extends VirtualBuffer
             data = data.replace(/(?<!\~|\\)(\~{2})([^\n~]+?)(\1)(?!\~|\\)/g, '<span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$1</b></span><del>$2</del><span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$3</b></span>');
 
             // handle superscript
-            data = data.replace(/(?<!\\|\!)(\^)(.*?)(\^)(?<!\\|\!)/g, "<b>$1</b><span style=\"display: inline-block; top: -0.2vw; position: relative; line-height: 0.000001em; margin-block: 0;\">$2</span><b>$3</b>");
+            data = data.replace(/(?<!\\|\!)(\^)(.*?)(\^)(?<!\\|\!)/g, '<span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$1</b></span><span style=\"display: inline-block; top: -0.2vw; position: relative; line-height: 0.000001em; margin-block: 0;\">$2</span><span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$3</b></span>');
 
             //handle subscript
-            data = data.replace(/(?<!\\)(\!\^)(.*?)(\!\^)(?<!\\)/g, "<b>$1</b><span style=\"display: inline-block; top: 0.2vw; position: relative; line-height: 0.000001em; margin-block: 0;\">$2</span><b>$3</b>");
+            data = data.replace(/(?<!\\)(\!\^)(.*?)(\!\^)(?<!\\)/g, '<span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$1</b></span><span style=\"display: inline-block; top: 0.2vw; position: relative; line-height: 0.000001em; margin-block: 0;\">$2</span><span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$3</b></span>');
 
             //handle code blocks
             data = data.replace(/(?<!\`)(\`{1})([^\n`]+?)(\1)(?!\`)/g, '<span style="color: var(--RTN-SETTING_css-codeTextColor); background-color: var(--RTN-SETTING_css-codeBackgroundColor);"><b>$1</b>$2<b>$3</b></span>');
