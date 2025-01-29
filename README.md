@@ -1,7 +1,8 @@
 # Rapid-Tree-Note
     Tree Markup Notetaking System
 
-    Live at: https://snailien.ddns.net/RTN/
+    Live at: https://rtn.snailien.net/
+    Legacy redirects supported at: https://snailien.ddns.net/RTN/
     Backup at: https://lars.d.umn.edu/RTN/
 
     THIS PROJECT IS LISCENCED UNDER THE GNU AGPL LISCENCE. PLEASE SEE ./License/* for more details.

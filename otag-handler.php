@@ -17,6 +17,8 @@ In the event that you want to restore this system, but don't care about
 setting up the metatags, you can just ignore this system. Do not allow
 Apache to direct program.html or program.html.php to this handler.
 -----------------------------
+
+!!! REQUIRES NODE.JS VERSION >= 16.0.0
 */
 
 // enable error reporting
@@ -131,7 +133,7 @@ else
     $output = shell_exec($cmd);
 }
 
-$output = preg_replace('/[^A-Za-z0-9\n\t\ └├│─​]/', "�", $output);
+$output = preg_replace('/[^A-Za-z0-9\n\t\ └├│─​]/', "_", $output);
 
 if (substr_count($output, "\n") >= 3) //if the content spans more than 1 line
 {
