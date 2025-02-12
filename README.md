@@ -45,38 +45,41 @@ Sample
  #### Data Storage
   The RTN updates the page URL in real time as the user types in the document, encoding the full document contents in that URL. The document's contents are compressed with LZMA2 and encoded as Base64 (URI safe) as URI parameters. When visiting an RTN link, the process is repeated in reverse, extracting the original document contents to the app for view/editing.
 
+  This program uses the [pako compression library](https://github.com/nodeca/pako) for ZLIB compression.
+  This program uses the [LZMA-JS library](https://github.com/LZMA-JS/LZMA-JS) for LZMA2 compression.
+
  #### The Tree Algorithm
   I seriously recommend any aspiring developers take a look firsthand at `/main.js` > `class ProcessingTree` > `totalParse()`
   I will attempt to explain the algorithm in English below.
  <pre>
  1. Take the input string and break it into lines. Produce node objects where level = the number of leading tabs and data = all content except the tabs.
  2. Iterate over all nodes and produce treeblocks (see /treeblocks.js).
-    1. Produce N "NEW" treeblocks where N = node.level
-    2. Then, read node.data. If node.data == "", create a END block. If node.data != "", create a DATA block.
+    i. Produce N "NEW" treeblocks where N = node.level
+    ii. Then, read node.data. If node.data == "", create a END block. If node.data != "", create a DATA block.
        - The distinction between END and DATA is to make drawing new lines of the tree neater.
-    3. We will end up producing an array of arrays, where the content of that sub-array is N "NEW" blocks followed by a "DATA" or "END" block.
+    iii. We will end up producing an array of arrays, where the content of that sub-array is N "NEW" blocks followed by a "DATA" or "END" block.
  3. Converting NEW blocks to [BEND, FORK, GAP, LINE]
-    1. We then iterate over all tree blocks in order (take the array, open a subarray, solve each block of the subarray in order, then open the next subarray).
-    2. Checking for BEND
+    i. We then iterate over all tree blocks in order (take the array, open a subarray, solve each block of the subarray in order, then open the next subarray).
+    ii. Checking for BEND
        - We must evaluate this case first, as other definitions rely on it and it is a more specific case of FORK.
        - If the block to the right is not DATA, we stop checking and conclude it should not BEND.
        - Then, If the block below is null (EOF), we stop checking and conclude it should BEND.
        - Then, we search below the block in question until DATA or EOF is encountered, and save that distance.
        - Then, we search below the block one to the right of the block in question until DATA or EOF is encountered, and save that distance.
        - If the distance to down is less than or equal to the distance right, solution = bend. If not, solution remains "".
-    3. Checking for FORK
+    iii. Checking for FORK
        - If we have not already found the solution and the block to the right is DATA, solution = FORK.
-    4. Checking for GAP
+    iv. Checking for GAP
        - If we have not already found the solution and the block above is BEND or GAP, solution = GAP.
-    5. Checking for LINE / PIPE
+    v. Checking for LINE / PIPE
        - If we have not already found the solution and the block above is FORK or LINE, solution = LINE.
-    6. Each time we find the solution, we replace the NEW treeblock with the corresponding type.
+    vi. Each time we find the solution, we replace the NEW treeblock with the corresponding type.
  4. Printing the Output
-    1. Each treeblock includes its glyph in its .data field.
-    2. For example, GAP.value = 8 spaces
-    3. Each DATA block was already initialized such that DATA.data = node.data.
-    4. Therefore, we simply iterate over the entire array schema and concatenate BLOCK.data to the output buffer.
-    5. This buffer can then replace the contents of EXE and everything works!
+    i. Each treeblock includes its glyph in its .data field.
+    ii. For example, GAP.value = 8 spaces
+    iii. Each DATA block was already initialized such that DATA.data = node.data.
+    iv. Therefore, we simply iterate over the entire array schema and concatenate BLOCK.data to the output buffer.
+    v. This buffer can then replace the contents of EXE and everything works!
 </pre>
 
 # Code Minification
