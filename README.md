@@ -22,11 +22,12 @@ Sample
     ​└── ​:3
 </pre>
  The above document is represented with the following link:
+
  https://rtn.snailien.net/program.html?enc=URI-B64&cmpr=LZMA2&data=3YCAgIJCgICAgICAgIDpONkud3a3WxxxxlH3H-m2vTRasLPL0kVBSoZHeUQXN0KWhrbsl7jIWjtXs3gzQ5eEpO7laFLrTIwmvlaj1WAVwPmSzT1RwMMxDm-_aGV6Bv6WTvQMlN8t8u_I3NZRF4Otbeg_k8xoZN9-i1VA
 
 # Installation
  Although two copies of the RTN are already amiable on the global internet, should you choose to create a copy of the RTN for yourself the following dependencies exist:
-  - **Apache2 webserver** (Alternatives such as nginx could definitely also work but the existing configuration `.htaccess is setup for Apache.)
+  - **Apache2 webserver** (Alternatives such as nginx could definitely also work but the existing configuration `.htaccess` is setup for Apache.)
   - **PHP-8** (with webserver user being able to use it, `libapache2-mod-php`.)
   - **NodeJS v16.0.0** or later (version required for access to `btoa()` and `atob()`)
 
@@ -100,4 +101,5 @@ Sample
 
 # License / Legal
  THIS PROJECT IS LISCENCED UNDER THE GNU AGPL LISCENCE. PLEASE SEE ./License/* for more details.
+ 
  The document at /License/Copyright_Disclaimer.pdf communicates the LARSLab's and MMADLab's willingness to forfit copyright claim for the purposes of this license.
