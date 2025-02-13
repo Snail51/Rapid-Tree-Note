@@ -39,16 +39,17 @@ Sample
   - A custom data storage system
   - A special tree parsing algorithm
   
- #### The Webapp
+ ### The Webapp
   The RTN is built around a webapp where a `<textarea>` and a `<pre>` are stacked on top of each other. The user types into the `<textarea>` and a formatted copy of their text is rendered in the `<pre>` located underneath. The user cannot interact with the `<pre>` in any way, creating the illusion of one seamless document.
 
- #### Data Storage
+ ### Data Storage
   The RTN updates the page URL in real time as the user types in the document, encoding the full document contents in that URL. The document's contents are compressed with LZMA2 and encoded as Base64 (URI safe) as URI parameters. When visiting an RTN link, the process is repeated in reverse, extracting the original document contents to the app for view/editing.
 
   This program uses the [pako compression library](https://github.com/nodeca/pako) for ZLIB compression.
+  
   This program uses the [LZMA-JS library](https://github.com/LZMA-JS/LZMA-JS) for LZMA2 compression.
 
- #### The Tree Algorithm
+ ### The Tree Algorithm
   I seriously recommend any aspiring developers take a look firsthand at `/main.js` > `class ProcessingTree` > `totalParse()`
   I will attempt to explain the algorithm in English below.
  <pre>
