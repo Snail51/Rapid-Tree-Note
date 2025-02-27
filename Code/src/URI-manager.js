@@ -102,9 +102,11 @@ export class URIManager
 
     getURL() //extract URI components
     {
-        var query = new URLSearchParams(window.location.search);
+        var data = /(?:data=)([^\&\=\?]*)/gm;
+        var compressor = /(?:cmpr=)([^\&\=\?]*)/gm;
+        var encoding = /(?:enc=)([^\&\=\?]*)/gm;
 
-        var uriData = query.get('data');
+        var uriData = data.exec(window.location.href);
         if(uriData == null || uriData[1] == "")
         {
             uriData = "";
@@ -114,7 +116,7 @@ export class URIManager
             uriData = uriData[1];
         }
 
-        var uriCompressor = query.get('cmpr');
+        var uriCompressor = compressor.exec(window.location.href);
         if(uriCompressor == null || uriCompressor[1] == "")
         {
             uriCompressor = "ZLIB"; //fallback to old
@@ -124,7 +126,7 @@ export class URIManager
             uriCompressor = uriCompressor[1];
         }
 
-        var uriEncoding = query.get('enc');
+        var uriEncoding = encoding.exec(window.location.href);
         if(uriEncoding == null || uriEncoding[1] == "")
         {
             uriEncoding = "URI-B64"; //fallback to old
