@@ -15,6 +15,7 @@ You should have received a copy of the GNU Affero General Public License along w
 import { Line, Fork, Bend, Gap, Data, New, End, Null } from "./treeblocks.js";
 import { URIManager } from "./URI-manager.js";
 import { Provider } from "./provider.js";
+import { Formatter } from "./format.js";
 
 /* The Schema class is a container that handles user input, generates a formatted document, and synchronizes scrollbars. */
 export default class Schema
@@ -87,10 +88,10 @@ export default class Schema
     {
         console.debug("=====STARTING=DEBUG=DUMP=====");
         console.debug("Source Value:");
-        console.debug(this.raw.ref.value.replaceAll('\n', '\\n').replaceAll('\t', '\\t'));
+        console.debug(Formatter.escapeWhitespace(this.raw.ref.value));
         console.debug("-----------------");
         console.debug("Display Value:");
-        console.debug(this.exe.ref.innerHTML.replaceAll('\n', '\\n').replaceAll('\t', '\\t'));
+        console.debug(Formatter.escapeWhitespace(this.exe.ref.innerHTML));
         console.debug("=====END=DEBUG=DUMP=====");
     }
 
@@ -241,7 +242,7 @@ export default class Schema
             this.provider.clear();
 
             var fileName = document.title;
-            fileName = fileName.replace(/[^A-Za-z0-9_-]/g, "_");
+            fileName = Formatter.escapeUnkown(fileName);
             fileName += ".rtn"
 
             var fileContents = `{\n  "how_to_open": "Visit the link contained in the value of the \`.link\` property. If no suitable copy of the RTN software exists, see \`.data_recovery\`.",\n  "link": "{{DATA}}",\n  "data_structure": "Each RTN link consists of 3 URI parameters: \`enc=\`, \`cmpr=\`, and \`data=\`. These stand for \`encoding\`, \`compression\`, and \`data\` respectively. Extraction of these components may be necessary for data recovery.",\n  "data_recovery": "In the event that no copy of the RTN software is available, it is still possible to recover the included data. Data is encoded with the \`.encoding\` encoding type and compressed with the \`.compression\` compression scheme. Decode the data attribute into a uInt8 array, then decompress (into another uInt8 array), and then decode using standard text decoding to find the original text. For URI-B64 encoding, replace \`-_\` with \`+/\` and then handle with normal base64_decode. For LZMA2 compression, gzinflate data[2:]."\n}`;
@@ -286,23 +287,13 @@ export default class Schema
     pushURL()
     {
         // parse the document through the tree parser
-        var payload = this.exe.ref.textContent.replace(/[\s]+$/, "");
+        var payload = Formatter.trimTrailingWhitespace(this.exe.ref.textContent);
         this.exe.tree.input = payload;
         this.exe.tree.totalParse();
         payload = this.exe.tree.output;
 
-        // shrink tree glyphs to be length 4 instead of length 8 in the text that gets encoded
-        payload = payload.replace(/├────── ​/gm, "├── ​");
-        payload = payload.replace(/└────── ​/gm, "└── ​");
-        payload = payload.replace(/│       ​/gm, "│   ​");
-        payload = payload.replace(/        ​/gm, "    ​");
-
-        //revert special character inserts
-        payload = payload.replace(/(\s*)(•)(.*)/gm, "$1-$3");
-        payload = payload.replace(/\[✓ \]/gm, "[Y]");
-        payload = payload.replace(/\[✗ \]/gm, "[N]");
-        payload = payload.replace(/\[~ \]/gm, "[~]");
-
+        payload = Formatter.shrinkTreeToFour(payload);
+        payload = Formatter.revertList(payload);
 
         // command the URI-Manager to operate with the preprocessed string
         this.uri.push(payload);
@@ -323,7 +314,7 @@ export default class Schema
     keyPostRouter()
     {
         this.raw.update();
-        this.exe.ref.innerHTML = this.raw.ref.value.replace(/\</g, "&lt;").replace(/\>/g, "&gt;");
+        this.exe.ref.innerHTML = Formatter.escapeHTML(this.raw.ref.value);
         this.exe.update();
 
         this.syncScrollbars();
@@ -336,8 +327,7 @@ export default class Schema
     {
         setTimeout(() => //do misc glyph replacement for forward conversion to zero-width-deliminated glyphs
         {
-            this.raw.ref.value = this.raw.ref.value.replace(/├────── |│       |└────── |        /gm, "\t"); //size 8 glyphs
-            this.raw.ref.value = this.raw.ref.value.replace(/├── |│   |└── |    /gm, "\t"); //size 4 glyphs
+            this.raw.ref.value = Formatter.treeToTab(this.raw.ref.value); 
         }, 100);
 
         setTimeout((event) => this.syncScrollbars(event), 100); //dont want to call this immediately because the DOM needs a moment to register the change
@@ -375,23 +365,13 @@ export default class Schema
 
         // resize the glyphs in the payload (default 4)
         const glyphSize = localStorage.getItem("RTN-SETTING_param-copyGlyphSize");
-        const replaceFork = "├" + "─".repeat(glyphSize-2) + " ​";
-        const replaceBend = "└" + "─".repeat(glyphSize-2) + " ​";
-        const replaceLine = "│" + " ".repeat(glyphSize-2) + " ​";
-        const replaceGap = " " + " ".repeat(glyphSize-2) + " ​";
-        payload = payload.replace(/├────── ​/gm, replaceFork);
-        payload = payload.replace(/└────── ​/gm, replaceBend);
-        payload = payload.replace(/│       ​/gm, replaceLine);
-        payload = payload.replace(/        ​/gm, replaceGap);
+        payload = Formatter.resizeGlyphs(payload, glyphSize);
 
         //convert bullet points back into dashes
-        payload = payload.replace(/(\s*)(•)(.*)/gm, "$1-$3");
-        payload = payload.replace(/\[✓ \]/gm, "[Y]");
-        payload = payload.replace(/\[✗ \]/gm, "[N]");
-        payload = payload.replace(/\[~ \]/gm, "[~]");
+        payload = Formatter.revertList(payload);
 
         //trim trailing whitespace
-        payload = payload.replace(/\s*$/, "");
+        payload = Formatter.trimTrailingWhitespace(payload);
 
         // write the payload to the clipboard
         navigator.clipboard.writeText(payload);
@@ -1374,7 +1354,7 @@ class ExeBuffer extends VirtualBuffer
         var data = this.tree.output;
 
         // escape special characters
-        data = data.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+        data = Formatter.escapeHTML(data);
 
         //do formatting
         {
