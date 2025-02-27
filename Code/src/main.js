@@ -296,8 +296,6 @@ export default class Schema
         payload = payload.replace(/└────── ​/gm, "└── ​");
         payload = payload.replace(/│       ​/gm, "│   ​");
         payload = payload.replace(/        ​/gm, "    ​");
-        // trim whitespace in the text that gets encoded
-        payload = payload.replace(/<[^>]*>/g, "");
 
         //revert special character inserts
         payload = payload.replace(/(\s*)(•)(.*)/gm, "$1-$3");
@@ -307,7 +305,6 @@ export default class Schema
 
 
         // command the URI-Manager to operate with the preprocessed string
-        //console.debug(payload);
         this.uri.push(payload);
     }
 
@@ -394,7 +391,7 @@ export default class Schema
         payload = payload.replace(/\[~ \]/gm, "[~]");
 
         //trim trailing whitespace
-        payload = payload.replace(/\s$/, "");
+        payload = payload.replace(/\s*$/, "");
 
         // write the payload to the clipboard
         navigator.clipboard.writeText(payload);
