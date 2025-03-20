@@ -89,10 +89,10 @@ export class Formatter {
         const replaceBend = "└" + "─".repeat(glyphSize-2) + " " + "​";
         const replaceLine = "│" + " ".repeat(glyphSize-2) + " " + "​";
         const replaceGap = " " + " ".repeat(glyphSize-2) + " " + "​";
-        holder = holder.replace(/(^|​)(├─* ​)/gm, `$1${replaceFork}`);
-        holder = holder.replace(/(^|​)(└─* ​)/gm, `$1${replaceBend}`);
-        holder = holder.replace(/(^|​)(│ *​)/gm, `$1${replaceLine}`);
-        holder = holder.replace(/(^|​)( *​)/gm, `$1${replaceGap}`);
+        holder = holder.replace(/├────── ​/gm, replaceFork);
+        holder = holder.replace(/└────── ​/gm, replaceBend);
+        holder = holder.replace(/│       ​/gm, replaceLine);
+        holder = holder.replace(/        ​/gm, replaceGap);
         //console.debug(holder);
         return holder;
     }
