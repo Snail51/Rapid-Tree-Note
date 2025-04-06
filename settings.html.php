@@ -22,7 +22,7 @@ You should have received a copy of the GNU Affero General Public License along w
             $metadata = file_get_contents("./Resources/partials/metatags.html");
             $metadata = str_replace("{{pageTitle}}", "RTN Settings", $metadata);
             $metadata = str_replace("{{description}}", "Change your settings for how the RTN operates", $metadata);
-            $metadata = str_replace("{{siteName}}", $_SERVER['SERVER_NAME'], $metadata);
+            $metadata = str_replace("{{siteName}}", "Rapid Tree Notetaker", $metadata);
             $metadata = str_replace("{{siteURL}}", $_SERVER["SERVER_NAME"], $metadata);
             $metadata = str_replace("{{tags}}", "Tree,Notetaking,Rapid Tree Notetaker,RTN,UMD,University of Minnesota Duluth,rtn,Brendan Rood,brendan rood,rood,LARS Lab,lars,university of minnesota,computer science,study,learning,education,UMD Duluth", $metadata);
             $metadata = str_replace("{{icon}}", "./Resources/RTN-Logo.svg", $metadata);
