@@ -46,6 +46,8 @@ if(doMirrorRedirect)
             window.location.replace(redir);
         }
 
-        checkAndRedirect(primaryMirror); //actually run the functions
+        window.addEventListener("DOMContentLoaded", () => {
+            checkAndRedirect(primaryMirror); //actually run the functions
+        });
     }
 }
