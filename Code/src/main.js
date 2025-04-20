@@ -467,8 +467,10 @@ export class Schema
      * @param {*} textarea - the textarea the carrat we want to scroll to is located in
      */
     scrollToCaret(textarea) {
+
         // Create a temporary div element
         var carratFinder = document.createElement('div');
+        carratFinder.id = "carratFinder";
 
         // style the div so that it lines up with the existing textarea
         {
@@ -479,14 +481,14 @@ export class Schema
             carratFinder.style.wordBreak = "normal"; /* Prevent word breaking */
             carratFinder.style.whiteSpace = "pre-wrap";
             carratFinder.style.border = "solid 0.25vw transparent";
-            carratFinder.style.fontSize = document.getElementById("source").style.fontSize;
+            carratFinder.style.fontSize = textarea.style.fontSize;
         }
 
         // Attatch the element to the main div, allowing it to stick on top
         document.getElementById("main").appendChild(carratFinder);
       
         // Copy the text up to the caret position
-        carratFinder.innerHTML = textarea.value.substring(0, textarea.selectionEnd) + "<span id=\"scrollCarrat\"></span>";
+        carratFinder.innerHTML = Formatter.escapeHTML(textarea.value.substring(0, textarea.selectionEnd)) + "<span id=\"scrollCarrat\"></span>";
 
         // scroll to the element (center it vertically and as far to the left as possible)
         document.getElementById("scrollCarrat").scrollIntoView(
@@ -499,7 +501,7 @@ export class Schema
       
         // Remove the temporary div
         document.getElementById("scrollCarrat").remove();
-        document.getElementById("main").removeChild(carratFinder);
+        document.getElementById("carratFinder").remove();
       
     }
 
