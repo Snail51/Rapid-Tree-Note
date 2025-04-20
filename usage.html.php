@@ -67,11 +67,11 @@ RTN Usage Data
 │   ​└── ​All data collected is hashed as to protect privacy
 └── ​Collected Data
     ​├── ​Time of request
-    ​└── ​Hash of IP Address making the requesthttps://docs.google.com/spreadsheets/d/16valGvXr7BSN3tKUh1puMZbTWUPag4XTvJ0EoNHAjZE/edit?usp=sharing
+    ​└── ​Hash of IP Address making the request
             </pre>
         </div>
 
-        <br>https://docs.google.com/spreadsheets/d/16valGvXr7BSN3tKUh1puMZbTWUPag4XTvJ0EoNHAjZE/edit?usp=sharing
+        <br>
         
         <div id="main">
             <h1>RTN Usage Graphs</h1>
@@ -82,5 +82,10 @@ RTN Usage Data
             <hr>
             <p>Find sanitized usage data <a target="_blank" href="https://docs.google.com/spreadsheets/d/16valGvXr7BSN3tKUh1puMZbTWUPag4XTvJ0EoNHAjZE/edit?usp=sharing">here</a>. (Last updated 2025-04-20)</p>
         </div>
+
+        <br>
+        <br>
+        <br>
+        
     </body>
 </html>

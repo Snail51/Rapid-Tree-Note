@@ -276,6 +276,8 @@ export default class Schema
         }
         else // default "homepage" value, content populated by fetching `/default.txt`
         {
+            this.raw.ref.value = "Loading...";
+
             var response = await fetch("./default.txt");
 
             if (!response.ok)
