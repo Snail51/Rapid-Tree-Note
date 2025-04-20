@@ -157,7 +157,7 @@ You should have received a copy of the GNU Affero General Public License along w
         </div>
 
         <script type="module">
-            import SettingsManager from "./Code/exe/settings.js";
+            import { SettingsManager } from "./Code/exe/settings.js";
             window.rtnSettingsManager = new SettingsManager();
             window.rtnSettingsManager.applyCSS();
 

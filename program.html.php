@@ -71,7 +71,7 @@ You should have received a copy of the GNU Affero General Public License along w
 
         <!-- Load the main js files of the RTN -->
         <script type="module">
-            import Schema from "./Code/exe/main.js";
+            import { Schema } from "./Code/exe/main.js";
             var MainBuffer = new Schema(document.getElementById("source"), document.getElementById("display"), document.getElementById("wrap-tester"));
             window.main = MainBuffer;
         </script>
