@@ -29,7 +29,7 @@ You should have received a copy of the GNU Affero General Public License along w
  */
 
 import { ProcessingTree } from "./treeparser.js";
-import { Formatter } from "./format.js";
+import { Formatter, ExecutiveFormatter } from "./format.js";
 
 /**
  * @description The VirtualBuffer class acts as a wrapper to an associated textarea element, providing untilitity functions to manage the position of the carrat (the 2d user's selection or "text cursor").
@@ -384,128 +384,8 @@ export class ExeBuffer extends VirtualBuffer
         var data = this.tree.output;
 
         // escape special characters
-        data = Formatter.escapeHTML(data);
-
-        //do formatting
-        {
-            //insert links
-            data = data.replace(/(\[(.+?)\]\((.+?)\))|(https?:\/\/\S+)/g, function(match, $0, $1, $2, $3) {
-                if ($2) { // markdown-style link
-                    return `<a style="z-index: 4; pointer-events: all; position: relative;" href="${$2}" target="_blank" rel="noopener noreferrer"><b>[${$1}](${$2})</b></a>`;
-                }
-                else { // static link
-                    return `<a style="z-index: 4; pointer-events: all; position: relative;" href="${$3}" target="_blank" rel="noopener noreferrer"><b>${$3}</b></a>`;
-                }
-            });
-            
-
-            //insert RTN dir-navigator links
-            {
-                var lines = data.split("\n");
-                for(var i = 0; i < lines.length; i++)
-                {
-                    window.dirnavIndex = i;
-                    lines[i] = lines[i].replace(/(DNL|RTN|DL)([\.\~]{0,1})((?:\/\.\.|\/\[[^\]]+\])+)(\/?)/g, function(match, $0, $1, $2, $3) {
-                        var valid = window.main.dirnav(null, $0+$1+$2+$3, window.dirnavIndex, true);
-                        var color = valid? "var(--RTN-SETTING_css-dnlValidColor)" : "var(--RTN-SETTING_css-dnlInvalidColor)"; //color used is dependent on validity
-                        const result = `<a style="z-index: 4; pointer-events: all; position: relative; color: ${color};" href="#" onclick="window.main.dirnav(event, '${$0+$1+$2+$3}', ${window.dirnavIndex});"><b>${$0+$1+$2+$3}</b></a>`;
-                        return result;
-                    });
-                }
-                var construction = "";
-                for(var line of lines)
-                {
-                    construction += line + "\n";
-                }
-                construction = construction.substring(0,construction.length-1);
-                data = construction;
-            }
-
-            // handle arrows
-            data = data.replace(/((?:\&lt\;)?)(-+|=+)((?:\&gt\;)?)/g, function(match, p1, p2, p3) {
-                
-                var rawstr = p1+p2+p3;
-
-                if(rawstr.startsWith("\&lt\;") || rawstr.split("").reverse().join("").startsWith("\;tg\&")) // arrow is properly formed
-                {
-                    return `<b>${rawstr}</b>`;
-                }
-                else // arrow is malformed, return raw text
-                {
-                    return rawstr;
-                }
-            });
-
-            // handle italic
-            data = data.replace(/(?<!\*|\\)(\*{1})([^\n*]+?)(\1)(?!\*|\\)/g, '<span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$1</b></span><i>$2</i><span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$3</b></span>');
-
-            // handle bullet points
-            data = data.replace(/^((?:[└├│─ ]*​)*)(-)( )/gm, "$1<span style=\"color: var(--RTN-SETTING_css-listElementColor)\">•</span>$3"); // dash case
-            data = data.replace(/^((?:[└├│─ ]*​)*)(\*)( )(?!.*\*)/gm, "$1<span style=\"color: var(--RTN-SETTING_css-listElementColor)\">•</span>$3"); // asterisk case (prevent overriding italic)
-
-            // handle ordered lists
-            data = data.replace(/^((?:[└├│─ ]*​)*)([0-9]+\.)( )/gm, "$1<span style=\"color: var(--RTN-SETTING_css-listElementColor)\"><b>$2</b></span>$3");
-
-            // handle checklists
-            data = data.replace(/\[[\Y\/]\]/gm, `<span style="color: var(--RTN-SETTING_css-checklistYesColor); text-shadow: -1px -1px 5px black, -1px 0px 5px black, -1px 1px 5px black, 0px -1px 5px black, 0px 1px 5px black, 1px -1px 5px black, 1px 0px 5px black, 1px 1px 5px black;">[<span style="position: relative;"><span style="width: 1em; display: inline-block; position: absolute;">✓</span></span> ]</span>`);
-            data = data.replace(/\[[\N\X]\]/gm, `<span style="color: var(--RTN-SETTING_css-checklistNoColor); text-shadow: -1px -1px 5px black, -1px 0px 5px black, -1px 1px 5px black, 0px -1px 5px black, 0px 1px 5px black, 1px -1px 5px black, 1px 0px 5px black, 1px 1px 5px black;">[<span style="max-width: 1em; overflow: hidden;"><span style="width: 1em; display: inline-block; position: absolute;">✗</span></span> ]</span>`);
-            data = data.replace(/\[[\~\-]\]/gm, `<span style="color: var(--RTN-SETTING_css-checklistMaybeColor); text-shadow: -1px -1px 5px black, -1px 0px 5px black, -1px 1px 5px black, 0px -1px 5px black, 0px 1px 5px black, 1px -1px 5px black, 1px 0px 5px black, 1px 1px 5px black;">[<span style="max-width: 1em; overflow: hidden;"><span style="width: 1em; display: inline-block; position: absolute;">~</span></span> ]</span>`);
-
-            //handle underline
-            data = data.replace(/(?<!\_|\\)(\_{2})([^\n_]+?)(\1)(?!\_|\\)/g, '<span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$1</b></span><u>$2</u><span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$3</b></span>');
-            
-            //handle spoiler - made possible by https://codepen.io/volv/details/RrjooB
-            data = data.replace(/(?<!\||\\)(\|{2})([^\n\|]+?)(\1)(?!\||\\)/g, '<span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$1</b></span><a style=\"z-index: 4; pointer-events: all; position: relative;\" href=\"#s\" title=\"$2\"><span style=\"font-size: 0vw;\">$2</span></a><span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$3</b></span>');
-
-            // handle bold
-            data = data.replace(/(?<!\*|\\)(\*{2})([^\n*]+?)(\1)(?!\*|\\)/g, '<span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$1</b></span><b>$2</b><span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$3</b></span>');
-
-            // handle bold AND italic
-            data = data.replace(/(?<!\*|\\)(\*{3})([^\n*]+?)(\1)(?!\*|\\)/g, '<span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$1</b></span><i><b>$2</b></i><span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$3</b></span>');
-
-            // handle italic
-            data = data.replace(/(?<!\~|\\)(\~{2})([^\n~]+?)(\1)(?!\~|\\)/g, '<span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$1</b></span><del>$2</del><span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$3</b></span>');
-
-            // handle superscript
-            data = data.replace(/(?<!\\|\!)(\^)(.*?)(\^)(?<!\\|\!)/g, '<span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$1</b></span><span style=\"display: inline-block; top: -0.2vw; position: relative; line-height: 0.000001em; margin-block: 0;\">$2</span><span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$3</b></span>');
-
-            //handle subscript
-            data = data.replace(/(?<!\\)(\!\^)(.*?)(\!\^)(?<!\\)/g, '<span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$1</b></span><span style=\"display: inline-block; top: 0.2vw; position: relative; line-height: 0.000001em; margin-block: 0;\">$2</span><span style="color: var(--RTN-SETTING_css-glyphColor)"><b>$3</b></span>');
-
-            //handle code blocks
-            data = data.replace(/(?<!\`)(\`{1})([^\n`]+?)(\1)(?!\`)/g, '<span style="color: var(--RTN-SETTING_css-codeTextColor); background-color: var(--RTN-SETTING_css-codeBackgroundColor);"><b>$1</b>$2<b>$3</b></span>');
-
-            //handle regex blocks
-            data = data.replace(/(RE)(\/)((?:[^\r\n\t\f\v ]|\\ )+)(\/)([gmixsuUAJD]*)/g, '<span style="background-color: var(--RTN-SETTING_css-regexBackgroundColor)"><span style="color: var(--RTN-SETTING_css-regexFlagColor)"><b>$1$2</b></span><span style="color: var(--RTN-SETTING_css-regexPatternColor)">$3</span><span style="color: var(--RTN-SETTING_css-regexFlagColor)"><b>$4$5</b></span></span>');
-            
-            // handle manual highlight definition
-            data = data.replace(/(\[hc)([0-9abcdef])([0-9abcdef])([0-9abcdef])(\])(.*?)(\1)(\2)(\3)(\4)(\5)/g, function(match, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11) {
-                const r = parseInt(`${p2}0`, 16);
-                const g = parseInt(`${p3}0`, 16);
-                const b = parseInt(`${p4}0`, 16);
-                const luminosity = Math.max(r, g, b);
-                if(luminosity > 127) //highlight is relatively bright-- use a DARK text color
-                {
-                    return `<b>${p1}${p2}${p3}${p4}${p5}</b><span style="color: #101010; background-color: #${p2}0${p3}0${p4}0;"><b>${p6}</b></span><b>${p7}${p8}${p9}${p10}${p11}</b>`;
-                }
-                else //highlight is relatively dark-- use a BRIGHT text color (no change)
-                {
-                    return `<b>${p1}${p2}${p3}${p4}${p5}</b><span style="background-color: #${p2}0${p3}0${p4}0;"><b>${p6}</b></span><b>${p7}${p8}${p9}${p10}${p11}</b>`;
-                }
-            });
-
-            // handle manual color definition
-            data = data.replace(/(\[tc)([0-9abcdef])([0-9abcdef])([0-9abcdef])(\])(.*?)(\1)(\2)(\3)(\4)(\5)/g, function(match, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11) {
-                return `<b>${p1}${p2}${p3}${p4}${p5}</b><span style="color: #${p2}0${p3}0${p4}0; text-shadow: -1px -1px 5px black, -1px 0px 5px black, -1px 1px 5px black, 0px -1px 5px black, 0px 1px 5px black, 1px -1px 5px black, 1px 0px 5px black, 1px 1px 5px black;"><b>${p6}</b></span><b>${p7}${p8}${p9}${p10}${p11}</b>`;
-            });
-
-            // change the color of the glyphs to the user's selected `glyphColor`
-            data = data.replace(/[└├│─ ]*​/gm, function(match) {
-                return `<span style="color: var(--RTN-SETTING_css-glyphColor);">${match}</span>`;
-            });
-
-        }
-
+        data = ExecutiveFormatter.PARSE(data);
+        
         // set the objects content to the result
         this.ref.innerHTML = data;
 
