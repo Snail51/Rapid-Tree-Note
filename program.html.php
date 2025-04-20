@@ -123,7 +123,7 @@ You should have received a copy of the GNU Affero General Public License along w
             <textarea id="source" class="rtnText" style="font-size: 1.0vw;"></textarea>
         </div>
       
-        <!-- there will be a new div generated here at runtime to create space after the main div -->
+        <!-- THERE WILL BE A NEW `div` GENERATED HERE AT RUNTIME TO CREATE SPACE AFTER THE MAIN `div` -->
 
         <!-- Load the main js files of the RTN -->
         <script type="module">
@@ -133,68 +133,10 @@ You should have received a copy of the GNU Affero General Public License along w
         </script>
 
         <!-- Script to prevent action if user is on mobile (because the website really doesn't work on mobile) -->
-        <script>
-            const doMobileLockout = true; // MODIFY THIS FOR DEBUG
-            if(doMobileLockout)
-            {
-                window.lockout = function()
-                {
-                    window.main.safeShutdown();
-                    document.getElementById("source").style.pointerEvents = "none";
-                    document.getElementById("source").disabled = true;
-                    document.getElementById("source").hidden = true;
-                    document.getElementById("display").style.pointerEvents = "all";
-                    alert("Document is in READ-ONLY mode.\n\nYou are viewing this document on Mobile.\nFor full functionality, please visit this website on a computer.");
-                }
-
-                //enter read-only mode if on mobile
-                setTimeout(function() {
-                    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
-                    {
-                        window.lockout();
-                    }
-                }, 250);
-            }
-        </script>
+        <script src="./Code/exe/mobile-lockout.js"></script>
 
         <!-- Script to redirect to the primary mirror of the RTN if it is available -->
-        <script>
-            /* PRIMARY MIRROR REDIRECT - IF THE PRIMARY MIRROR IS ONLINE, REDIRECT THERE INSTEAD */
-            const doMirrorRedirect = true; // MODIFY THIS FOR DEBUG
-            var primaryMirror = "https://rtn.snailien.net/"; // point to the upstream mirror, this is done recursively
-            if(doMirrorRedirect)
-            {
-                var alreadyOnPrimary = (-1 != window.location.href.indexOf(primaryMirror.replace(/^(?:https?)?(?::\/\/)?(?:www\.)?/gm, "")));
-                if (!alreadyOnPrimary) { //if we are already on the primary mirror, we don't need to move
-                    async function checkAndRedirect(url) {
-                        try {
-                            const response = await fetch(url);
-                            if (response.ok) {
-                                console.debug(`Primary Mirror ${url} appears to be ONLINE (returned status ${response.status}).`);
-                                redirectToPrimary(url);
-                            } else {
-                                console.debug(`Primary Mirror ${url} appears to be OFFLINE (returned status ${response.status}).`);
-                            }
-                        } catch (error) {
-                            console.debug(`An error occurred accessing Primary Mirror ${url}.`, error);
-                        }
-                    }
-                
-                    function redirectToPrimary(url) {
-                        //alert(`You are not using the primary copy of this site. You will now be redirected to the same document on the official site.\n\nThe primary copy of the RTN is hosted at ${url}.\n\nIn the event of the primary copy going offline, this redirect will not occur.`);
-                        var payload = window.location.href.split("?")[1];
-                        var redir = url + "program.html";
-                        if(payload) // add url data only if there is some, otherwise leave blank for landing page
-                        {
-                            redir += "?" + payload;
-                        }
-                        window.location.replace(redir);
-                    }
-
-                    checkAndRedirect(primaryMirror); //actually run the functions
-                }
-            }
-        </script>
+        <script src="./Code/exe/redirect-mirror.js"></script>
 
     </body>
 </html>

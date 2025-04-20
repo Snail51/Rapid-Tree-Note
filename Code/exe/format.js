@@ -12,4 +12,8 @@ RTN is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
 You should have received a copy of the GNU Affero General Public License along with RTN. It is available at ./License/COPYING. Otherwise, see <https://www.gnu.org/licenses/>
 */
 
+// MINIFIED VERSION OF THE FILE OF THE SAME NAME IN THE `src` FOLDER
+// MINIFIED WITH https://www.toptal.com/developers/javascript-minifier
+// MINIFIED AT Sun Apr 20 12:16:41 CDT 2025
+
 export class Formatter{static escapeUnkown(e){var r=e;return r.replace(/[^A-Za-z0-9_-]/g,"_")}static escapeWhitespace(e){var r=e;return r.replaceAll("\n","\\n").replaceAll("	","\\t")}static trimTrailingWhitespace(e){var r=e;return r.replace(/[\s]+$/,"")}static shrinkTreeToFour(e){var r=e;return(r=(r=(r=r.replace(/├────── ​/gm,"├── ​")).replace(/└────── ​/gm,"└── ​")).replace(/│       ​/gm,"│   ​")).replace(/        ​/gm,"    ​")}static revertList(e){var r=e;return(r=(r=(r=r.replace(/(\s*)(•)(.*)/gm,"$1-$3")).replace(/\[✓ \]/gm,"[Y]")).replace(/\[✗ \]/gm,"[N]")).replace(/\[~ \]/gm,"[~]")}static escapeHTML(e){var r=e;return(r=(r=(r=(r=r.replace(/&(?!amp;|lt;|gt;|quot;|apos;)/g,"&amp;")).replace(/</g,"&lt;")).replace(/>/g,"&gt;")).replace(/"/g,"&quot;")).replace(/'/g,"&apos;")}static treeToTab(e){var r=e;return(r=(r=r.replace(/(├─* ​|│ *​|└─* ​| *​)/gm,"	")).replace(/├────── |│       |└────── |        /gm,"	")).replace(/├── |│   |└── |    /gm,"	")}static resizeGlyphs(e,r){var a=e;let t="├"+"─".repeat(r-2)+" ​",c="└"+"─".repeat(r-2)+" ​",p="│"+" ".repeat(r-2)+" ​",l=" "+" ".repeat(r-2)+" ​";return(a=(a=(a=a.replace(/├────── ​/gm,t)).replace(/└────── ​/gm,c)).replace(/│       ​/gm,p)).replace(/        ​/gm,l)}static removeInternalTabs(e){var r=e;return r.replace(/(?:\t*[\S ]+)(\t+)/gm," ")}}
