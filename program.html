@@ -22,15 +22,17 @@ You should have received a copy of the GNU Affero General Public License along w
         -->
     </head>
     <body>
-        <h1>You are being redirected.</h1>
-        <p>
-          If you can see this for more than a few seconds something has gone wrong; your browser probably has <u>javascript disabled</u>.
-          <br>
-          You should probably look up how to fix that but you can also click <a href="./program.html">this link</a> to manually visit the main RTN page.
-        </p>
+        <noscript>
+            <h1>You are being redirected.</h1>
+            <p>
+            If you can see this for more than a few seconds something has gone wrong; your browser probably has <u>javascript disabled</u>.
+            <br>
+            You should probably look up how to fix that but you can also click <a href="./program.html.php">this link</a> to manually visit the main RTN page.
+            </p>
+        </noscript>
 
         <script>
-            window.location.replace("./program.html");
+            window.location.replace("./program.html.php");
         </script>    
     </body>
 </html>
