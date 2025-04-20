@@ -61,14 +61,13 @@ You should have received a copy of the GNU Affero General Public License along w
             <i>Last updated 06/02/2024</i>
             <hr>
             <pre>
-  RTN Usage Data
-  ├── ​Foreword
-  │   ​├── ​Whenever a User uses the RTN a small amount of data is collected
-  │   ​└── ​All data collected is hashed as to protect privacy
-  └── ​Collected Data
+RTN Usage Data
+├── ​Foreword
+│   ​├── ​Whenever a User uses the RTN a small amount of data is collected
+│   ​└── ​All data collected is hashed as to protect privacy
+└── ​Collected Data
     ​├── ​Time of request
-    ​├── ​Hash of IP Address making the request
-    ​└── ​Hash of document contents			
+    ​└── ​Hash of IP Address making the request
             </pre>
         </div>
 

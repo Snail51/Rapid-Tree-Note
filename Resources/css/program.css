@@ -1,0 +1,58 @@
+#display {
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    width: max-content;
+    min-width: 90vw; /* Ensure it can grow */
+    min-height: 70vh;
+    background-color: var(--RTN-SETTING_css-backgroundColor);
+    border: solid 0.25vw black;
+    outline: transparent;
+    color: var(--RTN-SETTING_css-textColor);
+    font-family: Box, monospace;
+    tab-size:8;
+    line-height: 1.2;
+    letter-spacing: 0vw;
+    white-space: pre-wrap;
+    vertical-align: top;
+    box-sizing: border-box;
+    overflow: visible;
+    padding: 0.5vw;
+    word-break: normal; /* Prevent word breaking */
+}
+
+#source {
+    z-index: 2;
+    resize: none;
+    caret-color: var(--RTN-SETTING_css-textColor);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: max-content;
+    min-width: 90vw; /* Ensure it can grow */
+    min-height: 70vh;
+    background-color: transparent;
+    border: solid 0.25vw transparent;
+    outline: transparent;
+    color: transparent;
+    font-family: Box, monospace;
+    tab-size:8;
+    line-height: 1.2;
+    letter-spacing: 0vw;
+    vertical-align: top;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 0.5vw;
+    word-break: normal; /* Prevent word breaking */
+    white-space: pre-wrap;
+}
+
+#header {
+    position: fixed;
+    z-index: 10;
+    width: 96%;
+    background-color: var(--RTN-SETTING_css-backgroundColor);
+    border: solid 0.25vw black;
+    outline: solid 4vw transparent;
+    padding: 1%;
+}
