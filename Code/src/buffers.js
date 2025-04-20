@@ -29,6 +29,7 @@ You should have received a copy of the GNU Affero General Public License along w
  */
 
 import { ProcessingTree } from "./treeparser.js";
+import { Formatter } from "./format.js";
 
 /**
  * @description The VirtualBuffer class acts as a wrapper to an associated textarea element, providing untilitity functions to manage the position of the carrat (the 2d user's selection or "text cursor").
