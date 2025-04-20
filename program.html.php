@@ -16,10 +16,10 @@ You should have received a copy of the GNU Affero General Public License along w
 <!DOCTYPE html>
 <html>
     <head>
+
         <link rel="stylesheet" href="./Resources/css/userSettings.css">
         <?php include('./Resources/partials/header_head.html'); ?>
         
-
         <!-- <METADATA REPLACE MARKER> -->
         <?php 
             $metadata = file_get_contents("./Resources/partials/metatags.html");
@@ -38,7 +38,7 @@ You should have received a copy of the GNU Affero General Public License along w
         <link rel="stylesheet" href="./Resources/css/spoiler.css">
       
         <style>
-            #main {
+        #main {
             position: relative;
             justify-content: center;
             align-items: center;
@@ -47,72 +47,16 @@ You should have received a copy of the GNU Affero General Public License along w
             min-height: 75vh;
             overflow: hidden;
         }
-
-        #display {
-            pointer-events: none;
-            position: absolute;
-            left: 0;
-            width: max-content;
-            min-width: 90vw; /* Ensure it can grow */
-            min-height: 70vh;
-            background-color: var(--RTN-SETTING_css-backgroundColor);
-            border: solid 0.25vw black;
-            outline: transparent;
-            color: var(--RTN-SETTING_css-textColor);
-            font-family: Box, monospace;
-            tab-size:8;
-            line-height: 1.2;
-            letter-spacing: 0vw;
-            white-space: pre-wrap;
-            vertical-align: top;
-            box-sizing: border-box;
-            overflow: visible;
-            padding: 0.5vw;
-            word-break: normal; /* Prevent word breaking */
-        }
-
-        #source {
-            z-index: 2;
-            resize: none;
-            caret-color: var(--RTN-SETTING_css-textColor);
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: max-content;
-            min-width: 90vw; /* Ensure it can grow */
-            min-height: 70vh;
-            background-color: transparent;
-            border: solid 0.25vw transparent;
-            outline: transparent;
-            color: transparent;
-            font-family: Box, monospace;
-            tab-size:8;
-            line-height: 1.2;
-            letter-spacing: 0vw;
-            vertical-align: top;
-            box-sizing: border-box;
-            overflow: hidden;
-            padding: 0.5vw;
-            word-break: normal; /* Prevent word breaking */
-            white-space: pre-wrap;
-        }
-
-        #header {
-            position: fixed;
-            z-index: 10;
-            width: 96%;
-            background-color: var(--RTN-SETTING_css-backgroundColor);
-            border: solid 0.25vw black;
-            outline: solid 4vw transparent;
-            padding: 1%;
-        }
         </style>
+
+        <link rel="stylesheet" href="./Resources/css/program.css">
 
         <!-- Ensure compression libraries are available at global scope -->
         <script src="./Code/lib/lzma-min.js"></script>
         <script src="./Code/lib/pako-min.js"></script>
 
         <?php include('./Resources/partials/userCSSLoader.html'); ?>
+
     </head>
     <body class="rtnSiteColor rtnTextColor rtnText" style="overflow-x: auto;">
         
