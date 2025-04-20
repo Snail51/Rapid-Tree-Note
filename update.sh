@@ -17,7 +17,11 @@ chown -R snail "$location"
 chgrp -R www-data "$location"
 chmod -R 0750 "$location"
 
+# Change Permissions for this script
+chmod 0700 "${location}/update.sh"
+
 #Change Usage Permissions
 chmod -R 0700 "${location}/Usage"
 chmod 0750 "${location}/Usage"
 chmod -R 0720 "${location}/Usage/accesses.csv"
+
