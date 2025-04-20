@@ -1,0 +1,28 @@
+Rapid Tree Notetaker
+	What is this?
+		The Rapid Tree Notetaker (RTN) is a notetaking tool developed by computer science student Brendan Rood at the University of Minnesota Duluth.
+		It aims to provide an easy way to take notes formatted similar to a Reddit thread, with indentation following a tree-like structure allowing for grouping.
+		It also prioritizes ease of sharing, as the URL can be shared to instantly communicate the note's contents.
+			Notice how the border is flashing?
+			Every time you see that, it means that the document has been saved to the URL!
+			If the URL ever becomes longer than 8192 characters, it will alert you that saving is no longer possible.
+			You can click the header of the page to save the document as a `.rtn` file.
+		It is free to use and will never ask you to log in.
+	Sample
+		Edit this text
+		to generate
+			a
+			document
+		formatted
+			like a tree!
+			:3
+	Additional Instructions - *Click links to view!*
+		[Indentation](./Redir/indentation.html)
+			Use TAB to indent
+		[Text Formatting](./Redir/textformat.html)
+		[Color and Highlighting](./Redir/color.html)
+		[DNL Links / Intradocument References](./Redir/dirnavlink.html)
+	Settings
+		To modify your settings visit [RTN Settings](./settings.html)
+    Usage
+        Take a look at the [RTN Usage History and Statistics](./usage.html.php)

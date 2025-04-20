@@ -268,15 +268,24 @@ export default class Schema
      * @description Sets the value of the text input field to the provided string, or a default description of the RTN if the data is empty.
      * @param data - The `data` parameter is a string that represents the URL that needs to be set.
      */
-    setURL(data)
+    async setURL(data)
     {
         if(data != "")
         {
             this.raw.ref.value = data;
         }
-        else // default "homepage" value
+        else // default "homepage" value, content populated by fetching `/default.txt`
         {
-            this.raw.ref.value = "Rapid Tree Notetaker\n\tWhat is this?\n\t\tThe Rapid Tree Notetaker (RTN) is a notetaking tool developed by computer science student Brendan Rood at the University of Minnesota Duluth.\n\t\tIt aims to provide an easy way to take notes formatted similar to a Reddit thread, with indentation following a tree-like structure allowing for grouping.\n\t\tIt also prioritizes ease of sharing, as the URL can be shared to instantly communicate the note's contents.\n\t\t\tNotice how the border is flashing?\n\t\t\tEvery time you see that, it means that the document has been saved to the URL!\n\t\t\tIf the URL ever becomes longer than 8192 characters, it will alert you that saving is no longer possible.\n\t\t\tYou can click the header of the page to save the document as a `.rtn` file.\n\t\tIt is free to use and will never ask you to log in.\n\tSample\n\t\tEdit this text\n\t\tto generate\n\t\t\ta\n\t\t\tdocument\n\t\tformatted\n\t\t\tlike a tree!\n\t\t\t:3\n\tAdditional Instructions - *Click links to view!*\n\t\t[Indentation](./Redir/indentation.html)\n\t\t\tUse TAB to indent\n\t\t[Text Formatting](./Redir/textformat.html)\n\t\t[Color and Highlighting](./Redir/color.html)\n\t\t[DNL Links / Intradocument References](./Redir/dirnavlink.html)\n\tSettings\n\t\tTo modify your settings visit [RTN Settings](./settings.html)";
+            var response = await fetch("./default.txt");
+
+            if (!response.ok)
+            {
+                console.error(`Failed to fetch default document: ${response.status}`);
+                this.raw.ref.value = `Failed to fetch default document: ${response.status}`;
+                return;
+            }
+
+            this.raw.ref.value = await response.text();
         }
     }
 
