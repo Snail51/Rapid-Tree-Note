@@ -27,6 +27,12 @@ You should have received a copy of the GNU Affero General Public License along w
             $metadata = str_replace("{{siteURL}}", $_SERVER["SERVER_NAME"], $metadata);
             $metadata = str_replace("{{tags}}", "Tree,Notetaking,Rapid Tree Notetaker,RTN,UMD,University of Minnesota Duluth,rtn,Brendan Rood,brendan rood,rood,LARS Lab,lars,university of minnesota,computer science,study,learning,education,UMD Duluth", $metadata);
             $metadata = str_replace("{{icon}}", "./Resources/RTN-Logo.svg", $metadata);
+            $metadata = str_replace("{{revisedTime}}", date("Y-m-d H:i:s", filemtime($_SERVER["SCRIPT_FILENAME"])), $metadata);
+            $metadata = str_replace("{{supportsMobile}}", "True", $metadata);
+            $metadata = str_replace("{{timeNow}}", date("Y-m-d H:i:s"), $metadata);
+            $metadata = str_replace("{{contentType}}", "webapp", $metadata);
+            $metadata = str_replace("{{archiveTitle}}", "RTN on Internet Archive", $metadata);
+            $metadata = str_replace("{{archiveURL}}", "https://archive.org/details/rapid-tree-note", $metadata);
             echo $metadata;
         ?>
         

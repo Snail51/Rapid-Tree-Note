@@ -43,6 +43,13 @@ $content = str_replace("{{tags}}", "Tree,Notetaking,Rapid Tree Notetaker,RTN,UMD
 $content = str_replace("{{siteName}}", "Rapid Tree Notetaker", $content);
 $content = str_replace("{{siteURL}}", $_SERVER["SERVER_NAME"], $content);
 $content = str_replace("{{icon}}", "./Resources/RTN-Logo.svg", $content);
+$content = str_replace("{{revisedTime}}", date("Y-m-d H:i:s", filemtime($_SERVER["SCRIPT_FILENAME"])), $content);
+$content = str_replace("{{supportsMobile}}", "False", $content);
+$content = str_replace("{{timeNow}}", date("Y-m-d H:i:s"), $content);
+$content = str_replace("{{contentType}}", "webapp", $content);
+$content = str_replace("{{archiveTitle}}", "RTN on Internet Archive", $content);
+$content = str_replace("{{archiveURL}}", "https://archive.org/details/rapid-tree-note", $content);
+
 
 //record WHEN, WHO, and WHAT users access (protect with hashing!)
 if(!isset($_GET['debug'])) // if the URL contains a `debug` parameter, dont do anything as to avoid polluting the log
