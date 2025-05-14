@@ -58,8 +58,7 @@ You should have received a copy of the GNU Affero General Public License along w
         <link rel="stylesheet" href="./Resources/css/program.css">
 
         <!-- Ensure compression libraries are available at global scope -->
-        <script src="./Code/lib/lzma-min.js"></script>
-        <script src="./Code/lib/pako-min.js"></script>
+        <script src="./Code/lib/uriCompressor-min.js"></script>
 
         <?php include('./Resources/partials/userCSSLoader.html'); ?>
 

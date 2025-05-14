@@ -17,7 +17,7 @@ export class URIManager
     constructor()
     {
         this.maxURILength = 8192;
-        this.defaultCompression = "LZMA2";
+        this.defaultCompression = "BEST";
         this.defaultEncoding = "URI-B64";
         this.lastAlert = new Date(0); // start as never
     }
@@ -33,54 +33,31 @@ export class URIManager
 
     pull(URL) //turn URL into data
     {
+        // collect URI object from current URL
         var URI = this.getURL(URL);
-        var data = URI.data;
-        if(window.location.href.endsWith("program.html.php") || window.location.href.endsWith("program.html"))
-        {
-            return "";
-        }
-        if(data == "")
-        {
-            return "Error\n\tNo data parameter provided";
-        }
-        var compression = URI.compressor;
-        var encoding = URI.encoding;
 
-        try
-        {
-            data = this.decode(data, encoding);
+        // decompress everything to a single string
+        var data = window.URICompressor.pull(URI.data, URI.compressor, URI.encoding).data;
 
-            data = this.decompress(data, compression);
-
-            const decoder = new TextDecoder("utf-8");
-            var data = decoder.decode(data);
-        }
-        catch(error)
-        {
-            data = error.stack;
-            data = data.replace(/[\t ]{4,}/g, "\t");
-        }
-
+        // data validation
         if(data == "" || data == null)
         {
-            data = "Couldn't decode the provided link.\nAre you sure it was made by the RTN?";
+            console.error("Couldn't decode the provided link.\nCould not parse Data Parameter.");
         }
 
-        data = data.replace(/\s+$/gm, ""); //trim trailing 
+        // trim trailing
+        data = data.replace(/\s+$/gm, "");
 
         return data;
     }
 
     push(string) //turn data into URL
     {
-        const encoder = new TextEncoder();
-        var data = encoder.encode(string);
-
-        data = this.compress(data, this.defaultCompression);
-
-        data = this.encode(data, this.defaultEncoding);
-
-        this.setURL(data, this.defaultCompression, this.defaultEncoding);
+        // generate the compression object and do the compression operation
+        var compressed = window.URICompressor.push(string, this.defaultCompression, this.defaultEncoding);
+        
+        // modify the page URL to reflect the operands of the the compression operation
+        this.setURL(compressed.data, compressed.compression, compressed.encoding);
 
         return null;
     }
@@ -141,137 +118,5 @@ export class URIManager
         URI.compressor = uriCompressor;
         URI.data = uriData;
         return URI;
-    }
-
-    encode(compressedData, encodingType) //encode the given uint8 array as a string with the given compresison type
-    {
-        switch (encodingType)
-        {
-            case "URI-B64":
-                return URIB64(compressedData);
-            default:
-                console.warn("unrecognized encoding argument: " + encodingType);
-                return null;
-        }
-
-        function URIB64(data)
-        {
-            var utf8str = "";
-            for(var item of data)
-            {
-                utf8str += String.fromCodePoint(item);
-            }
-            var payload = btoa(utf8str);
-            payload = payload.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=/g, "");
-            return payload;
-        }
-    }
-
-    decode(encodedData, encodingType) //decode the given string with the given encoding type
-    {
-        switch (encodingType)
-        {
-            case "URI-B64":
-                return URIB64(encodedData);
-            default:
-                console.warn("unrecognized encoding argument: " + encodingType);
-                return null;
-        }
-
-        function URIB64(data)
-        {
-            data = data.replace(/\-/g, '+').replace(/\_/g, '/');
-            var utf8str = atob(data);
-            var u8 = new Array();
-            for(var char of utf8str)
-            {
-                u8.push(char.charCodeAt(0));
-            }
-            u8 = new Uint8Array(u8);
-            return u8;
-        }
-    }
-
-    decompress(uint8_compressed, compressionType) //turn compression type and compressed unit8array into decompressed uint8array
-    {
-        switch (compressionType)
-        {
-            case "ZLIB":
-                return zlib(uint8_compressed);
-            case "LZMA2":
-                return lzma2(uint8_compressed);
-            default:
-                console.warn("unrecognized decompression argument: " + compressionType);
-                return null;
-        }
-
-        function zlib(data)
-        {
-            try
-            {
-                data = pako.inflate(data);
-            }
-            catch (error)
-            {
-                data = "There was a problem decoding the data in the link.\nAre you sure it was produced by this program?\nError has been printed to console.";
-                console.error(error);
-            }
-            return data;
-        }
-
-        function lzma2(data)
-        {
-            var s8 = new Array();
-            for(var val of data)
-            {
-                s8.push(val-128);
-            }
-            var data = LZMA.decompress(s8);
-            var u8 = new Array();
-            for(var val of data)
-            {
-                u8.push(val+128);
-            }
-            u8 = new Uint8Array(u8);
-            console.debug(u8);
-            return u8;
-        }
-    }
-
-    compress(uint8_raw, compressionType)
-    {
-        switch(compressionType)
-        {
-            case "ZLIB":
-                return zlib(uint8_raw);
-            case "LZMA2":
-                return lzma2(uint8_raw);
-            default:
-                console.warn("unrecognized compression argument: " + compressionType);
-                return null;
-        }
-
-        function zlib(data)
-        {
-            data = pako.deflate(data, { level: 9});
-            return data;
-        }
-
-        function lzma2(data)
-        {
-            var s8 = new Array();
-            for(var val of data)
-            {
-                s8.push(val-128);
-            }
-            data = LZMA.compress(s8, 9);
-            var u8 = new Array();
-            for(var val of data)
-            {
-                u8.push(val+128);
-            }
-            u8 = new Uint8Array(u8);
-            return u8;
-        }
     }
 }
