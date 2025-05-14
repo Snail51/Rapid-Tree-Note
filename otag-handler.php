@@ -135,8 +135,8 @@ if($data == "null")
 }
 else
 {
-    $url = "https://NONDESCRIPTDOMAIN/program.html?enc=$encoding&cmpr=$compression&data=$data";
-    $cmd = "node ./decompressor.js \"$url\"";
+    $scriptDir = __DIR__;
+    $cmd = "cd \"$scriptDir\" ; node \"./Code/lib/uriCompressorSTATIC_min.js\" \"DECODE\" \"$encoding\" \"$compression\" \"$data\"";
     $output = shell_exec($cmd);
 }
 
