@@ -140,6 +140,7 @@ else
     $output = shell_exec($cmd);
 }
 
+$output = $output ?? "";
 $output = preg_replace('/[^A-Za-z0-9\n\t\ └├│─​]/', "_", $output);
 
 if (substr_count($output, "\n") >= 3) //if the content spans more than 1 line
