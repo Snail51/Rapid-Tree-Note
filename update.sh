@@ -9,8 +9,8 @@ git clone "https://github.com/Snail51/Rapid-Tree-Note.git" "/tmp/Rapid-Tree-Note
 cp -rvf /tmp/Rapid-Tree-Note/* "$location"
 rm -rvf "/tmp/Rapid-Tree-Note"
 cd $location
-rm ./.htaccess
 wget "https://raw.githubusercontent.com/Snail51/Rapid-Tree-Note/refs/heads/main/.htaccess" # why cant we copy .htaccess files normally?
+mv ./.htaccess.1 ./.htaccess
 
 # Change Base Permissions
 chown -R snail "$location"
