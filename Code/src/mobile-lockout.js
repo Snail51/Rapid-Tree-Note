@@ -18,6 +18,7 @@ if(doMobileLockout)
     window.lockout = function()
     {
         window.main.safeShutdown();
+        window.mobileLock = true;
         document.getElementById("source").style.pointerEvents = "none";
         document.getElementById("source").disabled = true;
         document.getElementById("source").hidden = true;

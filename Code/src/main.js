@@ -62,10 +62,11 @@ export class Schema
             this.intervalUpdater = setInterval(() => this.intervalUpdate(), 1000);
             this.focused = true; // if the user is actively looking at the page or not
             document.addEventListener("visibilitychange", (event) => this.focusToggle(event)); //whenever the tab is not on top, pause the interval updater to save resources
-            window.addEventListener('beforeunload', (event) => this.safeShutdown(event)); // explicitly clear the interval when leaving the page
+            //window.addEventListener('be', (event) => this.safeShutdown(event)); // explicitly clear the interval when leaving the page
         }
 
         // force inital values
+        this.defaultData = "";
         this.setURL(urlData);
         this.keyPostRouter();
         this.syncScrollbars();
@@ -286,8 +287,9 @@ export class Schema
                 this.raw.ref.value = `Failed to fetch default document: ${response.status}`;
                 return;
             }
-
             this.raw.ref.value = await response.text();
+            this.defaultData = this.raw.ref.value;
+            this.keyPostRouter();
         }
     }
 

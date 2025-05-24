@@ -87,5 +87,8 @@ You should have received a copy of the GNU Affero General Public License along w
         <!-- Script to redirect to the primary mirror of the RTN if it is available -->
         <script src="./Code/exe/redirect-mirror.js" defer></script>
 
+        <!-- Script to add confirmation message on navigation if applicable -->
+        <script src="./Code/exe/confirm-navigation.js" defer></script>
+
     </body>
 </html>

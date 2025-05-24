@@ -37,6 +37,7 @@ if(doMirrorRedirect)
     
         function redirectToPrimary(url) {
             //alert(`You are not using the primary copy of this site. You will now be redirected to the same document on the official site.\n\nThe primary copy of the RTN is hosted at ${url}.\n\nIn the event of the primary copy going offline, this redirect will not occur.`);
+            window.mirrorRedirecting = true; // declare that this redirect bypasses confirmations
             var payload = window.location.href.split("?")[1];
             var redir = url + "program.html";
             if(payload) // add url data only if there is some, otherwise leave blank for landing page

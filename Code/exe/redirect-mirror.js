@@ -14,6 +14,6 @@ You should have received a copy of the GNU Affero General Public License along w
 
 // MINIFIED VERSION OF THE FILE OF THE SAME NAME IN THE `src` FOLDER
 // MINIFIED WITH https://www.toptal.com/developers/javascript-minifier
-// MINIFIED AT Sun Apr 20 12:33:42 CDT 2025
+// MINIFIED AT Sat May 24 16:24:25 CDT 2025
 
-const doMirrorRedirect=!0;var alreadyOnPrimary,primaryMirror="https://rtn.snailien.net/";if(!(-1!=window.location.href.indexOf(primaryMirror.replace(/^(?:https?)?(?::\/\/)?(?:www\.)?/gm,"")))){async function r(r){try{let a=await fetch(r,{method:"HEAD"});a.ok?(console.debug(`Primary Mirror ${r} appears to be ONLINE (returned status ${a.status}).`),t(r)):console.debug(`Primary Mirror ${r} appears to be OFFLINE (returned status ${a.status}).`)}catch(e){console.debug(`An error occurred accessing Primary Mirror ${r}.`,e)}}function t(r){var t=window.location.href.split("?")[1],a=r+"program.html";t&&(a+="?"+t),window.location.replace(a)}window.addEventListener("DOMContentLoaded",()=>{r(primaryMirror)})}
+const doMirrorRedirect=!0;var alreadyOnPrimary,primaryMirror="https://rtn.snailien.net/";if(!(-1!=window.location.href.indexOf(primaryMirror.replace(/^(?:https?)?(?::\/\/)?(?:www\.)?/gm,"")))){async function r(r){try{let e=await fetch(r,{method:"HEAD"});e.ok?(console.debug(`Primary Mirror ${r} appears to be ONLINE (returned status ${e.status}).`),t(r)):console.debug(`Primary Mirror ${r} appears to be OFFLINE (returned status ${e.status}).`)}catch(a){console.debug(`An error occurred accessing Primary Mirror ${r}.`,a)}}function t(r){window.mirrorRedirecting=!0;var t=window.location.href.split("?")[1],e=r+"program.html";t&&(e+="?"+t),window.location.replace(e)}window.addEventListener("DOMContentLoaded",()=>{r(primaryMirror)})}
