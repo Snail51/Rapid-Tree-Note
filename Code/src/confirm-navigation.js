@@ -62,7 +62,7 @@ window.addEventListener("beforeunload", (event) => {
     if(window.shouldConfirmNavigation())
     {
         event.preventDefault();
-        return
+        return;
     }
     else
     {

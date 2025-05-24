@@ -14,6 +14,6 @@ You should have received a copy of the GNU Affero General Public License along w
 
 // MINIFIED VERSION OF THE FILE OF THE SAME NAME IN THE `src` FOLDER
 // MINIFIED WITH https://www.toptal.com/developers/javascript-minifier
-// MINIFIED AT Sat May 24 16:24:25 CDT 2025
+// MINIFIED AT Sat May 24 17:12:55 CDT 2025
 
 const doConfirmNavigation=!0,debugConfirmNavigation=!1;window.shouldConfirmNavigation=function(){return!!window.mirrorRedirecting&&!!window.mirrorRedirecting||(!window.mobileLock||!window.mobileLock)&&(!window.main.defaultData||window.main.raw.ref.value!=window.main.defaultData)&&""!=window.main.raw.ref.value},window.addEventListener("beforeunload",i=>{window.shouldConfirmNavigation()&&i.preventDefault()});
