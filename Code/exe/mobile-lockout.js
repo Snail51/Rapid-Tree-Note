@@ -14,6 +14,6 @@ You should have received a copy of the GNU Affero General Public License along w
 
 // MINIFIED VERSION OF THE FILE OF THE SAME NAME IN THE `src` FOLDER
 // MINIFIED WITH https://www.toptal.com/developers/javascript-minifier
-// MINIFIED AT Sat May 24 16:24:25 CDT 2025
+// MINIFIED AT Thu May 29 20:06:42 CDT 2025
 
-const doMobileLockout=!0;window.lockout=function(){window.main.safeShutdown(),window.mobileLock=!0,document.getElementById("source").style.pointerEvents="none",document.getElementById("source").disabled=!0,document.getElementById("source").hidden=!0,document.getElementById("display").style.pointerEvents="all",alert("Document is in READ-ONLY mode.\n\nYou are viewing this document on Mobile.\nFor full functionality, please visit this website on a computer.")},setTimeout(function(){/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)&&window.lockout()},250);
+const doMobileLockout=!0;window.lockout=function(){window.main.safeShutdown(),window.mobileLock=!0,document.getElementById("source").style.pointerEvents="none",document.getElementById("source").disabled=!0,document.getElementById("source").hidden=!0,document.getElementById("display").style.pointerEvents="all",alert("Document is in READ-ONLY mode.\n\nYou are viewing this document on Mobile.\nFor full functionality, please visit this website on a computer.")},window.addEventListener("DOMContentLoaded",()=>{function e(){window.navigator.userAgentData.mobile&&window.lockout()}function t(){/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)&&window.lockout()}window.navigator.userAgentData?e():t()});

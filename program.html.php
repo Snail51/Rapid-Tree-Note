@@ -82,7 +82,7 @@ You should have received a copy of the GNU Affero General Public License along w
         </script>
 
         <!-- Script to prevent action if user is on mobile (because the website really doesn't work on mobile) -->
-        <script src="./Code/exe/mobile-lockout.js" defer></script>
+        <script src="./Code/exe/mobile-lockout.js"></script>
 
         <!-- Script to redirect to the primary mirror of the RTN if it is available -->
         <script src="./Code/exe/redirect-mirror.js" defer></script>

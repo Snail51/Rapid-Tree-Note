@@ -27,10 +27,24 @@ if(doMobileLockout)
     }
 
     //enter read-only mode if on mobile
-    setTimeout(function() {
-        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+    window.addEventListener("DOMContentLoaded", () => {
+
+        function userAgent() // test via navigator.userAgentData (PREFERRED)
         {
-            window.lockout();
+            if (window.navigator.userAgentData.mobile)
+            {
+                window.lockout();
+            }
         }
-    }, 250);
+        function fallback() // test via navigator.userAgent
+        {
+            if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+            {
+                window.lockout();
+            }
+        }
+        
+        window.navigator.userAgentData ? userAgent() : fallback();
+    });
+
 }
