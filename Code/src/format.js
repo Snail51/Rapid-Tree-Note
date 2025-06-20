@@ -142,14 +142,14 @@ export class ExecutiveFormatter
         return data;
     }
 
-    // insert links (markdown-style and static)
+    // insert links (markdown-style and raw)
     static formatLinks(data)
     {
-        data = data.replace(/(\[(.+?)\]\((\S+)\))|(https?:\/\/\S+)/g, function(match, $0, $1, $2, $3) {
+        data = data.replace(/(\[([^\]]+?)\]\((\S+)\))|(https?:\/\/\S+)/g, function(match, $0, $1, $2, $3) {
             if ($2) { // markdown-style link
                 return `<a style="z-index: 4; pointer-events: all; position: relative;" href="${$2}" target="_blank" rel="noopener noreferrer"><b>[${$1}](${$2})</b></a>`;
             }
-            else { // static link
+            else { // raw link
                 return `<a style="z-index: 4; pointer-events: all; position: relative;" href="${$3}" target="_blank" rel="noopener noreferrer"><b>${$3}</b></a>`;
             }
         });
