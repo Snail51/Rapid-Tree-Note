@@ -64,7 +64,7 @@ You should have received a copy of the GNU Affero General Public License along w
 
         <div id="main">
             <h1>RTN Usage Information</h1>
-            <i>Last updated 2025-04-20</i>
+            <i>Last updated 2025-08-03</i>
             <hr>
             <pre>
 RTN Usage Data
