@@ -50,58 +50,72 @@ $content = str_replace("{{contentType}}", "webapp", $content);
 $content = str_replace("{{archiveTitle}}", "RTN on Internet Archive", $content);
 $content = str_replace("{{archiveURL}}", "https://archive.org/details/rapid-tree-note", $content);
 
+// declare the object that will be written to the record
+$record = (object) [
+    "timestamp" => 0,
+    "ipAddressHash64" => "",
+    "dataHash64" => "",
+    "userAgent" => "",
+    "title" => "",
+    "error" => "",
+    "silent" => false
+];
 
-//record WHEN, WHO, and WHAT users access (protect with hashing!)
-if(!isset($_GET['debug'])) // if the URL contains a `debug` parameter, dont do anything as to avoid polluting the log
+// standard way to write a record to the access log in a append-only way
+function writeToRecord($payload)
 {
-    // get timestamp
-    $timestamp = time();
-
-    // get b64 hash of IP adress
-    $ipAddress = base64_encode(hex2bin(hash('sha256',$_SERVER['REMOTE_ADDR'])));
-    $ipAddress = strtr($ipAddress, '+/', '-_'); // Replacing '+' with '-' and '/' with '_'
-    $ipAddress = rtrim($ipAddress, '='); // Removing trailing '=' characters
-
-    // get b64 hash of data
-    if(isset($_GET['data']))
+    if(!($payload->silent))
     {
-        $data = $_GET['data'];
+        file_put_contents("./Usage/accesses.csv", json_encode($payload) . "\n", FILE_APPEND); //cap off access record
     }
-    else
-    {
-        $data = "data=null";
-    }
-    $data = base64_encode(hex2bin(hash('sha256', $data)));
-    $data = strtr($data, '+/', '-_'); // Replacing '+' with '-' and '/' with '_'
-    $data = rtrim($data, '='); // Removing trailing '=' characters
-
-    // get b64 (not hash) of User Agent
-    $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? "No User-Agent Given";
-    $userAgent = substr($userAgent, 0, 256); // trim to max length of 256 characters
-    $userAgent = base64_encode($userAgent); // b64 encode
-    $userAgent = strtr($userAgent, '+/', '-_'); // Replacing '+' with '-' and '/' with '_'
-    $userAgent = rtrim($userAgent, '='); // Removing trailing '=' characters
-
-    // write all interesting information to the record in a APPEND-ONLY manner
-    $usage = "$timestamp,$ipAddress,$data,$userAgent";
-    file_put_contents("./Usage/accesses.csv", $usage, FILE_APPEND);
 }
 
+// if the debug parameter exists, modify the record so it isn't saved
+if(isset($_GET['debug']))
+{
+    $record->silent = true;
+}
 
+// ████████ record WHEN, WHO, and WHAT users access (protect with hashing!)
+
+// get timestamp
+$timestamp = time();
+$record->timestamp = $timestamp;
+
+// get b64 hash of IP adress
+$ipAddress = base64_encode(hex2bin(hash('sha256',$_SERVER['REMOTE_ADDR'])));
+$ipAddress = strtr($ipAddress, '+/', '-_'); // Replacing '+' with '-' and '/' with '_'
+$ipAddress = rtrim($ipAddress, '='); // Removing trailing '=' characters
+$record->ipAddressHash64 = $ipAddress;
+
+// get b64 hash of data
+$data = $_GET['data'] ?? "null";
+$data = base64_encode(hex2bin(hash('sha256', $data)));
+$data = strtr($data, '+/', '-_'); // Replacing '+' with '-' and '/' with '_'
+$data = rtrim($data, '='); // Removing trailing '=' characters
+$record->dataHash64 = $data;
+
+// get User Agent (raw string)
+$userAgent = $_SERVER['HTTP_USER_AGENT'] ?? "No User-Agent Given";
+$userAgent = substr($userAgent, 0, 512); // trim to max length of 256 characters
+$record->userAgent = $userAgent;
+
+// ████████ EXIT EARLY IF IT IS THE DEFAULT HOME PAGE (no data)
 if(count($_GET) == 0) //handle the home (default) page
 {
     $exe_title = "Rapid Tree Notetaker";
     $exe_data = "A tree-based notetaking program developed at the University of Minnesota Duluth";
     $content = str_replace("{{pageTitle}}", "$exe_title", $content);
     $content = str_replace("{{description}}", "$exe_data", $content);
-    if(!isset($_GET['debug']))
-    {
-        file_put_contents("./Usage/accesses.csv", ",homepage_default\n", FILE_APPEND); //cap off access record
-    }
+
+    $record->title = "homepage_default"; // if we are on the home (default) page, dont bother parsing the data to determine the title
+    writeToRecord($record);
+
     echo $content;
-    exit; 
+    exit; // END EARLY
 }
 
+// ████████ EXIT EARLY IF ERROR IS GIVEN
 if(isset($_GET['error'])) //if an explict error is given in the url, return it
 {
     $exe_title = "Explicit Error in URL";
@@ -110,38 +124,18 @@ if(isset($_GET['error'])) //if an explict error is given in the url, return it
     $content = str_replace("{{description}}", "$exe_data", $content);
     if(!isset($_GET['debug']))
     {
-        file_put_contents("./Usage/accesses.csv", "\n", FILE_APPEND); //cap off access record
+        $record->title = "error";
+        $record->error = substr($_GET['error'], 0, 512);
+        writeToRecord($record);
     }
     echo $content;
     exit; 
 }
 
-if(isset($_GET['data']))
-{
-    $data=$_GET['data'];
-}
-else
-{
-    $data="null";
-}
-
-if(isset($_GET['enc']))
-{
-    $encoding=$_GET['enc'];
-}
-else
-{
-    $encoding="URI-B64";//fallback
-}
-
-if(isset($_GET['cmpr']))
-{
-    $compression=$_GET['cmpr'];
-}
-else
-{
-    $compression="ZLIB";//fallback
-}
+// ████████ IFF REACH THIS POINT, PARSE THE DATA FOR PREVIEW
+$data = $_GET['data'] ?? "null";
+$encoding = $_GET['enc'] ?? "URI-B64";
+$compression = $_GET['cmpr'] ?? "ZLIB";
 
 if($data == "null")
 {
@@ -185,13 +179,12 @@ $content = str_replace("{{pageTitle}}", $exe_title, $content);
 $content = str_replace("{{description}}", $exe_data, $content);
 
 //record this event to the usage file
-$record = preg_replace('/[^a-zA-Z0-9]/', '_', $exe_title);
-$record = preg_replace('/_+/', '_', $record);
-$record = substr($record, 0, 512);
-if(!isset($_GET['debug']))
-{
-    file_put_contents("./Usage/accesses.csv", ",$record\n", FILE_APPEND); //append the title to access log
-}
+$title = preg_replace('/[^a-zA-Z0-9]/', '_', $exe_title);
+$title = preg_replace('/_+/', '_', $title);
+$title = substr($title, 0, 512);
+$record->title = $title;
+
+writeToRecord($record);
 
 // return the content (pass the html to the browser for rendering)
 echo $content;
