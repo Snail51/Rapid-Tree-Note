@@ -54,10 +54,15 @@ $content = str_replace("{{archiveURL}}", "https://archive.org/details/rapid-tree
 //record WHEN, WHO, and WHAT users access (protect with hashing!)
 if(!isset($_GET['debug'])) // if the URL contains a `debug` parameter, dont do anything as to avoid polluting the log
 {
+    // get timestamp
     $timestamp = time();
+
+    // get b64 hash of IP adress
     $ipAddress = base64_encode(hex2bin(hash('sha256',$_SERVER['REMOTE_ADDR'])));
     $ipAddress = strtr($ipAddress, '+/', '-_'); // Replacing '+' with '-' and '/' with '_'
     $ipAddress = rtrim($ipAddress, '='); // Removing trailing '=' characters
+
+    // get b64 hash of data
     if(isset($_GET['data']))
     {
         $data = $_GET['data'];
@@ -69,7 +74,16 @@ if(!isset($_GET['debug'])) // if the URL contains a `debug` parameter, dont do a
     $data = base64_encode(hex2bin(hash('sha256', $data)));
     $data = strtr($data, '+/', '-_'); // Replacing '+' with '-' and '/' with '_'
     $data = rtrim($data, '='); // Removing trailing '=' characters
-    $usage = "$timestamp,$ipAddress,$data";
+
+    // get b64 (not hash) of User Agent
+    $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? "No User-Agent Given";
+    $userAgent = substr($userAgent, 0, 256); // trim to max length of 256 characters
+    $userAgent = base64_encode($userAgent); // b64 encode
+    $userAgent = strtr($userAgent, '+/', '-_'); // Replacing '+' with '-' and '/' with '_'
+    $userAgent = rtrim($userAgent, '='); // Removing trailing '=' characters
+
+    // write all interesting information to the record in a APPEND-ONLY manner
+    $usage = "$timestamp,$ipAddress,$data,$userAgent";
     file_put_contents("./Usage/accesses.csv", $usage, FILE_APPEND);
 }
 
